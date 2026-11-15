@@ -34,3 +34,11 @@ body.is-login-page {
   background: url("voidify-mark.svg") center / contain no-repeat;
 }
 .is-login-page svg[data-encore-id="logoSpotify"] > path { visibility: hidden; }
+body.is-login-page {
+  background: radial-gradient(ellipse at 18% 18%, #523449, transparent 52%), #19171c;
+}
+#voidify-welcome-brand {
+  padding: 9px 15px;
+  border: 1px solid #5c4558;
+  border-radius: 14px;
+}
