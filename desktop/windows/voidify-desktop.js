@@ -16,6 +16,19 @@
       if (!root) return;
       const onHome = history.location.pathname === "/";
       root.classList.toggle("voidify-home-hub", onHome);
+      const widget = root.querySelector(".main-nowPlayingView-nowPlayingWidget");
+      const grid = widget?.parentElement;
+      if (!grid) return;
+      grid.classList.add("voidify-hub-grid");
+      const tiles = grid.querySelectorAll(".main-nowPlayingView-section, .main-nowPlayingView-contextItemInfo");
+      for (const tile of tiles) {
+        if (tile.closest(".main-nowPlayingView-nowPlayingWidget")) continue;
+        let wrapper = tile.parentElement;
+        while (wrapper && wrapper !== grid && !wrapper.classList.contains("main-nowPlayingView-section")) {
+          wrapper.classList.add("voidify-hub-flow");
+          wrapper = wrapper.parentElement;
+        }
+      }
     }
     // The panel stays in its React tree so its live controls retain their handlers.
     history.listen(updateLayout);
@@ -35,7 +48,7 @@
       content.className = "voidify-about";
       content.innerHTML = mark + "<p>Your desktop player with Voidify Marketplace, themes, and extensions.</p>";
       const version = document.createElement("small");
-      version.textContent = "Voidify Desktop" + (api.Config?.version ? " Ã‚Â· Engine " + api.Config.version : "");
+      version.textContent = "Voidify Desktop" + (api.Config?.version ? " Ãƒâ€šÃ‚Â· Engine " + api.Config.version : "");
       content.append(version);
       api.PopupModal.display({ title: "About Voidify", content });
     };
