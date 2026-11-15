@@ -232,8 +232,9 @@
 .voidify-home-hub .Root__right-sidebar { container: voidify-hub / inline-size; }
 .voidify-home-hub .voidify-hub-grid {
   display: grid;
-  grid-template-columns: clamp(150px, 19cqw, 210px) minmax(190px, 1fr) minmax(150px, 220px) minmax(150px, 220px);
-  grid-template-rows: auto auto;
+  grid-template-columns: minmax(150px, 210px) minmax(190px, 440px) minmax(150px, 220px) minmax(150px, 220px);
+  justify-content: center;
+  grid-template-rows: 80px minmax(140px, auto);
   align-content: center;
   align-items: start;
   column-gap: clamp(12px, 2cqw, 28px);
@@ -250,11 +251,11 @@
   min-width: 0;
   width: 100%;
   margin-top: 0;
-  align-self: start;
+  align-self: center;
 }
 .voidify-home-hub .main-nowPlayingView-coverArtContainer { max-width: 210px; margin-inline: auto; }
 .voidify-home-hub .main-nowPlayingView-contextItemInfo {
-  grid-column: 2 / -1;
+  grid-column: 2;
   grid-row: 1;
   min-width: 0;
   margin: 0;
@@ -274,7 +275,7 @@
   align-self: center;
   box-shadow: 0 8px 20px #09071055;
 }
-.voidify-home-hub .main-nowPlayingView-section:not(.main-nowPlayingView-aboutArtist) { grid-row: 2; }
+.voidify-home-hub .main-nowPlayingView-section:not(.main-nowPlayingView-aboutArtist) { grid-row: 1 / 3; }
 .voidify-home-hub .main-nowPlayingView-section:not(.main-nowPlayingView-aboutArtist):not(:has(.main-nowPlayingView-queue)) { grid-column: 3; }
 .voidify-home-hub .main-nowPlayingView-section:has(.main-nowPlayingView-queue) { grid-column: 4; }
 .voidify-home-hub .main-nowPlayingView-section :is(h2, h3) { font-size: 13px; }
@@ -360,10 +361,31 @@
   grid-template-rows: minmax(20px, auto) minmax(20px, auto) auto;
 }
 .voidify-home-hub .main-nowPlayingView-aboutArtist .ZFci_j1QpOSoNMTtkGeV > :first-child {
-  height: 44px;
-  max-height: 44px;
-  overflow: hidden;
+  height: auto;
+  max-height: none;
+  overflow: visible;
 }
 .voidify-home-hub .main-nowPlayingView-aboutArtist .cyR1mUkLpU9YNN2YeAPS { grid-row: 1; }
 .voidify-home-hub .main-nowPlayingView-aboutArtist .TKhl7OfJBeaFDP7U8dQZ { grid-row: 2; }
 .voidify-home-hub .main-nowPlayingView-aboutArtist .wqRf3uZh8pUe125CRGFh > :last-child { grid-row: 3; }
+
+
+/* Remove the native avatar header's inset without clipping the portrait. */
+.voidify-home-hub .main-nowPlayingView-aboutArtist .ZFci_j1QpOSoNMTtkGeV > :first-child :is(div, figure) {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+}
+.voidify-home-hub .main-nowPlayingView-aboutArtist .ZFci_j1QpOSoNMTtkGeV > :first-child :has(img) {
+  width: 44px;
+  height: 44px;
+}
+.voidify-home-hub .main-nowPlayingView-aboutArtist img {
+  display: block;
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.voidify-home-hub .main-nowPlayingView-section:has(.main-nowPlayingView-aboutArtist) { display: contents; }
+.voidify-home-hub .voidify-hub-grid > .voidify-hub-flow { display: contents; }

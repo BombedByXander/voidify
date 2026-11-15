@@ -45,7 +45,7 @@
             formatted = new Intl.DateTimeFormat("en-US", options).format(value);
           }
         }
-        releaseText = [label, formatted].filter(Boolean).join(" · ");
+        releaseText = [label, formatted].filter(Boolean).join(" \u00b7 ");
         renderRelease();
       } catch { /* Local tracks and unavailable releases can have no album metadata. */ }
     }
@@ -69,7 +69,7 @@
       for (const tile of tiles) {
         if (tile.closest(".main-nowPlayingView-nowPlayingWidget")) continue;
         let wrapper = tile.parentElement;
-        while (wrapper && wrapper !== grid && !wrapper.classList.contains("main-nowPlayingView-section")) {
+        while (wrapper && wrapper !== grid) {
           wrapper.classList.add("voidify-hub-flow");
           wrapper = wrapper.parentElement;
         }
@@ -94,7 +94,7 @@
       content.className = "voidify-about";
       content.innerHTML = mark + "<p>Your desktop player with Voidify Marketplace, themes, and extensions.</p>";
       const version = document.createElement("small");
-      version.textContent = "Voidify Desktop" + (api.Config?.version ? " ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Engine " + api.Config.version : "");
+      version.textContent = "Voidify Desktop" + (api.Config?.version ? " - Engine " + api.Config.version : "");
       content.append(version);
       api.PopupModal.display({ title: "About Voidify", content });
     };
