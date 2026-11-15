@@ -3,8 +3,8 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 #region Variables
-$spicetifyFolderPath = "$env:LOCALAPPDATA\spicetify"
-$spicetifyOldFolderPath = "$HOME\spicetify-cli"
+$voidifyFolderPath = "$env:LOCALAPPDATA\voidify"
+$voidifyOldFolderPath = "$HOME\spicetify-cli"
 #endregion Variables
 
 #region Functions
@@ -48,20 +48,23 @@ function Test-PowerShellVersion {
   }
 }
 
-function Move-OldSpicetifyFolder {
+function Move-OldVoidifyFolder {
   [CmdletBinding()]
   param ()
   process {
-    if (Test-Path -Path $spicetifyOldFolderPath) {
-      Write-Host -Object 'Moving the old spicetify folder...' -NoNewline
-      Copy-Item -Path "$spicetifyOldFolderPath\*" -Destination $spicetifyFolderPath -Recurse -Force
-      Remove-Item -Path $spicetifyOldFolderPath -Recurse -Force
+    if (Test-Path -Path $voidifyOldFolderPath) {
+      Write-Host -Object 'Moving the old voidify folder...' -NoNewline
+      if (-not (Test-Path -Path $voidifyFolderPath)) {
+        New-Item -Path $voidifyFolderPath -ItemType Directory -Force | Out-Null
+      }
+      Copy-Item -Path "$voidifyOldFolderPath\*" -Destination $voidifyFolderPath -Recurse -Force
+      Remove-Item -Path $voidifyOldFolderPath -Recurse -Force
       Write-Success
     }
   }
 }
 
-function Get-Spicetify {
+function Get-Voidify {
   [CmdletBinding()]
   param ()
   begin {
@@ -79,25 +82,25 @@ function Get-Spicetify {
         $targetVersion = $v
       }
       else {
-        Write-Warning -Message "You have specified an invalid spicetify version: $v `nThe version must be in the following format: 1.2.3"
+        Write-Warning -Message "You have specified an invalid voidify version: $v `nThe version must be in the following format: 1.2.3"
         Pause
         exit
       }
     }
     else {
-      Write-Host -Object 'Fetching the latest spicetify version...' -NoNewline
+      Write-Host -Object 'Fetching the latest voidify version...' -NoNewline
       $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/spicetify/cli/releases/latest'
       $targetVersion = $latestRelease.tag_name -replace 'v', ''
       Write-Success
     }
-    $archivePath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "spicetify.zip")
+    $archivePath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "voidify.zip")
   }
   process {
-    Write-Host -Object "Downloading spicetify v$targetVersion..." -NoNewline
+    Write-Host -Object "Downloading voidify v$targetVersion..." -NoNewline
     $Parameters = @{
-      Uri            = "https://github.com/spicetify/cli/releases/download/v$targetVersion/spicetify-$targetVersion-windows-$architecture.zip"
-      UseBasicParsin = $true
-      OutFile        = $archivePath
+      Uri             = "https://github.com/spicetify/cli/releases/download/v$targetVersion/spicetify-$targetVersion-windows-$architecture.zip"
+      UseBasicParsing = $true
+      OutFile         = $archivePath
     }
     Invoke-WebRequest @Parameters
     Write-Success
@@ -107,45 +110,45 @@ function Get-Spicetify {
   }
 }
 
-function Add-SpicetifyToPath {
+function Add-VoidifyToPath {
   [CmdletBinding()]
   param ()
   begin {
-    Write-Host -Object 'Making spicetify available in the PATH...' -NoNewline
+    Write-Host -Object 'Making voidify available in the PATH...' -NoNewline
     $user = [EnvironmentVariableTarget]::User
     $path = [Environment]::GetEnvironmentVariable('PATH', $user)
   }
   process {
-    $path = $path -replace "$([regex]::Escape($spicetifyOldFolderPath))\\*;*", ''
-    if ($path -notlike "*$spicetifyFolderPath*") {
-      $path = "$path;$spicetifyFolderPath"
+    $path = $path -replace "$([regex]::Escape($voidifyOldFolderPath))\\*;*", ''
+    if ($path -notlike "*$voidifyFolderPath*") {
+      $path = "$path;$voidifyFolderPath"
     }
   }
   end {
     [Environment]::SetEnvironmentVariable('PATH', $path, $user)
-    if (($env:PATH -split ';') -notcontains $spicetifyFolderPath) {
-      $env:PATH = "$env:PATH;$spicetifyFolderPath"
+    if (($env:PATH -split ';') -notcontains $voidifyFolderPath) {
+      $env:PATH = "$env:PATH;$voidifyFolderPath"
     }
     Write-Success
   }
 }
 
-function Install-Spicetify {
+function Install-Voidify {
   [CmdletBinding()]
   param ()
   begin {
-    Write-Host -Object 'Installing spicetify...'
+    Write-Host -Object 'Installing voidify...'
   }
   process {
-    $archivePath = Get-Spicetify
-    Write-Host -Object 'Extracting spicetify...' -NoNewline
-    Expand-Archive -Path $archivePath -DestinationPath $spicetifyFolderPath -Force
+    $archivePath = Get-Voidify
+    Write-Host -Object 'Extracting voidify...' -NoNewline
+    Expand-Archive -Path $archivePath -DestinationPath $voidifyFolderPath -Force
     Write-Success
-    Add-SpicetifyToPath
+    Add-VoidifyToPath
   }
   end {
     Remove-Item -Path $archivePath -Force -ErrorAction 'SilentlyContinue'
-    Write-Host -Object 'spicetify was successfully installed!' -ForegroundColor 'Green'
+    Write-Host -Object 'voidify was successfully installed!' -ForegroundColor 'Green'
   }
 }
 #endregion Functions
@@ -176,7 +179,7 @@ if (-not (Test-Admin)) {
   )
   $choice = $Host.UI.PromptForChoice('', 'Do you want to abort the installation process?', $choices, 0)
   if ($choice -eq 0) {
-    Write-Host -Object 'spicetify installation aborted' -ForegroundColor 'Yellow'
+    Write-Host -Object 'voidify installation aborted' -ForegroundColor 'Yellow'
     Pause
     exit
   }
@@ -186,53 +189,53 @@ else {
 }
 #endregion Checks
 
-#region Spicetify
-$installedSpicetify = Join-Path -Path $spicetifyFolderPath -ChildPath 'spicetify.exe'
-if (-not (Test-Path -LiteralPath $installedSpicetify -PathType Leaf)) {
+#region Voidify
+$installedVoidify = Join-Path -Path $voidifyFolderPath -ChildPath 'spicetify.exe'
+if (-not (Test-Path -LiteralPath $installedVoidify -PathType Leaf)) {
   $installedCommand = Get-Command -Name 'spicetify' -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
   if ($installedCommand) {
-    $installedSpicetify = $installedCommand.Source
+    $installedVoidify = $installedCommand.Source
   }
   else {
-    $installedSpicetify = $null
+    $installedVoidify = $null
   }
 }
 
-if ($installedSpicetify) {
+if ($installedVoidify) {
   $Host.UI.RawUI.Flushinputbuffer()
   $choices = [System.Management.Automation.Host.ChoiceDescription[]] @(
-    (New-Object System.Management.Automation.Host.ChoiceDescription '&Yes', 'Run spicetify update.'),
+    (New-Object System.Management.Automation.Host.ChoiceDescription '&Yes', 'Run voidify update.'),
     (New-Object System.Management.Automation.Host.ChoiceDescription '&No', 'Continue with installation.')
   )
-  $choice = $Host.UI.PromptForChoice('', 'Spicetify is already installed. Do you want to fix your installation?', $choices, 0)
+  $choice = $Host.UI.PromptForChoice('', 'Voidify is already installed. Do you want to fix your installation?', $choices, 0)
   if ($choice -eq 0) {
-    & $installedSpicetify update
+    & $installedVoidify update
     if ($LASTEXITCODE -ne 0) {
-      throw "Spicetify update failed with exit code $LASTEXITCODE."
+      throw "Voidify update failed with exit code $LASTEXITCODE."
     }
     return
   }
 }
 
-Move-OldSpicetifyFolder
-Install-Spicetify
+Move-OldVoidifyFolder
+Install-Voidify
 Write-Host -Object "`nRun" -NoNewline
 Write-Host -Object ' spicetify -h ' -NoNewline -ForegroundColor 'Cyan'
 Write-Host -Object 'to get started'
-#endregion Spicetify
+#endregion Voidify
 
 #region Marketplace
 $Host.UI.RawUI.Flushinputbuffer()
 $choices = [System.Management.Automation.Host.ChoiceDescription[]] @(
-    (New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Install Spicetify Marketplace."),
-    (New-Object System.Management.Automation.Host.ChoiceDescription "&No", "Do not install Spicetify Marketplace.")
+    (New-Object System.Management.Automation.Host.ChoiceDescription "&Yes", "Install Voidify Marketplace."),
+    (New-Object System.Management.Automation.Host.ChoiceDescription "&No", "Do not install Voidify Marketplace.")
 )
-$choice = $Host.UI.PromptForChoice('', "`nDo you also want to install Spicetify Marketplace? It will become available within the Spotify client, where you can easily install themes and extensions.", $choices, 0)
+$choice = $Host.UI.PromptForChoice('', "`nDo you also want to install Voidify Marketplace? It will become available within the Spotify client, where you can easily install themes and extensions.", $choices, 0)
 if ($choice -eq 1) {
-  Write-Host -Object 'spicetify Marketplace installation aborted' -ForegroundColor 'Yellow'
+  Write-Host -Object 'voidify Marketplace installation aborted' -ForegroundColor 'Yellow'
 }
 else {
-  Write-Host -Object 'Starting the spicetify Marketplace installation script..'
+  Write-Host -Object 'Starting the voidify Marketplace installation script..'
   $Parameters = @{
     Uri             = 'https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.ps1'
     UseBasicParsing = $true
