@@ -389,3 +389,19 @@
 
 .voidify-home-hub .main-nowPlayingView-section:has(.main-nowPlayingView-aboutArtist) { display: contents; }
 .voidify-home-hub .voidify-hub-grid > .voidify-hub-flow { display: contents; }
+
+/* Give the two groups more separation only when the hub has room for it. */
+@container voidify-hub (min-width: 1200px) {
+  .voidify-home-hub .voidify-hub-grid {
+    grid-template-columns: 210px minmax(190px, 1fr) 220px 220px;
+    width: calc(100% - 96px);
+    margin-inline: auto;
+  }
+}
+
+
+/* Optional native sections, such as lyrics, get their own row. */
+.voidify-home-hub .main-nowPlayingView-section:not(.main-nowPlayingView-aboutArtist):not(:has(.main-nowPlayingView-queue, .cYpycwKcTXHdtu4sNc6i, .JhHjvDJmnpDqsPXWTToW)) {
+  grid-column: 2 / -1;
+  grid-row: 3;
+}
