@@ -1,5 +1,7 @@
 """Prepare and run the desktop Voidify bundle."""
+import configparser
 import hashlib
+import os
 import json
 import platform
 import shutil
@@ -59,9 +61,66 @@ def prepare():
     return dest / binary
 
 
+def desktop_setup(shortcut=True):
+    with tempfile.TemporaryDirectory() as resources:
+        stage = Path(resources)
+        for name in ("Install-Desktop.ps1", "Player.cs", "voidify-desktop.js"):
+            shutil.copy2(ROOT / "desktop/windows" / name, stage)
+        shutil.copy2(ROOT / "cli-assets.json", stage)
+        shutil.copy2(ROOT / "docs/public/images/favicon.ico", stage / "voidify.ico")
+        command = ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "RemoteSigned",
+                   "-File", str(stage / "Install-Desktop.ps1"), "-Resources", resources]
+        if not shortcut:
+            command.append("-SkipShortcut")
+        subprocess.run(command, check=True)
+
+
+def windows_desktop(args):
+    if args in (["prepare"], ["install"], ["cli", "update"]):
+        desktop_setup(shortcut=args != ["prepare"])
+        return
+    if args[:1] != ["cli"] or len(args) < 2:
+        sys.exit("Use prepare, install, or cli COMMAND.")
+    commands = args[1:]
+    root = Path(os.environ["LOCALAPPDATA"]) / "VoidifyDesktop"
+    marker = root / "current.txt"
+    if not marker.exists():
+        sys.exit("Run python ultimate.py install to create the private Voidify player first.")
+    key = marker.read_text().strip()
+    if len(key) != 32 or any(c not in "0123456789abcdef" for c in key):
+        sys.exit("Invalid desktop build marker. Run the installer again.")
+    build = root / "Builds" / key
+    if commands == ["launch"]:
+        subprocess.Popen([str(build / "Voidify.exe")])
+        return
+    if commands[0] == "config":
+        keys = {"current_theme", "color_scheme", "extensions", "custom_apps",
+                "inject_css", "replace_colors", "inject_theme_js", "overwrite_assets"}
+        if any(field not in keys for field in commands[1::2]) or any(v.startswith("-") for v in commands[2::2]):
+            sys.exit("Desktop config supports theme, extension, and custom app settings.")
+    elif commands not in (["apply"], ["restore"], ["-v"], ["-h"], ["--version"], ["--help"]):
+        sys.exit("Desktop commands: launch, update, apply, restore, config, -h, -v.")
+    config = configparser.ConfigParser(interpolation=None)
+    config.read(build / "Config/config-xpui.ini", encoding="utf-8-sig")
+    for field, target in (("spotify_path", build / "Client"), ("prefs_path", build / "prefs")):
+        if not target.exists() or Path(config.get("Setting", field, fallback="")).resolve() != target.resolve():
+            sys.exit("Private client configuration is invalid. Run the installer again.")
+    if not (build / "Client/Apps").is_dir():
+        sys.exit("Private client files are missing. Run the installer again.")
+    env = os.environ.copy()
+    env.pop("SPICETIFY_STATE", None)
+    env.update(SPICETIFY_CONFIG=str(build / "Config"), USERPROFILE=str(build / "User"),
+               APPDATA=str(build / "Roaming"), LOCALAPPDATA=str(build / "Local"))
+    subprocess.run([build / "Engine/voidify.exe", *commands, "--no-restart"], env=env, check=True)
+
+
+
 def main(args):
     if not args or args[0] in ("-h", "--help"):
         print("Usage: python ultimate.py prepare | install | cli [VOIDIFY_ARGS ...]")
+        return
+    if platform.system() == "Windows":
+        windows_desktop(args)
         return
     if args[0] == "cli":
         subprocess.run([prepare(), *args[1:]], check=True)

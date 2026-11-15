@@ -6,13 +6,21 @@ One checkout for the Spicetify CLI, Marketplace, themes, and developer projects.
 
 ![Voidify](docs/public/images/spicetify-full.png)
 
-Open Spotify desktop once. In a regular Windows PowerShell, run:
+### Windows · Voidify Desktop
+
+Install Spotify from the Spotify website and open it once. In regular PowerShell, run:
 
 ```powershell
 iwr -useb https://raw.githubusercontent.com/BombedByXander/voidify/main/cli/install.ps1 | iex
 ```
 
-On macOS or Linux:
+Open **Voidify** from Start. Setup copies the Windows player into `%LOCALAPPDATA%\VoidifyDesktop`, applies Marketplace and the Voidify interface to that copy, and creates its own shortcut and browser profile. Sign in to the Voidify window. Store-only installations need the website edition for this workflow.
+
+Run the same installer after Spotify updates to rebuild the private copy. A successful rebuild switches the shortcut to the new build and keeps the shared Voidify player profile. To uninstall, close Voidify and remove its Start menu shortcut and the VoidifyDesktop directory. Older in-place CLI installations are separate and can still target original Spotify.
+
+### macOS and Linux · CLI customization
+
+These installers customize the installed Spotify client:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/BombedByXander/voidify/main/cli/install.sh | sh
@@ -30,9 +38,9 @@ cd voidify
 python ultimate.py install
 ```
 
-The launcher downloads the pinned Voidify 2.46.7 release for your platform, checks its SHA-256 digest, and assembles the CLI, Voidify Marketplace (based on 1.0.12), and 15 themes under `.runtime/`. Install enables the Marketplace app, selects its theme, turns on CSS and color replacement, and runs the CLI's backup and apply logic. Spotify restarts. Open **Voidify Marketplace** in its sidebar to browse community content.
+On Windows the Python installer creates the same private player. On macOS and Linux the launcher downloads the pinned Voidify 2.46.7 release for your platform, checks its SHA-256 digest, and assembles the CLI, Voidify Marketplace (based on 1.0.12), and 15 themes under `.runtime/`. Install enables the Marketplace app, selects its theme, turns on CSS and color replacement, and runs the CLI's backup and apply logic. Spotify restarts. Open **Voidify Marketplace** in its sidebar to browse community content.
 
-For an existing setup, install updates your active Spicetify configuration. The CLI gives custom apps and themes in your user configuration directory priority over bundled copies with the same name. To assemble the bundle without touching Spotify, run `python ultimate.py prepare`.
+On macOS and Linux, install updates your active Spicetify configuration. The CLI gives custom apps and themes in your user configuration directory priority over bundled copies with the same name. To assemble the bundle without touching Spotify, run `python ultimate.py prepare`.
 
 Pinned binary targets include Windows x64, x86, and ARM64, macOS Intel and Apple Silicon, and Linux x86-64 and ARM64. Keep the checkout while using the launcher.
 
@@ -44,7 +52,7 @@ python ultimate.py cli config current_theme Sleek
 python ultimate.py cli apply
 ```
 
-The launcher passes everything after `cli` to Spicetify. Use `python ultimate.py cli restore` to restore Spotify from its backup. Some themes require additional settings or extensions. See the [theme instructions](spicetify-themes/).
+Windows CLI commands target the active private build. Use `python ultimate.py cli launch` to open it and `python ultimate.py cli update` to rebuild it. On macOS and Linux the launcher forwards CLI arguments to Spicetify. Use `python ultimate.py cli restore` to restore Spotify from its backup. Some themes require additional settings or extensions. See the [theme instructions](spicetify-themes/).
 
 ## Repository guide
 
@@ -57,7 +65,7 @@ The launcher passes everything after `cli` to Spicetify. Use `python ultimate.py
 | [Creator](spicetify-creator/) | Build tools for extensions and custom apps |
 | [Docs](docs/) | Documentation site source |
 | [Services](services/) | Service used for cross-origin requests |
-| [Modules](modules/) · [Hooks](hooks/) · [Class maps](classmaps/) · [Package index](pkgs/) | Spicetify v3 development sources and registry data |
+| [Modules](modules/) Â· [Hooks](hooks/) Â· [Class maps](classmaps/) Â· [Package index](pkgs/) | Spicetify v3 development sources and registry data |
 | [Actions](actions/) | Shared GitHub Actions for upstream development |
 | [Android patches](morphe-patches/) | Android project with its own build and installation instructions |
 
