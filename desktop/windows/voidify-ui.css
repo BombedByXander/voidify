@@ -9,6 +9,7 @@
 }
 :root {
   --voidify-panel-gradient: linear-gradient(135deg, #533445, #302833 58%, #201c23);
+  --voidify-panel-divider: rgba(230, 194, 230, .34);
   --voidify-line: rgba(255, 234, 247, .09);
   --voidify-rose: #ff92ad;
   --voidify-type: "Archivo", "Segoe UI", sans-serif;
@@ -25,7 +26,7 @@
 }
 .Root__globalNav {
   background: linear-gradient(110deg, #262027, #19171c 68%);
-  box-shadow: inset 0 -1px var(--voidify-line);
+  box-shadow: inset 0 -1px var(--voidify-panel-divider);
 }
 .main-globalNav-searchInputSection input {
   background-color: #312b33;
@@ -35,10 +36,15 @@
   border-radius: 0;
 }
 .Root__nav-bar {
-  background: transparent;
+  background: rgba(31, 14, 37, .14);
+  border-inline-end: 1px solid var(--voidify-panel-divider);
+  box-sizing: border-box;
 }
 .Root__nav-bar :is(.main-yourLibraryX-entryPoints, .main-yourLibraryX-libraryContainer, .main-yourLibraryX-library) {
   background: transparent;
+}
+.Root__right-sidebar:not(.Root__right-sidebar-collapsed) {
+  box-shadow: inset 1px 0 var(--voidify-panel-divider);
 }
 .main-yourLibraryX-header { box-shadow: inset 0 -1px var(--voidify-line); }
 .main-yourLibraryX-listItem { border-radius: 8px; }
@@ -94,7 +100,7 @@
   margin: 0;
   border-radius: 0;
   background: linear-gradient(110deg, #493447, #302733 37%, #27232b 68%, #372c3c);
-  box-shadow: inset 0 1px var(--voidify-line);
+  box-shadow: inset 0 1px var(--voidify-panel-divider);
 }
 .Root__now-playing-bar .main-nowPlayingBar-container { background: transparent; border: 0; }
 .Root__now-playing-bar .main-nowPlayingBar-nowPlayingBar { padding-inline: clamp(0px, 1vw - 8px, 12px); }
