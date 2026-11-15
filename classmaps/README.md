@@ -1,4 +1,4 @@
-# Spicetify classmaps
+# Voidify classmaps
 
 Classmaps are published per Spotify `major.minor.patch` key because the CLI
 must select an exact, auditable ABI for each client build. Patch releases that

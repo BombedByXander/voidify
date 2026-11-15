@@ -30,7 +30,7 @@ cd voidify
 python ultimate.py install
 ```
 
-The launcher downloads the pinned Voidify 2.46.7 release for your platform, checks its SHA-256 digest, and assembles the CLI, Voidify Marketplace (based on 1.0.12), and 15 themes under `.runtime/`. Install enables the Marketplace app, selects its theme, turns on CSS and color replacement, and runs the CLI's backup and apply logic. Spotify restarts. Open **Marketplace** in its sidebar to browse community content.
+The launcher downloads the pinned Voidify 2.46.7 release for your platform, checks its SHA-256 digest, and assembles the CLI, Voidify Marketplace (based on 1.0.12), and 15 themes under `.runtime/`. Install enables the Marketplace app, selects its theme, turns on CSS and color replacement, and runs the CLI's backup and apply logic. Spotify restarts. Open **Voidify Marketplace** in its sidebar to browse community content.
 
 For an existing setup, install updates your active Spicetify configuration. The CLI gives custom apps and themes in your user configuration directory priority over bundled copies with the same name. To assemble the bundle without touching Spotify, run `python ultimate.py prepare`.
 

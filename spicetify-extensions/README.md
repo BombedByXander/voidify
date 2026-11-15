@@ -1,4 +1,4 @@
-# Spicetify Extensions
+# Voidify Extensions
 
 This repository holds the official list of all [Spicetify](https://github.com/spicetify/spicetify-cli) themes, a command-line tool to customize Spotify. If a theme is present here, then it will be present in Spicetify Marketplace.
 

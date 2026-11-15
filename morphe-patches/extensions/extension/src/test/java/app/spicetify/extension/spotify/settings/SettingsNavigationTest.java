@@ -65,7 +65,7 @@ public class SettingsNavigationTest {
         try (var controller = Robolectric.buildActivity(Activity.class).setup()) {
             Dialog page = page(controller.get(), "missing");
             assertTrue(hasText(page.getWindow().getDecorView(), "No configurable Spicetify patches are installed."));
-            assertEquals("Spicetify", title(page));
+            assertEquals("Voidify", title(page));
         }
     }
 

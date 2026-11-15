@@ -85,7 +85,7 @@ public final class SpicetifySettingsScreen extends ContextThemeWrapper {
             title = "Voidify Marketplace";
             buildMarketplace(content);
         } else {
-            title = "Spicetify";
+            title = "Voidify";
             root = true;
             buildRoot(content);
         }

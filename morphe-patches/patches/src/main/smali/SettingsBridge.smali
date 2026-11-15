@@ -64,7 +64,7 @@
     invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
     move-result-object v3
     sget-object v4, Lp/k2u;->c:Lp/k2u;
-    const-string v5, "Spicetify"
+    const-string v5, "Voidify"
     const-string v6, "Preferences for installed patches"
     invoke-direct/range {v0 .. v6}, Lp/osa0;-><init>(ILp/hka1;Ljava/util/List;Lp/v8u;Ljava/lang/String;Ljava/lang/String;)V
     new-instance v1, Lapp/spicetify/extension/spotify/settings/nativebridge/ModelFactory;
@@ -74,7 +74,7 @@
 
     new-instance v0, Lp/ftl;
     const/4 v1, 0x0
-    const-string v2, "Spicetify"
+    const-string v2, "Voidify"
     const/4 v3, 0x0
     const/4 v4, 0x0
     const/4 v5, 0x0

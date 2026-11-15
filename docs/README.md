@@ -1,6 +1,6 @@
-# Spicetify Docs
+# Voidify Docs
 
-This repository holds the documentation for Spicetify, which can be found [here](https://spicetify.app).
+Browse the [Voidify installation guide](src/content/docs/getting-started.mdx) and CLI reference in this directory. The documentation is adapted from the Spicetify project.
 
 ## Contributing
 

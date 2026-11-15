@@ -103,7 +103,7 @@ rm "$tar"
 notfound() {
     cat << EOINFO
 Manually add the directory to your \$PATH through your shell profile
-export SPICETIFY_INSTALL="$voidify_install"
+export VOIDIFY_INSTALL="$voidify_install"
 export PATH="\$PATH:$voidify_install"
 EOINFO
 }

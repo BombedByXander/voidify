@@ -1,4 +1,4 @@
-# Spicetify community themes
+# Voidify community themes
 
 This is a collection of themes for [spicetify](https://github.com/spicetify/spicetify-cli), a command-line tool to customize Spotify.
 

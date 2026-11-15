@@ -1,4 +1,4 @@
-# spicetify/actions
+# Voidify/actions
 
 Reusable GitHub Actions for the Spicetify ecosystem. Each action lives in its
 own directory and is referenced by path.

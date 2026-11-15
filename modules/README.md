@@ -1,4 +1,4 @@
-# spicetify modules
+# Voidify modules
 
 V3 modules for the spicetify modular runtime.
 

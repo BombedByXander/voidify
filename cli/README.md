@@ -3,7 +3,7 @@
 Command-line tool to customize the official Spotify client.
 Supports Windows, MacOS and Linux.
 
-<img src=".github/assets/logo.png" alt="img" align="right" width="560px" height="400px">
+<img src=".github/assets/logo.png" alt="Voidify" align="right" width="560px" height="400px">
 
 ### Features
 
@@ -15,11 +15,7 @@ Supports Windows, MacOS and Linux.
 
 ### Links
 
-- [Installation](https://spicetify.app/docs/getting-started)
-- [Basic Usage](https://spicetify.app/docs/getting-started#basic-usage)
+- [Installation](../README.md#install-the-desktop-bundle)
+- [Basic Usage](../docs/src/content/docs/getting-started.mdx#commands)
 
 ---
-
-### Code Signing Policy
-
-Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org/).

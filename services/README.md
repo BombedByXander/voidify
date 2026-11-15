@@ -1,4 +1,4 @@
-# spicetify services
+# Voidify services
 
 Cloudflare Workers behind `*.spicetify.app`, managed as one workspace so they
 share tooling and can be bumped together.

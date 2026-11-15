@@ -82,7 +82,7 @@ public class SpicetifySettingsScreenTest {
             for (Dialog page : before) assertFalse(page.isShowing());
             List<String> titles = new ArrayList<>();
             for (Dialog page : showing()) titles.add(page.getWindow().getAttributes().getTitle().toString());
-            assertEquals(List.of("Spicetify", "Sharing"), titles);
+            assertEquals(List.of("Voidify", "Sharing"), titles);
         }
     }
 
