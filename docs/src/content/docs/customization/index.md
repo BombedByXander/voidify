@@ -3,7 +3,7 @@ title: Customization
 description: Customize Spotify with themes, extensions, and custom apps.
 ---
 
-Spicetify lets you customize Spotify in three ways:
+Voidify lets you customize Spotify in three ways:
 
 | Type | What it does |
 |------|--------------|
@@ -17,7 +17,7 @@ There are two ways to install customizations:
 
 ### Marketplace (Recommended)
 
-The **[Spicetify Marketplace](./marketplace.md)** is a built-in browser that lets you discover, install, and manage themes, extensions, and snippets directly from Spotify's sidebar.
+The **[Voidify Marketplace](./marketplace.md)** is a built-in browser that lets you discover, install, and manage themes, extensions, and snippets directly from Spotify's sidebar.
 
 If you followed the [Getting Started](/docs/getting-started) guide, you already have Marketplace installed.
 
@@ -28,7 +28,7 @@ If you followed the [Getting Started](/docs/getting-started) guide, you already 
 
 ### Manual Installation
 
-Manual installation gives you direct control over your Spicetify configuration.
+Manual installation gives you direct control over your Voidify configuration.
 
 **Use manual installation when:**
 - The theme/extension isn't available in Marketplace
@@ -42,7 +42,7 @@ Each customization page in this section covers both Marketplace usage and manual
 
 All manual customizations are controlled through:
 
-- **CLI commands**: `spicetify config <key> <value>` followed by `spicetify apply`
+- **CLI commands**: `voidify config <key> <value>` followed by `voidify apply`
 - **Config file**: Direct editing of `config-xpui.ini`
 
 See the **[Configuration Reference](./config-file.md)** for details on the config file and all available options.

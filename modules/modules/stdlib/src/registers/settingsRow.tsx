@@ -9,7 +9,7 @@ import { Registry } from "./registry.ts";
 import settingsSection from "./settingsSection.ts";
 
 // Rows from every module, rendered together under one "General" section on
-// the standalone Spicetify Settings page. A module with a single setting
+// the standalone Voidify Settings page. A module with a single setting
 // registers a row here instead of claiming a whole section (or a menu slot) of
 // its own; SettingsToggleRow (lib/primitives.tsx) is the one-boolean case.
 const listeners = new Set<() => void>();

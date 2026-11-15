@@ -77,7 +77,7 @@
     },
     "updateModal": {
       "title": "Actualizar el Marketplace",
-      "description": "Actualiza Spicetify Marketplace para recibir nuevas funciones y correcciones de errores.",
+      "description": "Actualiza Voidify Marketplace para recibir nuevas funciones y correcciones de errores.",
       "currentVersion": "Versión actual: {{version}}",
       "latestVersion": "Última versión: {{version}}",
       "whatsChanged": "Qué ha cambiado",

@@ -34,7 +34,7 @@ export function showSplash(options: SplashOptions = {}) {
 	dialog.className = "spicetify-splash";
 	dialog.dataset.stage = options.preview ? "loading" : "boot";
 	dialog.dataset.image = image ? "custom" : "default";
-	dialog.setAttribute("aria-label", "Spicetify is loading");
+	dialog.setAttribute("aria-label", "Voidify is loading");
 	dialog.innerHTML = `
 		<div class="spicetify-splash__surface">
 			<div class="spicetify-splash__backdrop"></div>
@@ -53,7 +53,7 @@ export function showSplash(options: SplashOptions = {}) {
 		() => {
 			dialog.querySelector(".spicetify-splash__logo")!.innerHTML = LOGO;
 			dialog.dataset.image = "default";
-			console.warn("[spicetify-splash] Custom image could not load; using the Spicetify logo.");
+			console.warn("[spicetify-splash] Custom image could not load; using the Voidify logo.");
 		},
 		{ once: true },
 	);

@@ -30,7 +30,7 @@ const dialog = () => document.querySelector<HTMLDialogElement>("dialog.spicetify
 test("shows a modal splash with the vector logo before Spotify or its APIs exist", () => {
 	splash = showSplash();
 	assert.ok(dialog()?.open);
-	assert.equal(dialog()!.getAttribute("aria-label"), "Spicetify is loading");
+	assert.equal(dialog()!.getAttribute("aria-label"), "Voidify is loading");
 	assert.equal(dialog()!.textContent.trim(), "");
 	assert.equal(dialog()!.dataset.stage, "boot");
 	assert.equal(dialog()!.dataset.image, "default");

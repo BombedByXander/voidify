@@ -20,13 +20,13 @@ func Update(currentVersion string) bool {
 		return false
 	}
 	if currentVersion == tagName {
-		utils.PrintSuccess("Spicetify is up-to-date.")
+		utils.PrintSuccess("Voidify is up-to-date.")
 		return false
 	}
 
 	utils.PrintInfo("Latest release: " + tagName)
-	var assetURL string = "https://github.com/spicetify/cli/releases/download/v" + tagName + "/spicetify-" + tagName + "-" + runtime.GOOS + "-"
-	var location string = os.TempDir() + "/spicetify-" + tagName
+	var assetURL string = "https://github.com/BombedByXander/voidify/releases/download/v" + tagName + "/voidify-" + tagName + "-" + runtime.GOOS + "-"
+	var location string = os.TempDir() + "/voidify-" + tagName
 
 	if runtime.GOARCH == "386" && runtime.GOOS == "windows" {
 		assetURL += "x32"
@@ -46,7 +46,7 @@ func Update(currentVersion string) bool {
 		location += ".tar.gz"
 	}
 
-	spinner, _ := utils.Spinner.Start("Downloading Spicetify")
+	spinner, _ := utils.Spinner.Start("Downloading Voidify")
 
 	out, err := os.Create(location)
 	if err != nil {
@@ -108,7 +108,7 @@ func Update(currentVersion string) bool {
 	}
 
 	utils.CheckExistAndDelete(exeOld)
-	utils.PrintSuccess("Successfully updated Spicetify to v" + tagName)
+	utils.PrintSuccess("Successfully updated Voidify to v" + tagName)
 	return true
 }
 

@@ -48,6 +48,6 @@ export const SNIPPETS_URL = "https://raw.githubusercontent.com/spicetify/marketp
 
 export const BLACKLIST_URL = "https://raw.githubusercontent.com/spicetify/marketplace/main/resources/blacklist.json";
 
-export const RELEASES_URL = "https://github.com/spicetify/marketplace/releases";
+export const RELEASES_URL = "https://github.com/BombedByXander/voidify/releases";
 
-export const LATEST_RELEASE_URL = "https://api.github.com/repos/spicetify/marketplace/releases/latest";
+export const LATEST_RELEASE_URL = "https://api.github.com/repos/BombedByXander/voidify/releases/latest";

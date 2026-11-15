@@ -122,7 +122,7 @@ func init() {
 	}
 
 	if isAdmin.Check(bypassAdminCheck) {
-		utils.PrintError("Spicetify should NOT be run with administrator or root privileges")
+		utils.PrintError("Voidify should NOT be run with administrator or root privileges")
 		utils.PrintError("Doing so can cause Spotify to show a black/blank window after applying!")
 		utils.PrintError("This happens because Spotify (running as a normal user) can't access files modified with admin privileges")
 		utils.PrintInfo("If you understand the risks and need to continue, you can use the '--bypass-admin' flag.")
@@ -277,13 +277,13 @@ func main() {
 
 	cmd.InitPaths()
 
-	utils.PrintBold("spicetify v" + version)
+	utils.PrintBold("voidify v" + version)
 	if slices.Contains(commands, "upgrade") || slices.Contains(commands, "update") {
 		updateStatus := cmd.Update(version)
 		spotifyPath := filepath.Join(cmd.GetSpotifyPath(), "Apps")
 		ex, err := os.Executable()
 		if err != nil {
-			ex = "spicetify"
+			ex = "voidify"
 		}
 
 		if updateStatus {
@@ -302,7 +302,7 @@ func main() {
 
 		spotStat := spotifystatus.Get(spotifyPath)
 		if spotStat.IsBackupable() {
-			utils.PrintNote("spicetify is up-to-date! If you ran this because spicetify disappeared after Spotify updated, we'll attempt to fix it for you right now.")
+			utils.PrintNote("voidify is up-to-date! If you ran this because voidify disappeared after Spotify updated, we'll attempt to fix it for you right now.")
 			cmd.Backup(version, true)
 			cmd.CheckStates()
 			cmd.InitSetting()
@@ -361,7 +361,7 @@ func main() {
 
 		default:
 			utils.Fatal(errors.New(`Command "` + v + `" not found.
-Run "spicetify -h" for a list of valid commands.`))
+Run "voidify -h" for a list of valid commands.`))
 		}
 	}
 
@@ -371,10 +371,10 @@ Run "spicetify -h" for a list of valid commands.`))
 }
 
 func help() {
-	utils.PrintBold("spicetify v" + version)
+	utils.PrintBold("voidify v" + version)
 	log.Println(utils.Bold("USAGE") + "\n" +
-		"spicetify [-q] [-e] [-a] \x1B[4mcommand\033[0m...\n" +
-		"spicetify {-c | --config} | {-v | --version} | {-h | --help}\n\n" +
+		"voidify [-q] [-e] [-a] \x1B[4mcommand\033[0m...\n" +
+		"voidify {-c | --config} | {-v | --version} | {-h | --help}\n\n" +
 		utils.Bold("DESCRIPTION") + "\n" +
 		"Customize Spotify client UI and functionality\n\n" +
 		utils.Bold("CHAINABLE COMMANDS") + `
@@ -408,16 +408,16 @@ spotify-updates     Block Spotify updates by patching spotify executable.
 
 path                Print path of Spotify's executable, userdata, and more.
                     1. Print executable path:
-                    spicetify path
+                    voidify path
 
                     2. Print userdata path:
-                    spicetify path userdata
+                    voidify path userdata
 
                     3. Print all paths:
-                    spicetify path all
+                    voidify path all
 
                     4. Toggle focus with flags:
-                    spicetify path <flag> <option>
+                    voidify path <flag> <option>
 
                     Available flags and options:
                     "-e" (for extensions),
@@ -433,17 +433,17 @@ path                Print path of Spotify's executable, userdata, and more.
                     options: N/A.
 
 config              1. Print all config fields and values:
-                    spicetify config
+                    voidify config
 
                     2. Print one config field's value:
-                    spicetify config <field>
+                    voidify config <field>
 
                     Example usage:
-                    spicetify config color_scheme
-                    spicetify config custom_apps
+                    voidify config color_scheme
+                    voidify config custom_apps
 
                     3. Change value of one or multiple config fields.
-                    spicetify config <field> <value> [<field> <value> ...]
+                    voidify config <field> <value> [<field> <value> ...]
 
                     "extensions" and "custom_apps" fields are arrays of values,
                     so <value> will be appended to those fields' current value.
@@ -451,34 +451,34 @@ config              1. Print all config fields and values:
 
                     Example usage:
                     - Enable "disable_sentry" preprocess:
-                    spicetify config disable_sentry 1
+                    voidify config disable_sentry 1
                     - Add extension "myFakeExt.js" to current extensions list:
-                    spicetify config extensions myFakeExt.js
+                    voidify config extensions myFakeExt.js
                     - Remove extension "wrongname.js" from extensions list:
-                    spicetify config extensions wrongname.js-
+                    voidify config extensions wrongname.js-
                     - Disable "inject_css" and enable "song_page"
-                    spicetify config inject_css 0 song_page 1
+                    voidify config inject_css 0 song_page 1
 
 color               1. Print all color fields and values.
-                    spicetify color
+                    voidify color
 
                     Color boxes require 24-bit color (True color) supported
                     terminal to show colors correctly.
 
                     2. Change theme's one or multiple color values.
-                    spicetify color <field> <value> [<field> <value> ...]
+                    voidify color <field> <value> [<field> <value> ...]
 
                     <value> can be in hex or decimal (rrr,ggg,bbb) format.
 
                     Example usage:
                     - Change main to ff0000
-                    spicetify color main ff0000
+                    voidify color main ff0000
                     - Change sidebar to 00ff00 and button to 0000ff
-                    spicetify color sidebar 00ff00 button 0000ff
+                    voidify color sidebar 00ff00 button 0000ff
 
 config-dir          Show config directory in file viewer
 
-upgrade|update      Update spicetify to the latest version if an update is available
+upgrade|update      Update voidify to the latest version if an update is available
 
 ` + utils.Bold("FLAGS") + `
 -q, --quiet         Quiet mode (no output).
@@ -508,8 +508,8 @@ upgrade|update      Update spicetify to the latest version if an update is avail
 
 -v, --version       Print version number and quit
 
-For config information, run "spicetify -h config".
-For more information and reporting bugs: https://github.com/spicetify/cli/`)
+For config information, run "voidify -h config".
+For more information and reporting bugs: https://github.com/BombedByXander/voidify/`)
 }
 
 func helpConfig() {
@@ -541,7 +541,7 @@ spotify_launch_flags <string>
     Command-line flags used when launching/restarting Spotify.
     Separate each flag with "|".
     To set flags from the CLI, place "--" before the value.
-    Example: spicetify config spotify_launch_flags -- "--flag-1|--flag-2"
+    Example: voidify config spotify_launch_flags -- "--flag-1|--flag-2"
     List of valid flags: https://spicetify.app/docs/development/spotify-cli-flags
 
 always_enable_devtools <0 | 1>

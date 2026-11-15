@@ -48,7 +48,7 @@ export function compareCliVersions(a: string, b: string): number {
 	return 0;
 }
 
-// The Spicetify version installed since this client was last applied, which
+// The Voidify version installed since this client was last applied, which
 // only reaches Spotify on the next apply. Null when there is nothing newer or
 // either version is unknown.
 export function pendingCliUpdate(info: DaemonInfo | null, appliedVersion: string | undefined): string | null {

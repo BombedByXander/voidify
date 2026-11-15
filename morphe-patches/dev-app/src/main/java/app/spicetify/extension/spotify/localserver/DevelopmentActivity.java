@@ -34,7 +34,7 @@ public final class DevelopmentActivity extends Activity {
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
-        setTitle("Spicetify Development");
+        setTitle("Voidify Development");
         ScrollView scroll = new ScrollView(this);
         scroll.setFitsSystemWindows(true);
         LinearLayout content = new LinearLayout(this);

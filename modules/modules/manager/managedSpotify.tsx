@@ -45,7 +45,7 @@ export const ManagedSpotifyUpdates = ({
 					setSnapshot(next);
 					setConnection(
 						!next
-							? "Apply a newer Spicetify build to manage package updates here."
+							? "Apply a newer Voidify build to manage package updates here."
 							: next.installation.kind === "unavailable"
 								? next.installation.message
 								: null,
@@ -144,7 +144,7 @@ export const ManagedSpotifyUpdates = ({
 				)}
 			</div>
 			<p className="spicetify-manager-note">
-				Spicetify manages this Spotify installation. Package updates run only when you request them. Each update
+				Voidify manages this Spotify installation. Package updates run only when you request them. Each update
 				verifies compatibility and reapplies your customization before switching.
 			</p>
 			{api ? (
@@ -188,8 +188,8 @@ export const ManagedSpotifyUpdates = ({
 				<p className="spicetify-manager-note">
 					Run <code>spicetify spotify update</code> in a terminal.{" "}
 					{daemonAvailable
-						? "To enable this control, update Spicetify, run spicetify apply, and reopen Manager."
-						: "Start the Spicetify daemon to update here."}
+						? "To enable this control, update Voidify, run voidify apply, and reopen Manager."
+						: "Start the Voidify daemon to update here."}
 				</p>
 			)}
 			{children}

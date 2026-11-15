@@ -18,15 +18,15 @@
 
 ## [1.1.0](https://github.com/spicetify/morphe-patches/compare/v1.0.1...v1.1.0) (2026-10-03)
 
-Spicetify Android patches 1.1.0 targets **Spotify 9.1.80.2221, ARM64**. Other Spotify versions are not supported. Themes require Android 11 or later.
+Voidify Android patches 1.1.0 targets **Spotify 9.1.80.2221, ARM64**. Other Spotify versions are not supported. Themes require Android 11 or later.
 
 Changes in this release:
 
 - Apply themes through Spicetify color roles, with presets, custom colors, and migration of previously saved themes.
 - Paste colors from a Spicetify `color.ini` or CSS theme.
-- Browse community themes in the Spicetify Marketplace, with search, previews, and a cached list.
+- Browse community themes in the Voidify Marketplace, with search, previews, and a cached list.
 - Apply theme background images, including Galaxy V2, with optional blur.
-- Open Spicetify settings without adding a manifest Activity, and hide server files on mount installations that cannot support their separate process.
+- Open Voidify settings without adding a manifest Activity, and hide server files on mount installations that cannot support their separate process.
 
 The Spotify 9.1.88 port and analytics and attestation experiments are archived and are not included in this release.
 
@@ -65,11 +65,11 @@ Download [patches-1.1.0.mpp](https://github.com/spicetify/morphe-patches/release
 * add optional Home pins and WebDAV server files ([37b4f5e](https://github.com/spicetify/morphe-patches/commit/37b4f5e7da99168f06b24ef11371f257e58815cd))
 * add Spotify sharing cleanup and theme colors ([7213920](https://github.com/spicetify/morphe-patches/commit/7213920d3b4986364e006da08f4944f8a4aa48d7))
 * browse server music by albums and artists ([f1f2ca5](https://github.com/spicetify/morphe-patches/commit/f1f2ca501dd28e04354c1c827ffcda26af7ed6e2))
-* change theme colors from Spicetify settings ([a37f1a1](https://github.com/spicetify/morphe-patches/commit/a37f1a1e60c239c298ba0bcb7c7250b6e045de6c))
+* change theme colors from Voidify settings ([a37f1a1](https://github.com/spicetify/morphe-patches/commit/a37f1a1e60c239c298ba0bcb7c7250b6e045de6c))
 * choose theme colors only in the app and recolor Encore palettes ([4909197](https://github.com/spicetify/morphe-patches/commit/4909197025bb45ede4bf4cec50cda18234bab9e2))
 * connect Jellyfin sessions to server indexing and streaming ([7a96b1b](https://github.com/spicetify/morphe-patches/commit/7a96b1b8d62f12fb8e76911b92feb4c6cb973fde))
-* follow the in-app theme in Spicetify settings ([520e457](https://github.com/spicetify/morphe-patches/commit/520e45775cce94b60402ac39f677360efde94eb1))
-* group Spicetify settings into Spotify-styled pages ([8439bab](https://github.com/spicetify/morphe-patches/commit/8439bab8529df09670d0062a2b5d1a07a11e45ce))
+* follow the in-app theme in Voidify settings ([520e457](https://github.com/spicetify/morphe-patches/commit/520e45775cce94b60402ac39f677360efde94eb1))
+* group Voidify settings into Spotify-styled pages ([8439bab](https://github.com/spicetify/morphe-patches/commit/8439bab8529df09670d0062a2b5d1a07a11e45ce))
 * hide embedded ad pages in Now Playing ([cc3d971](https://github.com/spicetify/morphe-patches/commit/cc3d971397f16324a43d525ef282631759c24a84))
 * hide Now Playing image ad cards ([b89e227](https://github.com/spicetify/morphe-patches/commit/b89e227fdae31055134fed3022314c7104625d55))
 * keep album artwork tags in the server catalog ([cec06e2](https://github.com/spicetify/morphe-patches/commit/cec06e2cc7adf7d93c0d24fa442b86e7171b3b3a))

@@ -179,7 +179,7 @@ export const Card: React.FC<{ children: React.ReactNode }> = (props) => (
 // ---------- settings ----------
 
 // Native-looking settings chrome for the `settingsSection` register on the
-// standalone Spicetify Settings page. These render the client's own section
+// standalone Voidify Settings page. These render the client's own section
 // and row structure rather than capturing its route-local components.
 export const SettingsSection: React.FC<{ title?: React.ReactNode; children: React.ReactNode }> = (props) => (
 	<div className={SETTINGS_SECTION_CLASS}>

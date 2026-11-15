@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * One Spicetify settings page, shown as a full-screen dialog over Spotify's activity.
+ * One Voidify settings page, shown as a full-screen dialog over Spotify's activity.
  * <p>
  * A root mount install keeps Spotify's stock manifest, so an activity the patch adds never exists
  * there, and starting one threw {@code ActivityNotFoundException}. Pages stack the way activities
@@ -82,7 +82,7 @@ public final class SpicetifySettingsScreen extends ContextThemeWrapper {
             title = "Server files";
             buildServer(content);
         } else if (PAGE_MARKETPLACE.equals(page) || PAGE_EXTENSIONS.equals(page)) {
-            title = "Spicetify Marketplace";
+            title = "Voidify Marketplace";
             buildMarketplace(content);
         } else {
             title = "Spicetify";

@@ -9,7 +9,7 @@ import { remarkAdmonitions } from './src/plugins/remark-admonitions.mjs';
 import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
 
 export default defineConfig({
-  site: 'https://spicetify.app',
+  site: process.env.SITE_URL,
   trailingSlash: 'never',
   build: {
     format: 'file',

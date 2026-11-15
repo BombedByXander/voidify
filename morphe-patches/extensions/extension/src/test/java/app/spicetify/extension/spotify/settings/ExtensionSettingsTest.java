@@ -118,7 +118,7 @@ public class ExtensionSettingsTest {
             assertNull(row(root, "Trash Bin"));
             assertFalse(visibleTexts(root).contains("No configurable Spicetify patches are installed."));
 
-            row(root, "Spicetify Marketplace").performClick();
+            row(root, "Voidify Marketplace").performClick();
             idle();
             Dialog marketplace = ShadowDialog.getLatestDialog();
             View screen = marketplace.getWindow().getDecorView();
@@ -142,7 +142,7 @@ public class ExtensionSettingsTest {
 
     @Test public void themeCardsSayTheyNeedThemeColors_andDontOpen() {
         try (var controller = root()) {
-            row(decor(), "Spicetify Marketplace").performClick();
+            row(decor(), "Voidify Marketplace").performClick();
             idle();
             View screen = decor();
             for (TextView text : texts(screen)) if ("Themes".contentEquals(text.getText()) && text.isClickable()) text.performClick();
@@ -161,7 +161,7 @@ public class ExtensionSettingsTest {
     @Test @Config(sdk = 29) public void belowAndroid11TheRootsMarketplaceListsNoGalaxyV2_andDownloadsNothing() {
         ExtensionsOnly.themeColors = true; // installed, but Android 10 can't apply a theme
         try (var controller = root()) {
-            row(decor(), "Spicetify Marketplace").performClick();
+            row(decor(), "Voidify Marketplace").performClick();
             idle();
             View screen = decor();
             for (TextView text : texts(screen)) if ("Themes".contentEquals(text.getText()) && text.isClickable()) text.performClick();
@@ -253,7 +253,7 @@ public class ExtensionSettingsTest {
 
     @Test public void theExtensionsTabListsPlayARandomSongFirst_andItsSwitchTurnsItOn() {
         try (var controller = root()) {
-            row(decor(), "Spicetify Marketplace").performClick();
+            row(decor(), "Voidify Marketplace").performClick();
             idle();
             ListView list = first(decor(), ListView.class);
             View random = list.getAdapter().getView(0, null, list);
@@ -271,7 +271,7 @@ public class ExtensionSettingsTest {
             throw new FileNotFoundException(url);
         };
         try (var controller = root()) {
-            row(decor(), "Spicetify Marketplace").performClick();
+            row(decor(), "Voidify Marketplace").performClick();
             idle();
             ListView list = first(decor(), ListView.class);
             assertEquals(1, list.getAdapter().getCount());
@@ -309,7 +309,7 @@ public class ExtensionSettingsTest {
                         + "{\"name\":\"Trash Bin\",\"description\":\"d\",\"main\":\"Extensions/trashbin.js\"}]"
                 : others.get(url);
         try (var controller = root()) {
-            row(decor(), "Spicetify Marketplace").performClick();
+            row(decor(), "Voidify Marketplace").performClick();
             idle();
             ListView list = first(decor(), ListView.class);
             View shuffle = list.getAdapter().getView(1, null, list); // after Play a random song, which only Android has

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
-    <application android:name=".DevelopmentApplication" android:label="Spicetify Development"
+    <application android:name=".DevelopmentApplication" android:label="Voidify Development"
         android:theme="@android:style/Theme.Material" android:allowBackup="false"
         android:supportsRtl="true" android:usesCleartextTraffic="false">
         <activity android:name="app.spicetify.extension.spotify.localserver.DevelopmentActivity" android:exported="true">

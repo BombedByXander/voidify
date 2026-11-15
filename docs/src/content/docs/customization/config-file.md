@@ -3,7 +3,7 @@ title: Configuration Reference
 description: Complete reference for Spicetify's config file.
 ---
 
-Spicetify stores its configuration in `config-xpui.ini`. This page documents all available options.
+Voidify stores its configuration in `config-xpui.ini`. This page documents all available options.
 
 ## File Location
 
@@ -15,13 +15,13 @@ Spicetify stores its configuration in `config-xpui.ini`. This page documents all
 To find the exact path:
 
 ```bash
-spicetify -c
+voidify -c
 ```
 
 To open the config folder:
 
 ```bash
-spicetify config-dir
+voidify config-dir
 ```
 
 ## Editing Configuration
@@ -29,24 +29,24 @@ spicetify config-dir
 ### Via CLI (Recommended)
 
 ```bash
-spicetify config <key> <value>
-spicetify apply
+voidify config <key> <value>
+voidify apply
 ```
 
 Examples:
 
 ```bash
 # Set a theme
-spicetify config current_theme Sleek
+voidify config current_theme Sleek
 
 # Add an extension
-spicetify config extensions fullAppDisplay.js
+voidify config extensions fullAppDisplay.js
 
 # Remove an extension (note the trailing -)
-spicetify config extensions fullAppDisplay.js-
+voidify config extensions fullAppDisplay.js-
 
 # Set multiple values at once
-spicetify config current_theme Sleek color_scheme Dark
+voidify config current_theme Sleek color_scheme Dark
 ```
 
 ### Via Direct File Editing
@@ -54,7 +54,7 @@ spicetify config current_theme Sleek color_scheme Dark
 Open `config-xpui.ini` in any text editor, make changes, save, then run:
 
 ```bash
-spicetify apply
+voidify apply
 ```
 
 ---
@@ -70,7 +70,7 @@ Core paths and settings.
 | `spotify_path` | Path to Spotify installation | `/opt/spotify` |
 | `prefs_path` | Path to Spotify's `prefs` file | `~/.config/spotify/prefs` |
 | `spotify_launch_flags` | Flags passed when launching Spotify | `--remote-debugging-port=9222` |
-| `check_spicetify_upgrade` | Check for Spicetify updates on startup | `1` (enabled) |
+| `check_spicetify_upgrade` | Check for Voidify updates on startup | `1` (enabled) |
 
 ### [Preprocesses]
 
@@ -81,7 +81,7 @@ Control CSS/color injection.
 | `disable_sentry` | Disable Spotify's error reporting | `1` |
 | `disable_ui_logging` | Disable UI telemetry | `1` |
 | `remove_rtl_rule` | Remove right-to-left CSS rules | `1` |
-| `expose_apis` | Expose Spicetify APIs to extensions | `1` |
+| `expose_apis` | Expose Voidify APIs to extensions | `1` |
 
 ### [AdditionalOptions]
 
@@ -116,21 +116,21 @@ Low-level patches. Usually leave these alone.
 ### See All Current Settings
 
 ```bash
-spicetify config
+voidify config
 ```
 
 ### Reset to Defaults
 
 ```bash
-spicetify restore
+voidify restore
 ```
 
-This removes Spicetify modifications from Spotify but keeps your config file.
+This removes Voidify modifications from Spotify but keeps your config file.
 
 ### Backup Current State
 
 ```bash
-spicetify backup
+voidify backup
 ```
 
 Creates a backup of vanilla Spotify that can be restored later.
@@ -140,7 +140,7 @@ Creates a backup of vanilla Spotify that can be restored later.
 To completely start fresh:
 
 ```bash
-spicetify restore
+voidify restore
 rm ~/.config/spicetify/config-xpui.ini  # Linux/macOS
 # or on Windows: del %appdata%\spicetify\config-xpui.ini
 spicetify
@@ -155,11 +155,11 @@ Running `spicetify` with no config file regenerates the default configuration.
 For detailed help on any config option:
 
 ```bash
-spicetify --help config
+voidify --help config
 ```
 
 For all available commands:
 
 ```bash
-spicetify --help
+voidify --help
 ```

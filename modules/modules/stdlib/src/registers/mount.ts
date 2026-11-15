@@ -90,7 +90,7 @@ export const createItemBoundary = (R: any, label: string) => {
 				R.createElement(
 					"p",
 					{ style: { margin: "0 0 12px", opacity: 0.8 } },
-					"The rest of the client keeps working. Reloading usually recovers it; if it keeps crashing, disable the module from the Spicetify Manager.",
+					"The rest of the client keeps working. Reloading usually recovers it; if it keeps crashing, disable the module from the Voidify Manager.",
 				),
 				R.createElement(
 					"code",

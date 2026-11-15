@@ -16,7 +16,7 @@ import java.util.Properties
 @Suppress("unused")
 val premiumTabPatch = bytecodePatch(
     name = "Hide Premium tab",
-    description = "Hides the Premium navigation tab. Change this in Spicetify settings, " +
+    description = "Hides the Premium navigation tab. Change this in Voidify settings, " +
         "then restart Spotify. Does not change your subscription or remove other ads.",
     default = false,
 ) {

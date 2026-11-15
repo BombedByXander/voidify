@@ -23,7 +23,7 @@ import java.util.function.LongSupplier;
 import org.json.JSONException;
 
 /**
- * Loads the Spicetify Marketplace's list of themes and extensions: from the cache file when it is
+ * Loads the Voidify Marketplace's list of themes and extensions: from the cache file when it is
  * fresh enough, otherwise from GitHub, searching the theme topic, and then, with the Spicetify
  * extensions patch, the extension topic.
  * Each search page's manifests start as soon as the page arrives, and their items are listed at

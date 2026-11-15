@@ -1,4 +1,4 @@
-# Spicetify Android patches
+# Voidify Android patches
 
 Spotify Android customizations for use with [Morphe](https://morphe.software/).
 This repository publishes patch source and bundles, not Spotify APKs.
@@ -17,7 +17,7 @@ source. Releases are published from `main`.
 
 Clean sharing is enabled by default; the other patches are optional. Choose
 theme colors, Home pins, ad and Premium-tab hiding, and server files in
-Spotify's Spicetify settings after installation.
+Spotify's Voidify settings after installation.
 
 Server files stream from an HTTPS WebDAV folder or a Jellyfin library. They
 also add server albums and artists to Your Library, after
@@ -32,10 +32,10 @@ Pixel 8 with a 35,000-track Jellyfin library.
 | Patch | Default | Behavior |
 | --- | --- | --- |
 | Clean sharing links | Enabled | Removes `si`, `pi`, and known `utm_*` parameters from `open.spotify.com` links. Preserves timestamps, context, other parameters, and fragments. |
-| Theme colors | Disabled | Choose a theme such as OLED, Midnight, or Nord in Spicetify settings, apply a community theme's colors and background image from the Spicetify Marketplace, paste a desktop Spicetify theme's `color.ini`, or pick background, surface, and accent colors yourself, then restart Spotify when it offers. Requires Android 11 or later. Hardcoded colors and some screens keep Spotify's colors. |
-| Pin shortcuts on Home | Disabled | Pins playlists, albums or Liked Songs from your library first on Home, in the order you pick them. Pins show as Spotify's own shortcut tiles, even when Spotify's Home leaves them out, and **Show only my pins** hides Spotify's other shortcuts. Configure pins in Spotify's Spicetify settings, then restart Spotify. |
-| Spicetify extensions | Disabled | Android versions of Spicetify extensions, each off until you turn it on in the Spicetify Marketplace's **Extensions** tab. **Trash Bin**: throw a song or an artist away from its **...** menu, and Spotify skips that song, or the artist's songs, whenever they play, as the desktop extension does. The trash list exports and imports in the desktop format. **Hide podcasts**: hides podcasts and episodes on Home and in Search, and their filters there and in Your Library, as the desktop extension does. Its **Also hide audiobooks** switch, on by default, hides audiobooks the same way. **Play a random song**: plays one song from all of Spotify, found with a Web API search, or from your library, from a **Random** pill next to **All** on Home or from its sheet in Spicetify settings. **Shuffle+**: plays a playlist, album, or Liked Songs in a truly random order, as the desktop extension does. Long-press the shuffle button in Now Playing, where a tap still toggles Spotify's shuffle, choose **Shuffle+ this playlist** in the **...** menu of a playlist or Liked Songs, even with nothing playing, or use its sheet in Spicetify settings. |
-| Local files from a server | Disabled | Streams an HTTPS WebDAV folder or Jellyfin library into Local Files and Your Library, with its own filter chip. Requires Android 8 or later, byte-range support, and Spotify's Local audio files setting; configure the server in Spotify's Spicetify settings. Not available for root mount installs, because its track provider and server browser must be in the manifest. |
+| Theme colors | Disabled | Choose a theme such as OLED, Midnight, or Nord in Voidify settings, apply a community theme's colors and background image from the Voidify Marketplace, paste a desktop Spicetify theme's `color.ini`, or pick background, surface, and accent colors yourself, then restart Spotify when it offers. Requires Android 11 or later. Hardcoded colors and some screens keep Spotify's colors. |
+| Pin shortcuts on Home | Disabled | Pins playlists, albums or Liked Songs from your library first on Home, in the order you pick them. Pins show as Spotify's own shortcut tiles, even when Spotify's Home leaves them out, and **Show only my pins** hides Spotify's other shortcuts. Configure pins in Spotify's Voidify settings, then restart Spotify. |
+| Voidify extensions | Disabled | Android versions of Voidify extensions, each off until you turn it on in the Voidify Marketplace's **Extensions** tab. **Trash Bin**: throw a song or an artist away from its **...** menu, and Spotify skips that song, or the artist's songs, whenever they play, as the desktop extension does. The trash list exports and imports in the desktop format. **Hide podcasts**: hides podcasts and episodes on Home and in Search, and their filters there and in Your Library, as the desktop extension does. Its **Also hide audiobooks** switch, on by default, hides audiobooks the same way. **Play a random song**: plays one song from all of Spotify, found with a Web API search, or from your library, from a **Random** pill next to **All** on Home or from its sheet in Voidify settings. **Shuffle+**: plays a playlist, album, or Liked Songs in a truly random order, as the desktop extension does. Long-press the shuffle button in Now Playing, where a tap still toggles Spotify's shuffle, choose **Shuffle+ this playlist** in the **...** menu of a playlist or Liked Songs, even with nothing playing, or use its sheet in Voidify settings. |
+| Local files from a server | Disabled | Streams an HTTPS WebDAV folder or Jellyfin library into Local Files and Your Library, with its own filter chip. Requires Android 8 or later, byte-range support, and Spotify's Local audio files setting; configure the server in Spotify's Voidify settings. Not available for root mount installs, because its track provider and server browser must be in the manifest. |
 
 <!-- PATCHES_START EXPANDED -->
 > **[v1.2.0](https://github.com/spicetify/morphe-patches/releases/tag/v1.2.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;8 patches total
@@ -53,12 +53,12 @@ Pixel 8 with a 35,000-track Jellyfin library.
 |----------|----------------|-----------|
 | [Clean sharing links](#clean-sharing-links) | Removes sharing identifiers and marketing parameters from open.spotify.com links. Keeps playback timestamps, context, and other parameters. |  |
 | [Hide Home and Browse ads](#hide-home-and-browse-ads) | Hides image and video brand-ad sections on Home and Browse. Does not suppress audio ads, player ads, or upgrade prompts. Experimental. |  |
-| [Hide Premium tab](#hide-premium-tab) | Hides the Premium navigation tab. Change this in Spicetify settings, then restart Spotify. Does not change your subscription or remove other ads. |  |
+| [Hide Premium tab](#hide-premium-tab) | Hides the Premium navigation tab. Change this in Voidify settings, then restart Spotify. Does not change your subscription or remove other ads. |  |
 | [Hide player ad cards](#hide-player-ad-cards) | Hides image brand-ad cards and embedded ad pages in Now Playing. Does not suppress audio ads or other player overlays. Experimental. |  |
-| [Local files from a server](#local-files-from-a-server) | Streams audio from an HTTPS WebDAV folder or Jellyfin music library into Local Files and Your Library. Configure the server in Spicetify settings; playback needs Spotify's Local audio files setting. Experimental; requires byte-range support. Not available for root mount installs. |  |
+| [Local files from a server](#local-files-from-a-server) | Streams audio from an HTTPS WebDAV folder or Jellyfin music library into Local Files and Your Library. Configure the server in Voidify settings; playback needs Spotify's Local audio files setting. Experimental; requires byte-range support. Not available for root mount installs. |  |
 | [Pin shortcuts on Home](#pin-shortcuts-on-home) | Pick playlists, albums or Liked Songs to pin first on Home, or turn on Show only my pins to hide Spotify's other shortcuts. Pins are saved on this device; restart Spotify after changing them. |  |
-| [Spicetify extensions](#spicetify-extensions) | Adds Android versions of Spicetify extensions to the Spicetify Marketplace's Extensions tab, in Spicetify settings, each off until you turn it on. Trash Bin skips the songs and artists you throw away from their menus. Play a random song plays one from all of Spotify or your library, from a Random pill on Home. Shuffle+ plays a playlist, album or Liked Songs in a truly random order when you long-press the shuffle button in Now Playing, choose Shuffle+ this playlist in a playlist's menu, or use its sheet. Hide podcasts hides podcasts and episodes on Home and in Search, and their filters there and in Your Library, and audiobooks unless you turn that off. |  |
-| [Theme colors](#theme-colors) | Choose a theme, such as OLED, or your own colors in Spicetify settings. Requires Android 11 or later. Some screens and hardcoded colors keep Spotify's colors. |  |
+| [Voidify extensions](#spicetify-extensions) | Adds Android versions of Voidify extensions to the Voidify Marketplace's Extensions tab, in Voidify settings, each off until you turn it on. Trash Bin skips the songs and artists you throw away from their menus. Play a random song plays one from all of Spotify or your library, from a Random pill on Home. Shuffle+ plays a playlist, album or Liked Songs in a truly random order when you long-press the shuffle button in Now Playing, choose Shuffle+ this playlist in a playlist's menu, or use its sheet. Hide podcasts hides podcasts and episodes on Home and in Search, and their filters there and in Your Library, and audiobooks unless you turn that off. |  |
+| [Theme colors](#theme-colors) | Choose a theme, such as OLED, or your own colors in Voidify settings. Requires Android 11 or later. Some screens and hardcoded colors keep Spotify's colors. |  |
 
 </details>
 
@@ -87,7 +87,7 @@ instead of adding it again. To add it manually and patch Spotify:
 
    If your source uses the former `dev` URL, switch to this `main` URL.
 
-3. Expand **Spicetify Android patches** and enable **Experimental app versions**.
+3. Expand **Voidify Android patches** and enable **Experimental app versions**.
 4. Return to the app list. Spotify appears with the target version
    `9.1.80.2221`, ARM64 build `145767611`.
 5. Optional: To add theme colors, Home pins, or server files, open
@@ -111,17 +111,17 @@ not distribute Spotify.
 
 ## Change settings in Spotify
 
-Patched Spotify has a **Spicetify** row in its settings.
+Patched Spotify has a **Voidify** row in its settings.
 
 1. Open your profile menu, then **Settings and privacy**.
-2. Scroll down and select **Spicetify**, just above **Log out**.
+2. Scroll down and select **Voidify**, just above **Log out**.
 3. Turn **Clean sharing links** on or off. The next share uses your choice
    immediately. The setting survives restarting Spotify.
 
 Only installed patches appear here, grouped by category. With **Theme colors**
 installed, **Appearance** lists themes, including OLED and, on Android 12 or
 later, Material You, and a **Custom** option for picking background, surface,
-and accent colors. **Spicetify Marketplace** lists the community themes the
+and accent colors. **Voidify Marketplace** lists the community themes the
 desktop Marketplace offers, most stars first, with previews and search. Tap one
 to download its `color.ini` and choose a color scheme. Its colors apply, and
 so does the background image it shows on desktop when its scripts or
@@ -136,17 +136,17 @@ scheme and an accent key such as Catppuccin's `mauve`. Settings that Spotify
 reads at startup, such as themes, offer to restart Spotify for you. Home pins and server files have their own
 controls here when installed.
 
-With **Spicetify extensions** installed, the Spicetify page lists the
+With **Voidify extensions** installed, the Spicetify page lists the
 extensions that are on, each with its latest status. Tap one for its switch
 and its own controls, such as Trash Bin's **Export**, **Import** and
-**Clear**. **Spicetify Marketplace** there opens the Marketplace on its
+**Clear**. **Voidify Marketplace** there opens the Marketplace on its
 **Extensions** tab, which only this patch adds: an extension with an Android
 version comes first, with a switch, and any other says **Desktop only** and
 opens its GitHub page. Without Theme colors, the **Themes** tab says what its
 themes need.
 
 For server files, enter an HTTPS WebDAV folder URL and credentials in
-**Spicetify**, turn on **Use server files**, then select **Save and scan**.
+**Voidify**, turn on **Use server files**, then select **Save and scan**.
 After **Tracks ready** appears, return to **Settings and privacy > Apps and
 devices**, enable **Local audio files**, then open **Local Files** in your
 library. The server must support byte-range requests.
@@ -179,7 +179,7 @@ Desktop-signed APK and a Manager-signed APK can use different keys.
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup, tests, and release steps.
 
 This project is independent of Spotify and the Morphe project. Its repository
-slug is `morphe-patches`; its display name is Spicetify Android patches.
+slug is `morphe-patches`; its display name is Voidify Android patches.
 
 ## License
 

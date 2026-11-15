@@ -5,7 +5,7 @@ description: 🚩 Flags to alter the behavior of the Spotify.
 
 ## List of flags
 
-**When adding flags to your spicetify config, separate each one with `|`.**
+**When adding flags to your voidify config, separate each one with `|`.**
 
 | Flag                                   | Description                                                                                                                                                                                          |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +27,7 @@ description: 🚩 Flags to alter the behavior of the Spotify.
 | `--enable-audio-graph`                 |                                                                                                                                                                                                      |
 | `--enable-cef-views`                   |                                                                                                                                                                                                      |
 | `--enable-chrome-runtime`              | Switches runtime from Alloy to Chrome on Spotify versions below 1.2.34. See [this issue on GitHub](https://github.com/chromiumembedded/cef/issues/3685) for details about the differences.           |
-| `--enable-developer-mode`              | Used to enable the developer mode like `spicetify enable-devtools`. Stopped working long time ago.                                                                                                   |
+| `--enable-developer-mode`              | Used to enable the developer mode like `voidify enable-devtools`. Stopped working long time ago.                                                                                                   |
 | `--event-sender-send-interval`         |                                                                                                                                                                                                      |
 | `--experimental-languages`             |                                                                                                                                                                                                      |
 | `--experimental-network`               |                                                                                                                                                                                                      |
@@ -62,7 +62,7 @@ description: 🚩 Flags to alter the behavior of the Spotify.
 | `--username=<username>`                | Use to automatically sign in on startup. Use together with `--password`. No longer works.                                                                                                            |
 | `--weblogin-endpoint`                  |                                                                                                                                                                                                      |
 
-**When added to spicetify config, the flags will only be applied when you launch Spotify using spicetify.** But you can also add them to the Spotify shortcut (on Windows) or `.desktop` file (on Linux) and use it to launch Spotify.
+**When added to voidify config, the flags will only be applied when you launch Spotify using spicetify.** But you can also add them to the Spotify shortcut (on Windows) or `.desktop` file (on Linux) and use it to launch Spotify.
 
 Most of the flags with some descriptions are taken directly from the Spotify executable.
 
@@ -101,6 +101,6 @@ If you are using **Spotify older than 1.2.34**:
 7. Restart Spotify with the `--enable-chrome-runtime` switch and developer mode enabled
 8. Press *Ctrl + Shift + T*
 9. Click the `chrome://version` link
-10. Copy and paste the flags between `--flag-switches-begin` `--flag-switches-end` into your spicetify config and/or the shortcut/`.desktop` file you use to launch Spotify
+10. Copy and paste the flags between `--flag-switches-begin` `--flag-switches-end` into your voidify config and/or the shortcut/`.desktop` file you use to launch Spotify
 
 The `--enable-chrome-runtime` switch and developer mode are not required for experimental features to work.

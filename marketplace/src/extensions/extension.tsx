@@ -1,6 +1,6 @@
-// NAME: Spicetify Marketplace Extension
+// NAME: Voidify Marketplace Extension
 // AUTHOR: theRealPadster, CharlieS1103
-// DESCRIPTION: Companion extension for Spicetify Marketplace
+// DESCRIPTION: Companion extension for Voidify Marketplace
 
 import { t } from "i18next";
 
@@ -37,7 +37,7 @@ import type { RepoType } from "../types/marketplace-types";
   document.body.appendChild(reactSimpleCodeEditorFix);
 
   // Show message on start.
-  console.log(`Initializing Spicetify Marketplace v${MARKETPLACE_VERSION}`);
+  console.log(`Initializing Voidify Marketplace v${MARKETPLACE_VERSION}`);
   try {
     await hydrateMarketplaceStorage();
   } catch (error) {

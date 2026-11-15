@@ -202,7 +202,7 @@ public final class PlayerBridge {
     }
 
     /**
-     * The bridge's line while it waits for Spotify or its stream failed, which Spicetify settings
+     * The bridge's line while it waits for Spotify or its stream failed, which Voidify settings
      * shows; null while it works.
      */
     public static String problemLine() {

@@ -47,7 +47,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The Spicetify Marketplace page: Galaxy V2, then the community themes the desktop Marketplace lists,
+ * The Voidify Marketplace page: Galaxy V2, then the community themes the desktop Marketplace lists,
  * with their previews, and its extensions, on two tabs with a search. A tapped theme's color.ini
  * downloads, with the background image it shows on desktop, if any, and its color scheme, chosen in a
  * sheet when there's more than one, applies like a theme on Appearance. An extension with an Android
@@ -58,10 +58,10 @@ import java.util.concurrent.TimeUnit;
 final class MarketplaceSettings extends LinearLayout {
     // The network and threads behind the page. Tests replace them, as they replace SpotifyRestart.terminate.
     static Marketplace.Fetcher fetcher = Marketplace.HTTP;
-    static Executor loads = pool("Spicetify Marketplace", 1);
+    static Executor loads = pool("Voidify Marketplace", 1);
     static Executor downloads = pool("Spicetify theme download", 1);
     /** The manifest and color.ini requests of a load. */
-    static Executor requests = pool("Spicetify Marketplace requests", 4);
+    static Executor requests = pool("Voidify Marketplace requests", 4);
     /** One for the process, so reopening the Marketplace shows the previews it already has. */
     static PreviewImages previews = new PreviewImages(PreviewImages.HTTP, pool("Spicetify previews", 2));
     /** Background images, which download whole, under the same 8 MB cap as previews. */

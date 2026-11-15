@@ -14,19 +14,19 @@ The config file is generally located at:
 However, you can know specifically where it is with:
 
 ```
-spicetify -c
+voidify -c
 ```
 
 Or, you can open the folder where it is located by entering the following in your terminal:
 
 ```
-spicetify config-dir
+voidify config-dir
 ```
 
 For details about each config field, please run:
 
 ```bash
-spicetify --help config
+voidify --help config
 ```
 
 ## Cannot find `pref_file`
@@ -43,12 +43,12 @@ spicetify --help config
 1. In `bash`, run `cd ~` and `find | grep "spotify/prefs$"`
 2. If it returns a path to prefs file, copy its absolute path to `prefs_path` field in `config-xpui.ini`.
 
-## After Spotify's update, running `spicetify apply` or `spicetify update` breaks Spotify.
+## After Spotify's update, running `voidify apply` or `voidify update` breaks Spotify.
 
-After any Spotify update, always run `spicetify backup apply`.  
-Optionally, set the Spotify shortcut to run `spicetify auto` (instead of direct path to Spotify executable), so that Spicetify can backup and apply, when it needs to, then launch Spotify automatically.
+After any Spotify update, always run `voidify backup apply`.  
+Optionally, set the Spotify shortcut to run `voidify auto` (instead of direct path to Spotify executable), so that Voidify can backup and apply, when it needs to, then launch Spotify automatically.
 
-It may be the case that Spicetify does not yet support a new Spotify update. In that case, please check the Spicetify issue tracker.
+It may be the case that Voidify does not yet support a new Spotify update. In that case, please check the Voidify issue tracker.
 
 ## I can't play some songs after downgrading Spotify
 

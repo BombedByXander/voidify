@@ -68,7 +68,7 @@ function SplashSettings() {
 		}
 	};
 	return (
-		<SettingsSection title="Spicetify Splash">
+		<SettingsSection title="Voidify Splash">
 			<SettingsRow
 				label={
 					<SettingsLabel
@@ -93,7 +93,7 @@ function SplashSettings() {
 				label={
 					<SettingsLabel
 						label="Splash image"
-						description={`${custom ? "Custom image saved." : "Using the Spicetify logo."} Changes appear next startup. Choose PNG, JPEG, WebP, GIF, or SVG up to 512 KB.`}
+						description={`${custom ? "Custom image saved." : "Using the Voidify logo."} Changes appear next startup. Choose PNG, JPEG, WebP, GIF, or SVG up to 512 KB.`}
 					/>
 				}
 			>

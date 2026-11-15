@@ -32,8 +32,8 @@ func checkDirectoryWritable(path string) error {
 func spotifyWriteError(err error) {
 	utils.PrintError("Cannot write to Spotify's application files")
 	if runtime.GOOS == "darwin" && errors.Is(err, os.ErrPermission) {
-		utils.PrintInfo("Open System Settings > Privacy & Security > App Management and allow the terminal app running Spicetify")
-		utils.PrintInfo("Quit and reopen your terminal app, then run Spicetify again")
+		utils.PrintInfo("Open System Settings > Privacy & Security > App Management and allow the terminal app running Voidify")
+		utils.PrintInfo("Quit and reopen your terminal app, then run Voidify again")
 	}
 	utils.Fatal(err)
 }

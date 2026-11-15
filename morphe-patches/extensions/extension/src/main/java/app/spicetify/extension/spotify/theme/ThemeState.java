@@ -11,7 +11,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/** The theme selected in Spicetify settings, saved on this device. */
+/** The theme selected in Voidify settings, saved on this device. */
 public final class ThemeState {
     /** Colors picked in settings: a background, surface and accent saved as the main, card and button roles. */
     public static final String CUSTOM = "custom";

@@ -25,8 +25,8 @@ Some custom apps are available through the **[Marketplace](./marketplace.md)**. 
 3. Enable the custom app:
 
    ```bash
-   spicetify config custom_apps <folder-name>
-   spicetify apply
+   voidify config custom_apps <folder-name>
+   voidify apply
    ```
 
 :::tip
@@ -38,8 +38,8 @@ The `config custom_apps` command **appends** to your existing custom apps. It do
 To remove a custom app, append a `-` after the folder name:
 
 ```bash
-spicetify config custom_apps <folder-name>-
-spicetify apply
+voidify config custom_apps <folder-name>-
+voidify apply
 ```
 
 ## Manual Config Editing
@@ -51,13 +51,13 @@ You can also edit the config file directly. Custom apps are listed in the `custo
 custom_apps = reddit|lyrics-plus|new-releases
 ```
 
-After editing, run `spicetify apply`.
+After editing, run `voidify apply`.
 
 ---
 
 ## Built-in Custom Apps
 
-These custom apps ship with Spicetify and are available immediately.
+These custom apps ship with Voidify and are available immediately.
 
 ### Lyrics Plus
 
@@ -66,8 +66,8 @@ Advanced lyrics display with multiple providers (Musixmatch, Netease, LRCLIB).
 **Folder:** `lyrics-plus`
 
 ```bash
-spicetify config custom_apps lyrics-plus
-spicetify apply
+voidify config custom_apps lyrics-plus
+voidify apply
 ```
 
 **Features:**
@@ -92,8 +92,8 @@ Aggregates new releases from artists and podcasts you follow.
 **Folder:** `new-releases`
 
 ```bash
-spicetify config custom_apps new-releases
-spicetify apply
+voidify config custom_apps new-releases
+voidify apply
 ```
 
 **Features:**
@@ -112,8 +112,8 @@ Browse Spotify-related subreddits and discover music shared by the community.
 **Folder:** `reddit`
 
 ```bash
-spicetify config custom_apps reddit
-spicetify apply
+voidify config custom_apps reddit
+voidify apply
 ```
 
 **Features:**
@@ -134,7 +134,7 @@ Custom apps are React applications. A basic app needs:
 - `index.js`: Main application code with a `render()` function
 - `manifest.json`: Metadata including name, icons, and optional subfiles
 
-For a streamlined development experience, check out **[Spicetify Creator](/docs/development/spicetify-creator/the-basics)** which supports TypeScript, JSX, and hot reloading.
+For a streamlined development experience, check out **[Voidify Creator](/docs/development/spicetify-creator/the-basics)** which supports TypeScript, JSX, and hot reloading.
 
 ---
 
@@ -144,7 +144,7 @@ For a streamlined development experience, check out **[Spicetify Creator](/docs/
 
 1. Verify the folder is in the correct CustomApps location
 2. Check that `manifest.json` exists and has valid JSON
-3. Run `spicetify apply`
+3. Run `voidify apply`
 4. Restart Spotify
 
 ### App shows but doesn't load

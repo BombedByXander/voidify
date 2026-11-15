@@ -12,7 +12,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Loads Spicetify Marketplace preview thumbnails into list rows: downloads and decodes off the
+ * Loads Voidify Marketplace preview thumbnails into list rows: downloads and decodes off the
  * main thread, downsamples to the row width, and keeps a memory cache so scrolling back to a row
  * doesn't download its preview again.
  */

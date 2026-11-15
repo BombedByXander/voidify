@@ -4,7 +4,6 @@ $ProgressPreference = 'SilentlyContinue'
 
 #region Variables
 $voidifyFolderPath = "$env:LOCALAPPDATA\voidify"
-$voidifyOldFolderPath = "$HOME\spicetify-cli"
 #endregion Variables
 
 #region Functions
@@ -48,30 +47,16 @@ function Test-PowerShellVersion {
   }
 }
 
-function Move-OldVoidifyFolder {
-  [CmdletBinding()]
-  param ()
-  process {
-    if (Test-Path -Path $voidifyOldFolderPath) {
-      Write-Host -Object 'Moving the old voidify folder...' -NoNewline
-      if (-not (Test-Path -Path $voidifyFolderPath)) {
-        New-Item -Path $voidifyFolderPath -ItemType Directory -Force | Out-Null
-      }
-      Copy-Item -Path "$voidifyOldFolderPath\*" -Destination $voidifyFolderPath -Recurse -Force
-      Remove-Item -Path $voidifyOldFolderPath -Recurse -Force
-      Write-Success
-    }
-  }
-}
-
 function Get-Voidify {
   [CmdletBinding()]
   param ()
   begin {
-    if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
+    $machine = $env:PROCESSOR_ARCHITECTURE
+    if ($env:PROCESSOR_ARCHITEW6432) { $machine = $env:PROCESSOR_ARCHITEW6432 }
+    if ($machine -eq 'AMD64') {
       $architecture = 'x64'
     }
-    elseif ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') {
+    elseif ($machine -eq 'ARM64') {
       $architecture = 'arm64'
     }
     else {
@@ -89,20 +74,24 @@ function Get-Voidify {
     }
     else {
       Write-Host -Object 'Fetching the latest voidify version...' -NoNewline
-      $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/spicetify/cli/releases/latest'
+      $latestRelease = Invoke-RestMethod -Uri 'https://api.github.com/repos/BombedByXander/voidify/releases/latest'
       $targetVersion = $latestRelease.tag_name -replace 'v', ''
       Write-Success
     }
-    $archivePath = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "voidify.zip")
+    $archivePath = Join-Path ([IO.Path]::GetTempPath()) ("voidify-" + [guid]::NewGuid() + ".zip")
   }
   process {
     Write-Host -Object "Downloading voidify v$targetVersion..." -NoNewline
     $Parameters = @{
-      Uri             = "https://github.com/spicetify/cli/releases/download/v$targetVersion/spicetify-$targetVersion-windows-$architecture.zip"
+      Uri             = "https://github.com/BombedByXander/voidify/releases/download/v$targetVersion/voidify-$targetVersion-windows-$architecture.zip"
       UseBasicParsing = $true
       OutFile         = $archivePath
     }
+    $release = Invoke-RestMethod "https://api.github.com/repos/BombedByXander/voidify/releases/tags/v$targetVersion"
+    $asset = $release.assets | Where-Object name -eq "voidify-$targetVersion-windows-$architecture.zip"
     Invoke-WebRequest @Parameters
+    $digest = 'sha256:' + (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash
+    if ($digest -ne $asset.digest) { throw 'Voidify release checksum mismatch.' }
     Write-Success
   }
   end {
@@ -119,7 +108,6 @@ function Add-VoidifyToPath {
     $path = [Environment]::GetEnvironmentVariable('PATH', $user)
   }
   process {
-    $path = $path -replace "$([regex]::Escape($voidifyOldFolderPath))\\*;*", ''
     if ($path -notlike "*$voidifyFolderPath*") {
       $path = "$path;$voidifyFolderPath"
     }
@@ -190,9 +178,9 @@ else {
 #endregion Checks
 
 #region Voidify
-$installedVoidify = Join-Path -Path $voidifyFolderPath -ChildPath 'spicetify.exe'
+$installedVoidify = Join-Path -Path $voidifyFolderPath -ChildPath 'voidify.exe'
 if (-not (Test-Path -LiteralPath $installedVoidify -PathType Leaf)) {
-  $installedCommand = Get-Command -Name 'spicetify' -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+  $installedCommand = Get-Command -Name 'voidify' -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
   if ($installedCommand) {
     $installedVoidify = $installedCommand.Source
   }
@@ -217,10 +205,9 @@ if ($installedVoidify) {
   }
 }
 
-Move-OldVoidifyFolder
 Install-Voidify
 Write-Host -Object "`nRun" -NoNewline
-Write-Host -Object ' spicetify -h ' -NoNewline -ForegroundColor 'Cyan'
+Write-Host -Object ' voidify -h ' -NoNewline -ForegroundColor 'Cyan'
 Write-Host -Object 'to get started'
 #endregion Voidify
 
@@ -236,11 +223,11 @@ if ($choice -eq 1) {
 }
 else {
   Write-Host -Object 'Starting the voidify Marketplace installation script..'
-  $Parameters = @{
-    Uri             = 'https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.ps1'
-    UseBasicParsing = $true
-  }
-  Invoke-WebRequest @Parameters | Invoke-Expression
+  $exe = Join-Path $voidifyFolderPath 'voidify.exe'
+  & $exe config custom_apps marketplace current_theme marketplace inject_css 1 replace_colors 1
+  if ($LASTEXITCODE) { throw 'Voidify Marketplace configuration failed.' }
+  & $exe auto apply
+  if ($LASTEXITCODE) { throw 'Voidify could not apply Marketplace. Check the CLI output above.' }
 }
 #endregion Marketplace
 #endregion Main

@@ -3,7 +3,7 @@ title: CLI Reference
 description: Command-line interface reference for Spicetify.
 ---
 
-Spicetify is primarily a command-line tool. This section covers the command reference.
+Voidify is primarily a command-line tool. This section covers the command reference.
 
 ## Quick Start
 
@@ -14,10 +14,10 @@ After [installing Spicetify](/docs/getting-started), the basic workflow is:
 spicetify
 
 # Backup Spotify and apply Spicetify
-spicetify backup apply
+voidify backup apply
 
 # After making changes, apply them
-spicetify apply
+voidify apply
 ```
 
 ## Getting Help
@@ -25,12 +25,12 @@ spicetify apply
 For help on any command:
 
 ```bash
-spicetify --help
-spicetify --help <command>
+voidify --help
+voidify --help <command>
 ```
 
 Example:
 
 ```bash
-spicetify --help config
+voidify --help config
 ```

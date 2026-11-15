@@ -15,7 +15,7 @@ const { doc } = Astro.props;
 const { Content, headings } = await render(doc);
 
 const ext = existsSync(`src/content/docs/${doc.id}.mdx`) ? 'mdx' : 'md';
-const editUrl = `https://github.com/spicetify/docs/edit/main/src/content/docs/${doc.id}.${ext}`;
+const editUrl = `https://github.com/BombedByXander/voidify/edit/main/docs/src/content/docs/${doc.id}.${ext}`;
 
 const lowWeightPrefixes = [
   'development/api-wrapper/',

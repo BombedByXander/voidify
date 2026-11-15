@@ -32,7 +32,7 @@ public class ServerMusicActivityTest {
         ListView list = findList(activity.findViewById(android.R.id.content));
         TextView status = findText(list.getAdapter().getView(1, null, list), "No server tracks are ready.");
         assertNotNull(status);
-        assertNotNull(findText(list.getAdapter().getView(1, null, list), "Return to Spicetify settings"));
+        assertNotNull(findText(list.getAdapter().getView(1, null, list), "Return to Voidify settings"));
         View root = activity.findViewById(android.R.id.content);
         EditText input = findInput(root);
         assertEquals(View.GONE, input.getVisibility());

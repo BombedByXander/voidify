@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 /**
- * The Spicetify Marketplace's themes and extensions, read from GitHub by the rules Marketplace uses
+ * The Voidify Marketplace's themes and extensions, read from GitHub by the rules Marketplace uses
  * (spicetify/marketplace, FetchRemotes.ts and Utils.ts at ec6f772).
  */
 final class Marketplace {

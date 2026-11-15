@@ -17,7 +17,7 @@ import app.spicetify.extension.spotify.extensions.TrashBin;
 import org.json.JSONException;
 
 /**
- * The extensions on Spicetify settings' root page: each one that is on, with its latest status, and
+ * The extensions on Voidify settings' root page: each one that is on, with its latest status, and
  * the Marketplace to turn them on. Tapping one opens its sheet: its switch, and its own controls.
  */
 final class ExtensionSettings {
@@ -35,7 +35,7 @@ final class ExtensionSettings {
         for (String id : Extensions.enabled(screen)) {
             SpotifyStyle.actionRow(content, Extensions.title(id), Extensions.latestStatus(id), view -> open(screen, id));
         }
-        SpotifyStyle.actionRow(content, "Spicetify Marketplace", "Turn extensions on in its Extensions tab",
+        SpotifyStyle.actionRow(content, "Voidify Marketplace", "Turn extensions on in its Extensions tab",
                 view -> screen.openPage(SpicetifySettingsScreen.PAGE_EXTENSIONS));
     }
 

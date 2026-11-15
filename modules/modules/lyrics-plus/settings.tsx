@@ -6,7 +6,7 @@ import { tokenResponse } from "./cosmos-responses.ts";
  */
 
 // Settings.js — contextual appearance controls plus provider settings shared
-// with the standalone Spicetify Settings page.
+// with the standalone Voidify Settings page.
 
 import type * as ReactTypes from "react";
 import { client, displayModal, React as react } from "/modules/stdlib/mod.ts";

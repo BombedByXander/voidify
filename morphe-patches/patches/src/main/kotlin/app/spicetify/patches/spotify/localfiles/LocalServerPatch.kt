@@ -48,7 +48,7 @@ private val serverResourcesPatch = resourcePatch {
 val localFilesFromServerPatch = bytecodePatch(
     name = "Local files from a server",
     description = "Streams audio from an HTTPS WebDAV folder or Jellyfin music library into Local Files and Your Library. " +
-        "Configure the server in Spicetify settings; playback needs Spotify's Local audio files setting. Experimental; requires byte-range support. " +
+        "Configure the server in Voidify settings; playback needs Spotify's Local audio files setting. Experimental; requires byte-range support. " +
         "Not available for root mount installs.",
     default = false,
 ) {

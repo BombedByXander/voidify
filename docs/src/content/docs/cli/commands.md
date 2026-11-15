@@ -1,9 +1,9 @@
 ---
 title: Commands
-description: Complete Spicetify command reference.
+description: Complete Voidify command reference.
 ---
 
-This page documents all Spicetify CLI commands.
+This page documents all Voidify CLI commands.
 
 ## Core Commands
 
@@ -17,28 +17,28 @@ spicetify
 
 ### `backup`
 
-Create a backup of vanilla Spotify files. Required before applying Spicetify for the first time.
+Create a backup of vanilla Spotify files. Required before applying Voidify for the first time.
 
 ```bash
-spicetify backup
+voidify backup
 ```
 
 ### `apply`
 
-Apply Spicetify modifications to Spotify.
+Apply Voidify modifications to Spotify.
 
 ```bash
-spicetify apply
+voidify apply
 ```
 
 This injects your theme, extensions, custom apps, and other modifications into Spotify.
 
 ### `restore`
 
-Remove all Spicetify modifications and restore Spotify to vanilla state.
+Remove all Voidify modifications and restore Spotify to vanilla state.
 
 ```bash
-spicetify restore
+voidify restore
 ```
 
 Your config file and customization files are preserved.
@@ -48,14 +48,14 @@ Your config file and customization files are preserved.
 Hot-reload theme changes without full restart. Use this during theme development.
 
 ```bash
-spicetify update
+voidify update
 ```
 
 After running, press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> (or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> on macOS) in Spotify to see changes.
 
 ### `upgrade`
 
-Upgrade Spicetify to the latest version (only works with script-based installations).
+Upgrade Voidify to the latest version (only works with script-based installations).
 
 ```bash
 spicetify upgrade
@@ -72,31 +72,31 @@ View or modify configuration values.
 **View all settings:**
 
 ```bash
-spicetify config
+voidify config
 ```
 
 **View a specific setting:**
 
 ```bash
-spicetify config current_theme
+voidify config current_theme
 ```
 
 **Set a value:**
 
 ```bash
-spicetify config current_theme Sleek
+voidify config current_theme Sleek
 ```
 
 **Set multiple values:**
 
 ```bash
-spicetify config current_theme Sleek color_scheme Dark
+voidify config current_theme Sleek color_scheme Dark
 ```
 
 **Add to a list (extensions, custom_apps):**
 
 ```bash
-spicetify config extensions fullAppDisplay.js
+voidify config extensions fullAppDisplay.js
 ```
 
 This appends to existing extensions, not replaces.
@@ -104,17 +104,17 @@ This appends to existing extensions, not replaces.
 **Remove from a list:**
 
 ```bash
-spicetify config extensions fullAppDisplay.js-
+voidify config extensions fullAppDisplay.js-
 ```
 
 Note the trailing `-`.
 
 ### `config-dir`
 
-Open the Spicetify config directory in your file manager.
+Open the Voidify config directory in your file manager.
 
 ```bash
-spicetify config-dir
+voidify config-dir
 ```
 
 ### `-c` / `--config`
@@ -122,7 +122,7 @@ spicetify config-dir
 Print the config file path.
 
 ```bash
-spicetify -c
+voidify -c
 ```
 
 ---
@@ -134,7 +134,7 @@ spicetify -c
 Enable Chromium DevTools in Spotify. Useful for debugging themes and extensions.
 
 ```bash
-spicetify enable-devtools
+voidify enable-devtools
 ```
 
 Access DevTools with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>.
@@ -144,7 +144,7 @@ Access DevTools with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd>.
 Watch for theme changes and auto-apply. Useful during development.
 
 ```bash
-spicetify watch
+voidify watch
 ```
 
 Monitors `color.ini` and `user.css` in your current theme folder.
@@ -154,9 +154,9 @@ Monitors `color.ini` and `user.css` in your current theme folder.
 Print various Spicetify-related paths.
 
 ```bash
-spicetify path
-spicetify path userdata   # Config directory
-spicetify path spotify    # Spotify installation
+voidify path
+voidify path userdata   # Config directory
+voidify path spotify    # Spotify installation
 ```
 
 ### `auto`
@@ -164,7 +164,7 @@ spicetify path spotify    # Spotify installation
 Automatically backup (if needed) and apply, then launch Spotify.
 
 ```bash
-spicetify auto
+voidify auto
 ```
 
 Useful as a shortcut target instead of the Spotify executable.
@@ -177,13 +177,13 @@ Commands can be combined in a single call:
 
 ```bash
 # First-time setup
-spicetify backup apply enable-devtools
+voidify backup apply enable-devtools
 
 # After Spotify updates
-spicetify backup apply
+voidify backup apply
 
 # Full restore and reapply
-spicetify restore backup apply
+voidify restore backup apply
 ```
 
 ---
@@ -195,16 +195,16 @@ spicetify restore backup apply
 Show help for a command.
 
 ```bash
-spicetify --help
-spicetify --help config
+voidify --help
+voidify --help config
 ```
 
 ### `--version` / `-v`
 
-Show Spicetify version.
+Show Voidify version.
 
 ```bash
-spicetify --version
+voidify --version
 ```
 
 ### `--no-restart`
@@ -212,7 +212,7 @@ spicetify --version
 Apply changes without restarting Spotify.
 
 ```bash
-spicetify apply --no-restart
+voidify apply --no-restart
 ```
 
 ### `--quiet` / `-q`
@@ -220,7 +220,7 @@ spicetify apply --no-restart
 Suppress non-error output.
 
 ```bash
-spicetify apply -q
+voidify apply -q
 ```
 
 ### `--extension` / `-e`
@@ -228,7 +228,7 @@ spicetify apply -q
 Specify a single extension to apply (useful for testing).
 
 ```bash
-spicetify apply -e myExtension.js
+voidify apply -e myExtension.js
 ```
 
 ---
@@ -238,41 +238,41 @@ spicetify apply -e myExtension.js
 ### Fresh Install Workflow
 
 ```bash
-# Install Spicetify (see Installation page)
+# Install Voidify (see Installation page)
 # Generate config
 spicetify
 
 # First-time setup
-spicetify backup apply enable-devtools
+voidify backup apply enable-devtools
 ```
 
 ### Enable an Extension
 
 ```bash
-spicetify config extensions fullAppDisplay.js
-spicetify apply
+voidify config extensions fullAppDisplay.js
+voidify apply
 ```
 
 ### Change Theme
 
 ```bash
-spicetify config current_theme Sleek color_scheme Dark
-spicetify apply
+voidify config current_theme Sleek color_scheme Dark
+voidify apply
 ```
 
 ### After Spotify Updates
 
 ```bash
-spicetify backup apply
+voidify backup apply
 ```
 
 ### Theme Development
 
 ```bash
 # One-time: apply your theme
-spicetify config current_theme MyTheme
-spicetify apply
+voidify config current_theme MyTheme
+voidify apply
 
 # During development: watch for changes
-spicetify watch
+voidify watch
 ```

@@ -56,7 +56,7 @@ const SpicetifySettingsPage = () => {
 			React.createElement(
 				"h1",
 				{ className: SETTINGS_HEADER_CLASS, style: { paddingBlockEnd: "16px" } },
-				"Spicetify Settings",
+				"Voidify Settings",
 			),
 		),
 		...sections.map((section, index) => React.createElement(React.Fragment, { key: `section-${index}` }, section)),

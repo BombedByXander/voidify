@@ -26,7 +26,7 @@ export function supportsAppHandoff(userAgent = globalThis.navigator?.userAgent ?
 // Plain DOM so recovery survives a broken stdlib or React capture too.
 export function createApplyControl() {
 	const node = el("section", "spicetify-store-apply");
-	node.setAttribute("aria-label", "Spicetify updates and recovery");
+	node.setAttribute("aria-label", "Voidify updates and recovery");
 	const message = el("p");
 	message.setAttribute("role", "status");
 	message.setAttribute("aria-live", "polite");

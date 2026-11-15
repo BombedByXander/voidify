@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Spicetify',
+  title: 'Voidify',
   tagline: 'Powerful CLI tool to take control of the Spotify client.',
   url: 'https://spicetify.app',
   baseUrl: '/',
@@ -70,9 +70,9 @@ const config = {
         },
       },
       navbar: {
-        title: 'Spicetify',
+        title: 'Voidify',
         logo: {
-          alt: 'Spicetify Logo',
+          alt: 'Voidify Logo',
           src: 'images/spicetify.png',
         },
         items: [

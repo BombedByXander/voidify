@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * The Appearance page: a list of themes, the Spicetify Marketplace, a theme pasted from desktop
+ * The Appearance page: a list of themes, the Voidify Marketplace, a theme pasted from desktop
  * Spicetify, and individually picked colors as the custom option. While a theme draws an image behind
  * Spotify, its blur switch.
  */
@@ -80,7 +80,7 @@ final class ThemeSettings {
                         activity.refreshRestartBar();
                     });
         }
-        SpotifyStyle.actionRow(content, "Spicetify Marketplace", "Browse community themes and use their colors",
+        SpotifyStyle.actionRow(content, "Voidify Marketplace", "Browse community themes and use their colors",
                 view -> activity.openPage(SpicetifySettingsScreen.PAGE_MARKETPLACE));
         SpotifyStyle.actionRow(content, "Paste a Spicetify theme", "Use a color.ini, or CSS with --spice-* colors",
                 view -> paste(activity, content));

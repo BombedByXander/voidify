@@ -26,7 +26,7 @@ export function buildFallbackPanel(rows: ManagerModuleRow[], actions: FallbackAc
 
 	const title = document.createElement("p");
 	title.className = "spicetify-manager-fallback__title";
-	title.textContent = "Spicetify manager — recovery mode";
+	title.textContent = "Voidify manager — recovery mode";
 	const note = document.createElement("p");
 	note.className = "spicetify-manager-fallback__note";
 	note.textContent =

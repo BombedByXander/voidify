@@ -68,7 +68,7 @@ would complete with defaults, clamp, or read from the desktop
 (`${xrdb:...}` and environment variables) are skipped, as are lines it
 would reject.
 
-## Spicetify Marketplace
+## Voidify Marketplace
 
 The Marketplace page follows the discovery, blacklist and manifest rules of
 [spicetify/marketplace](https://github.com/spicetify/marketplace/tree/ec6f772891bad4bf08b645447c2ade6b06c4f991)
@@ -96,7 +96,7 @@ its `theme.js` names it as `defImage`, and both are downloaded when the theme
 is applied. That repository has no license, so nothing from it is copied or
 bundled: no code, CSS, or images.
 
-## Spicetify extensions
+## Voidify extensions
 
 Trash Bin follows the behavior of Spicetify's desktop extension
 [`Extensions/trashbin.js`](https://github.com/spicetify/cli/blob/7bd6df4b2197132e201c68150f720a4f6f0abd83/Extensions/trashbin.js)

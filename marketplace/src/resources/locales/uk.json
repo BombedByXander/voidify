@@ -77,7 +77,7 @@
     },
     "updateModal": {
       "title": "Оновити Маркетплейс",
-      "description": "Оновіть Spicetify Marketplace щоб отримувати нові функції і багфікси.",
+      "description": "Оновіть Voidify Marketplace щоб отримувати нові функції і багфікси.",
       "currentVersion": "Поточна версія: {{version}}",
       "latestVersion": "Остання версія: {{version}}",
       "whatsChanged": "Що змінилося",

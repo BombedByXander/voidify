@@ -316,7 +316,7 @@ export const ManagerPage = () => {
 		<div className="spicetify-manager-page">
 			<header className="spicetify-manager-header">
 				<div>
-					<h1>Spicetify Manager</h1>
+					<h1>Voidify Manager</h1>
 					<p className="spicetify-manager-subtitle">
 						Runtime control for modules, boot health, and diagnostics
 					</p>
@@ -421,7 +421,7 @@ export const ManagerPage = () => {
 									? "Update handling runs through the local daemon. Spotify restarts."
 									: daemonProbe.updateAndApplySupported === false
 										? "One-step Update & Apply is unavailable on this platform or Spotify client. Choose allow, update Spotify normally, then run spicetify apply."
-										: "One-step Update & Apply needs a current Spicetify daemon and wrapper.";
+										: "One-step Update & Apply needs a current Voidify daemon and wrapper.";
 						}
 					})();
 					const updateMessage = (() => {
@@ -441,7 +441,7 @@ export const ManagerPage = () => {
 							case "securing":
 								return updateStatus.message ?? "Restoring and verifying the Spotify update block.";
 							case "complete":
-								return `Last update completed: Spotify ${updateStatus.fromVersion} → ${updateStatus.toVersion}. Spicetify was reapplied and the update block restored.`;
+								return `Last update completed: Spotify ${updateStatus.fromVersion} → ${updateStatus.toVersion}. Voidify was reapplied and the update block restored.`;
 							case "failed-safe":
 								return `Last update attempt stopped safely: ${updateStatus.message}`;
 						}

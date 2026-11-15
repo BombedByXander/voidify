@@ -297,7 +297,7 @@ export const SPICETIFY_UPGRADE = {
 	label: "copy Spicetify upgrade command",
 	instructions:
 		`Run ${upgradeCommand} in a terminal to update Spicetify and restart Spotify. ` +
-		"This does not update Spotify. Then return to Spicetify Manager and choose Update & Apply. " +
+		"This does not update Spotify. Then return to Voidify Manager and choose Update & Apply. " +
 		"If that action is still unavailable, choose allow, update Spotify normally, then run spicetify apply.",
 };
 

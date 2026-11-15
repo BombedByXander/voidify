@@ -377,7 +377,7 @@ public final class ServerMusicActivity extends Activity {
         if (catalog.trackCount() == 0) {
             String waiting = pendingAlbum != null || pendingArtist != null ? "Loading the server library…" : "No server tracks are ready.";
             items.add(new Item(Kind.MESSAGE, null, waiting, "Scan status: " + ServerIndex.status()
-                    + "\nReturn to Spicetify settings to scan a library.", null));
+                    + "\nReturn to Voidify settings to scan a library.", null));
             return;
         }
         switch (page) {

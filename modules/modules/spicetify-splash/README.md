@@ -1,10 +1,10 @@
-# Spicetify Splash
+# Voidify Splash
 
 A startup screen that covers Spotify while the client, your modules, and your theme load. It follows your theme's colors and fades out once everything is ready.
 
 ## Styling it
 
-Add CSS in **Spicetify Settings → Spicetify Splash → Custom CSS**, or ship it in your theme. Use **Preview splash** to see your changes without restarting.
+Add CSS in **Voidify Settings → Voidify Splash → Custom CSS**, or ship it in your theme. Use **Preview splash** to see your changes without restarting.
 
 Theme stylesheets load after the splash first appears. To avoid a jump, the splash saves every rule that mentions `spicetify-splash`, the keyframes those rules animate with, and the values of the custom properties they read, after each successful startup. From the next startup on, they apply from the first frame.
 

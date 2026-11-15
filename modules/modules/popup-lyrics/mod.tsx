@@ -14,7 +14,7 @@
  *     an inline Blob worker (CSP-permitted in the client).
  *   - The topbar button goes through registrar.placeButton("topbar-right"), so
  *     it sits with the other module topbar buttons.
- *   - Provider preferences render in Spicetify Settings; appearance controls
+ *   - Provider preferences render in Voidify Settings; appearance controls
  *     stay in a modal opened from the Popup Lyrics button.
  *   - The injected <style> tag moved into index.scss.
  *   - All teardown routes through ctx.defer.

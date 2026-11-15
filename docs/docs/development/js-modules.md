@@ -36,13 +36,13 @@ To translate Japanese text to Romaji, I use a package named [kuroshiro](https://
 - **Windows, in Powershell:**
 
 ```powershell
-cd "$(dirname "$(spicetify -c)")/Extensions"
+cd "$(dirname "$(voidify -c)")/Extensions"
 ```
 
 - **Linux and MacOS**, in Bash:
 
 ```
-cd "$(dirname "$(spicetify -c)")/Extensions"
+cd "$(dirname "$(voidify -c)")/Extensions"
 ```
 
 2. Now install needed packages with NPM
@@ -148,6 +148,6 @@ Save this file to `Extensions` folder.
 4. Finally, push my extension to Spotify:
 
 ```bash
-spicetify config extensions romaji.mjs
-spicetify apply
+voidify config extensions romaji.mjs
+voidify apply
 ```

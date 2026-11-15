@@ -64,7 +64,7 @@ public final class PatchSettings {
 
     public static void setCleanSharingEnabled(boolean enabled) {
         SharedPreferences current = preferences;
-        if (current == null) throw new IllegalStateException("Spicetify settings are not initialized.");
+        if (current == null) throw new IllegalStateException("Voidify settings are not initialized.");
         current.edit().putBoolean(CLEAN_SHARING, enabled).apply();
     }
 
@@ -79,7 +79,7 @@ public final class PatchSettings {
 
     public static void setHidePremiumTabEnabled(boolean enabled) {
         SharedPreferences current = preferences;
-        if (current == null) throw new IllegalStateException("Spicetify settings are not initialized.");
+        if (current == null) throw new IllegalStateException("Voidify settings are not initialized.");
         current.edit().putBoolean(HIDE_PREMIUM_TAB, enabled).apply();
     }
 
@@ -90,7 +90,7 @@ public final class PatchSettings {
 
     public static void setHideBrandAdsEnabled(boolean enabled) {
         SharedPreferences current = preferences;
-        if (current == null) throw new IllegalStateException("Spicetify settings are not initialized.");
+        if (current == null) throw new IllegalStateException("Voidify settings are not initialized.");
         current.edit().putBoolean(HIDE_BRAND_ADS, enabled).apply();
     }
 
@@ -101,7 +101,7 @@ public final class PatchSettings {
 
     public static void setHidePlayerAdCardsEnabled(boolean enabled) {
         SharedPreferences current = preferences;
-        if (current == null) throw new IllegalStateException("Spicetify settings are not initialized.");
+        if (current == null) throw new IllegalStateException("Voidify settings are not initialized.");
         current.edit().putBoolean(HIDE_PLAYER_AD_CARDS, enabled).apply();
     }
 }

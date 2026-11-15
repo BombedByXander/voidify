@@ -5,7 +5,7 @@ import { getSplashImage, readSplashImage, resetSplashImage, saveSplashImage } fr
 
 afterEach(resetSplashImage);
 
-test("uses the Spicetify logo by default and restores it after reset", async () => {
+test("uses the Voidify logo by default and restores it after reset", async () => {
 	assert.equal(getSplashImage(), null);
 	const file = new window.File(
 		['<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><circle r="5" fill="red"/></svg>'],

@@ -164,14 +164,14 @@ public class MarketplaceSettingsTest {
         try (var controller = appearance()) {
             Dialog appearancePage = ShadowDialog.getLatestDialog();
             View appearance = appearancePage.getWindow().getDecorView();
-            View row = row(appearance, "Spicetify Marketplace");
+            View row = row(appearance, "Voidify Marketplace");
             assertNotNull(row);
             ViewGroup rows = (ViewGroup) row.getParent();
             assertEquals(rows.indexOfChild(row) + 1, rows.indexOfChild(row(appearance, "Paste a Spicetify theme")));
             Dialog page = open(appearance);
             assertNotSame(appearancePage, page);
             View screen = page.getWindow().getDecorView();
-            assertTrue(visibleTexts(screen).contains("Spicetify Marketplace"));
+            assertTrue(visibleTexts(screen).contains("Voidify Marketplace"));
             assertNotNull(described(screen, "Back"));
             // The list scrolls on its own: inside a ScrollView it would be one row tall.
             for (ViewParent parent = first(screen, ListView.class).getParent(); parent instanceof View; parent = parent.getParent()) {
@@ -189,7 +189,7 @@ public class MarketplaceSettingsTest {
     @Test @Config(sdk = 29) public void belowAndroid11AppearanceHasNoMarketplace() {
         try (var controller = appearance()) {
             View appearance = ShadowDialog.getLatestDialog().getWindow().getDecorView();
-            assertNull(row(appearance, "Spicetify Marketplace"));
+            assertNull(row(appearance, "Voidify Marketplace"));
             assertTrue(hasTextContaining(appearance, "Themes need Android 11 or later."));
         }
     }
@@ -839,7 +839,7 @@ public class MarketplaceSettingsTest {
             Dialog page = ShadowDialog.getLatestDialog();
             assertTrue(page.isShowing());
             View screen = page.getWindow().getDecorView();
-            assertTrue(visibleTexts(screen).contains("Spicetify Marketplace"));
+            assertTrue(visibleTexts(screen).contains("Voidify Marketplace"));
             assertEquals(Arrays.asList("Aurora", "Borealis"), titles(first(screen, ListView.class).getAdapter()));
             assertTrue(requested.isEmpty()); // from the cache
         }
@@ -1212,7 +1212,7 @@ public class MarketplaceSettingsTest {
 
     /** The Marketplace page, opened from Appearance's row, with its first load shown. */
     private Dialog open(View appearance) {
-        row(appearance, "Spicetify Marketplace").performClick();
+        row(appearance, "Voidify Marketplace").performClick();
         idle();
         return ShadowDialog.getLatestDialog();
     }

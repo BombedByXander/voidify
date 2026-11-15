@@ -22,7 +22,7 @@ public final class Extensions {
 
     /**
      * Each extension on Android: its id, the desktop extension it ports as owner/repo/main, or null
-     * when it has none, its name, and what it does on Android. Spicetify settings lists them in this order.
+     * when it has none, its name, and what it does on Android. Voidify settings lists them in this order.
      */
     private static final String[][] PORTS = {
         {TRASH_BIN, "spicetify/cli/Extensions/trashbin.js", "Trash Bin",
@@ -103,7 +103,7 @@ public final class Extensions {
         throw new IllegalArgumentException("No extension " + id);
     }
 
-    /** The extensions that are on, in the order Spicetify settings lists them. */
+    /** The extensions that are on, in the order Voidify settings lists them. */
     public static List<String> enabled(Context context) {
         List<String> on = new ArrayList<>();
         for (String[] port : PORTS) if (isOn(context, port[0])) on.add(port[0]);

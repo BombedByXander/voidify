@@ -3,7 +3,7 @@ title: Themes
 description: Change Spotify's visual appearance with themes.
 ---
 
-Themes let you customize Spotify's colors, fonts, and visual styling. From subtle tweaks to complete visual overhauls, themes are one of the most popular Spicetify features.
+Themes let you customize Spotify's colors, fonts, and visual styling. From subtle tweaks to complete visual overhauls, themes are one of the most popular Voidify features.
 
 ## Installing Themes
 
@@ -27,8 +27,8 @@ For themes not in Marketplace:
 3. Apply the theme:
 
    ```bash
-   spicetify config current_theme <theme-folder-name>
-   spicetify apply
+   voidify config current_theme <theme-folder-name>
+   voidify apply
    ```
 
 ### Color Schemes
@@ -36,8 +36,8 @@ For themes not in Marketplace:
 Many themes include multiple color schemes. To use a specific scheme:
 
 ```bash
-spicetify config current_theme <theme-folder-name> color_scheme <scheme-name>
-spicetify apply
+voidify config current_theme <theme-folder-name> color_scheme <scheme-name>
+voidify apply
 ```
 
 Check the theme's `color.ini` file to see available schemes (each `[SectionName]` is a scheme).
@@ -47,8 +47,8 @@ Check the theme's `color.ini` file to see available schemes (each `[SectionName]
 To go back to Spotify's default appearance, set the theme to an empty value:
 
 ```bash
-spicetify config current_theme ""
-spicetify apply
+voidify config current_theme ""
+voidify apply
 ```
 
 Or set a different theme name.
@@ -57,7 +57,7 @@ Or set a different theme name.
 
 ## Community Themes
 
-The Spicetify community has created many themes. Here are some popular repositories:
+The Voidify community has created many themes. Here are some popular repositories:
 
 ### Official Repository
 
@@ -122,16 +122,16 @@ subtext        = b3b3b3
 
 ### Theme not applying
 
-1. Make sure the theme folder name matches what you used in `spicetify config`
+1. Make sure the theme folder name matches what you used in `voidify config`
 2. Verify the folder contains both `color.ini` and `user.css`
-3. Run `spicetify apply` after any config changes
+3. Run `voidify apply` after any config changes
 
 ### Theme looks broken after Spotify update
 
 After Spotify updates, themes may need adjustment. Try:
 
 ```bash
-spicetify restore backup apply
+voidify restore backup apply
 ```
 
 If issues persist, check the theme's repository for updates or reported issues.
@@ -141,6 +141,6 @@ If issues persist, check the theme's repository for updates or reported issues.
 Make sure you're setting both the theme and color scheme:
 
 ```bash
-spicetify config current_theme MyTheme color_scheme Dark
-spicetify apply
+voidify config current_theme MyTheme color_scheme Dark
+voidify apply
 ```

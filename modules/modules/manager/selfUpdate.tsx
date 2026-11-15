@@ -34,7 +34,7 @@ export const SpicetifySelfUpdate = ({
 		<>
 			{pending && (
 				<p className="spicetify-manager-update spicetify-manager-update--ready">
-					{`Spicetify ${pending} is installed. Apply to use it in Spotify.`}
+					{`Voidify ${pending} is installed. Apply to use it in Spotify.`}
 				</p>
 			)}
 			{pending && daemon && (
@@ -65,7 +65,7 @@ export const SpicetifySelfUpdate = ({
 							});
 						}}
 					/>
-					Install Spicetify updates automatically
+					Install Voidify updates automatically
 				</label>
 			)}
 			{daemonInfo?.autoUpdate && daemonInfo.autoUpdateActive === false && (

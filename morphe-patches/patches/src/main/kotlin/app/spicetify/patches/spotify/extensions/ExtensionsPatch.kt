@@ -131,9 +131,9 @@ internal val playerBridgePatch = bytecodePatch {
 
 @Suppress("unused")
 val extensionsPatch = bytecodePatch(
-    name = "Spicetify extensions",
-    description = "Adds Android versions of Spicetify extensions to the Spicetify Marketplace's Extensions tab, " +
-        "in Spicetify settings, each off until you turn it on. Trash Bin skips the songs and artists you throw " +
+    name = "Voidify extensions",
+    description = "Adds Android versions of Voidify extensions to the Voidify Marketplace's Extensions tab, " +
+        "in Voidify settings, each off until you turn it on. Trash Bin skips the songs and artists you throw " +
         "away from their menus. Play a random song plays one from all of Spotify or your library, from a " +
         "Random pill on Home. Shuffle+ plays a playlist, album or Liked Songs in a truly random order when you " +
         "long-press the shuffle button in Now Playing, choose Shuffle+ this playlist in a playlist's menu, or use " +

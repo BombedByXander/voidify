@@ -8,9 +8,9 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: 'Spicetify Blog',
+    title: 'Voidify Blog',
     description: 'News and updates from the Spicetify team.',
-    site: context.site!,
+    site: context.site ?? context.url.origin,
     items: posts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,

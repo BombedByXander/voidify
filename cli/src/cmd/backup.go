@@ -18,7 +18,7 @@ func Backup(spicetifyVersion string, silent bool) {
 	if isAppX {
 		utils.PrintInfo(`You are using the Microsoft Store version of Spotify, which is only partly supported.
 Don't use the Microsoft Store version with Spicetify unless you absolutely CANNOT install Spotify from its installer.
-Modded Spotify cannot be launched using original Shortcut/Start menu tile. To correctly launch modified Spotify, make a desktop shortcut that executes "spicetify auto". After that, you can change its icon, pin it to the start menu or put it in the startup folder.`)
+Modded Spotify cannot be launched using original Shortcut/Start menu tile. To correctly launch modified Spotify, make a desktop shortcut that executes "voidify auto". After that, you can change its icon, pin it to the start menu or put it in the startup folder.`)
 		if !ReadAnswer("Continue backing up anyway?", false, true) {
 			os.Exit(1)
 		}
@@ -33,7 +33,7 @@ Modded Spotify cannot be launched using original Shortcut/Start menu tile. To co
 			clearBackup()
 		} else {
 			utils.PrintWarning(`After clearing backup, Spotify cannot be backed up again`)
-			utils.PrintInfo(`Please restore first then backup, run "spicetify restore backup" or re-install Spotify then run "spicetify backup"`)
+			utils.PrintInfo(`Please restore first then backup, run "voidify restore backup" or re-install Spotify then run "voidify backup"`)
 			os.Exit(1)
 		}
 	}

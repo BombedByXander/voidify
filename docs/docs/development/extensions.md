@@ -51,8 +51,8 @@ Place your extension file in the Extensions folder:
 2. Enable it:
 
    ```bash
-   spicetify config extensions myExtension.js
-   spicetify apply
+   voidify config extensions myExtension.js
+   voidify apply
    ```
 
 3. Open DevTools in Spotify to see console output:

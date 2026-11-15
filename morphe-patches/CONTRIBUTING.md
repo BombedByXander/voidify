@@ -128,7 +128,7 @@ patching; `verify-failures.py --case changed-brand-ad-model` checks that refusal
 without modifying your stock APK. Runtime removal still needs a visible ad
 and an on/off comparison on a Free account.
 
-Add `--extensions` for **Spicetify extensions**. Its checker verifies that
+Add `--extensions` for **Voidify extensions**. Its checker verifies that
 Spotify's `SharedCosmosRouterService` hands itself to the player bridge right
 after its native router starts scheduling, that the song and artist menus pass
 their frozen item lists and rows through the menu bridge right before building

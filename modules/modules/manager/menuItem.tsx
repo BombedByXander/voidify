@@ -26,7 +26,7 @@ export const SpicetifyMenuItem = () => {
 				closeMenu();
 			}}
 		>
-			Spicetify Settings
+			Voidify Settings
 		</MenuItem>
 	);
 };

@@ -49,8 +49,8 @@ hooks.deregister();
 
 const APPLIED = "3.0.0-beta.21";
 const INSTALLED = "3.0.0-beta.22";
-const PROMPT = `Spicetify ${INSTALLED} is installed. Apply to use it in Spotify.`;
-const TOGGLE = "Install Spicetify updates automatically";
+const PROMPT = `Voidify ${INSTALLED} is installed. Apply to use it in Spotify.`;
+const TOGGLE = "Install Voidify updates automatically";
 
 const text = (node: ReactTestInstance | string): string =>
 	typeof node === "string" ? node : node.children.map(text).join("");

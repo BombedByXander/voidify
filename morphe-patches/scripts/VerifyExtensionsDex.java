@@ -21,7 +21,7 @@ import com.android.tools.smali.dexlib2.iface.instruction.TwoRegisterInstruction;
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference;
 
 /**
- * Checks the Spicetify extensions patch's hooks in a patched APK, or that none are there without it. Pin
+ * Checks the Voidify extensions patch's hooks in a patched APK, or that none are there without it. Pin
  * shortcuts on Home brings the player bridge hook alone, since its picker reads Your Library through it.
  */
 class VerifyExtensionsDex {
@@ -145,7 +145,7 @@ class VerifyExtensionsDex {
             FILTERS.forEach((name, filter) -> requireTarget(classes, HIDE_PODCASTS, name, List.of(filter.parameter()), filter.result()));
         }
         int filters = filterHooks.values().stream().mapToInt(Integer::intValue).sum();
-        System.out.println("Spicetify extensions verified: "
+        System.out.println("Voidify extensions verified: "
                 + (bridgeHooks + trackHooks + artistHooks + chipsHooks + tapHooks + shuffleHooks + providersHooks + filters)
                 + " hook(s), selected=" + enabled);
     }

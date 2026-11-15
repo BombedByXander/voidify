@@ -25,8 +25,8 @@ For extensions not in Marketplace, or for Spicetify's built-in extensions:
 2. Enable the extension:
 
    ```bash
-   spicetify config extensions <filename.js>
-   spicetify apply
+   voidify config extensions <filename.js>
+   voidify apply
    ```
 
 :::tip
@@ -38,8 +38,8 @@ The `config extensions` command **appends** to your existing extensions. It does
 To remove an extension, append a `-` after the filename:
 
 ```bash
-spicetify config extensions <filename.js>-
-spicetify apply
+voidify config extensions <filename.js>-
+voidify apply
 ```
 
 ## Manual Config Editing
@@ -51,13 +51,13 @@ You can also edit the config file directly. Extensions are listed in the `extens
 extensions = fullAppDisplay.js|keyboardShortcut.js|trashbin.js
 ```
 
-After editing, run `spicetify apply`.
+After editing, run `voidify apply`.
 
 ---
 
 ## Built-in Extensions
 
-These extensions ship with Spicetify and are available immediately after installation.
+These extensions ship with Voidify and are available immediately after installation.
 
 ### Full App Display
 
@@ -66,8 +66,8 @@ A minimal, full-screen album art display with blur effect background.
 **Filename:** `fullAppDisplay.js`
 
 ```bash
-spicetify config extensions fullAppDisplay.js
-spicetify apply
+voidify config extensions fullAppDisplay.js
+voidify apply
 ```
 
 **Usage:** Click the button in the top bar to activate. Double-click anywhere to exit. Right-click to open settings.
@@ -83,8 +83,8 @@ Extends Spotify's keyboard shortcuts with vim-like navigation.
 **Filename:** `keyboardShortcut.js`
 
 ```bash
-spicetify config extensions keyboardShortcut.js
-spicetify apply
+voidify config extensions keyboardShortcut.js
+voidify apply
 ```
 
 **Shortcuts:**
@@ -105,8 +105,8 @@ Save and quickly access pages, tracks, or specific timestamps.
 **Filename:** `bookmark.js`
 
 ```bash
-spicetify config extensions bookmark.js
-spicetify apply
+voidify config extensions bookmark.js
+voidify apply
 ```
 
 **Usage:** Useful for bookmarking artists, albums, or playlists to check out later without following them.
@@ -122,8 +122,8 @@ Skip songs or artists automatically. They'll never play again.
 **Filename:** `trashbin.js`
 
 ```bash
-spicetify config extensions trashbin.js
-spicetify apply
+voidify config extensions trashbin.js
+voidify apply
 ```
 
 **Usage:** Right-click any track or artist and select "Throw to Trashbin". Trashed items are automatically skipped.
@@ -139,8 +139,8 @@ True shuffle using the Fisher-Yates algorithm (zero bias).
 **Filename:** `shuffle+.js`
 
 ```bash
-spicetify config extensions shuffle+.js
-spicetify apply
+voidify config extensions shuffle+.js
+voidify apply
 ```
 
 **Usage:** Right-click any album, playlist, or artist and select "Play with Shuffle+". Also works with multi-selected tracks.
@@ -156,8 +156,8 @@ Loop a specific portion of a track.
 **Filename:** `loopyLoop.js`
 
 ```bash
-spicetify config extensions loopyLoop.js
-spicetify apply
+voidify config extensions loopyLoop.js
+voidify apply
 ```
 
 **Usage:** Mark start and end points on the progress bar to loop that section automatically.
@@ -173,8 +173,8 @@ Display lyrics in a separate pop-up window.
 **Filename:** `popupLyrics.js`
 
 ```bash
-spicetify config extensions popupLyrics.js
-spicetify apply
+voidify config extensions popupLyrics.js
+voidify apply
 ```
 
 **Usage:** Click the microphone icon in the top bar. Right-click for settings and lyrics provider options.
@@ -194,8 +194,8 @@ Automatically skip video content that can't play in your region.
 **Filename:** `autoSkipVideo.js`
 
 ```bash
-spicetify config extensions autoSkipVideo.js
-spicetify apply
+voidify config extensions autoSkipVideo.js
+voidify apply
 ```
 
 **Why:** Some video content is region-locked. Without this extension, playback just stops instead of moving to the next track.
@@ -209,8 +209,8 @@ Automatically skip explicit tracks.
 **Filename:** `autoSkipExplicit.js`
 
 ```bash
-spicetify config extensions autoSkipExplicit.js
-spicetify apply
+voidify config extensions autoSkipExplicit.js
+voidify apply
 ```
 
 **Usage:** Toggle in the profile menu (top-right button).
@@ -226,20 +226,20 @@ Send track metadata to Rainmeter's WebNowPlaying plugin.
 **Filename:** `webnowplaying.js`
 
 ```bash
-spicetify config extensions webnowplaying.js
-spicetify apply
+voidify config extensions webnowplaying.js
+voidify apply
 ```
 
 **For minimal setup** (no UI changes):
 
 ```bash
-spicetify config inject_css 0 replace_colors 0
-spicetify config extensions webnowplaying.js
-spicetify apply
+voidify config inject_css 0 replace_colors 0
+voidify config extensions webnowplaying.js
+voidify apply
 ```
 
 ---
 
 ## Creating Extensions
 
-Want to build your own extension? See the **[Development Guide](/docs/development)** and **[Spicetify Creator](/docs/development/spicetify-creator/the-basics)** for tools and tutorials.
+Want to build your own extension? See the **[Development Guide](/docs/development)** and **[Voidify Creator](/docs/development/spicetify-creator/the-basics)** for tools and tutorials.

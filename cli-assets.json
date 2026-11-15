@@ -1,1 +1,37 @@
-[{"digest":"sha256:8b2556ae0deedbf24f862f5de37a42dc522b5cd87b95a48bc73bed0b90984336","name":"spicetify-2.46.7-darwin-amd64.tar.gz","url":"https://github.com/spicetify/cli/releases/download/v2.46.7/spicetify-2.46.7-darwin-amd64.tar.gz"},{"digest":"sha256:02a1ed41a18d4c858b82edf005ef478610274c9d356be728d6c9ee4a3b6f3838","name":"spicetify-2.46.7-darwin-arm64.tar.gz","url":"https://github.com/spicetify/cli/releases/download/v2.46.7/spicetify-2.46.7-darwin-arm64.tar.gz"},{"digest":"sha256:be73b8c82c445f0d5425ef6044d5d46330fb7a3413d81031225c71bba55bb3e2","name":"spicetify-2.46.7-linux-amd64.tar.gz","url":"https://github.com/spicetify/cli/releases/download/v2.46.7/spicetify-2.46.7-linux-amd64.tar.gz"},{"digest":"sha256:301edfe13f9a6ce7757d36abc975e0dd3b080cd13d24825fae1f8e83c0ccadea","name":"spicetify-2.46.7-windows-arm64.zip","url":"https://github.com/spicetify/cli/releases/download/v2.46.7/spicetify-2.46.7-windows-arm64.zip"},{"digest":"sha256:2dc7e44c5e1da5acb2c36c64becba2c5715e4d3e1c790fd5b27fc0926034581e","name":"spicetify-2.46.7-windows-x32.zip","url":"https://github.com/spicetify/cli/releases/download/v2.46.7/spicetify-2.46.7-windows-x32.zip"},{"digest":"sha256:c5a723d31eae529ba13f6922a7a027124238c7f3da7edd182a73eab03c447e9e","name":"spicetify-2.46.7-windows-x64.zip","url":"https://github.com/spicetify/cli/releases/download/v2.46.7/spicetify-2.46.7-windows-x64.zip"}]
+[
+  {
+    "name": "voidify-2.46.7-darwin-amd64.tar.gz",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-darwin-amd64.tar.gz",
+    "digest": "sha256:ec458e86b55cd0abb2f666b0a0026e84b91613e2349e7984186bb30149e56101"
+  },
+  {
+    "name": "voidify-2.46.7-darwin-arm64.tar.gz",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-darwin-arm64.tar.gz",
+    "digest": "sha256:a30aa07c019aad849f0291b705ad73841eaf6ef812b2c57531384fba5ba24f0b"
+  },
+  {
+    "name": "voidify-2.46.7-linux-amd64.tar.gz",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-linux-amd64.tar.gz",
+    "digest": "sha256:1e7586892e1608bf3bef0620ba7c7db27710031c53c719e016797599ac1f88ff"
+  },
+  {
+    "name": "voidify-2.46.7-linux-arm64.tar.gz",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-linux-arm64.tar.gz",
+    "digest": "sha256:4dd15e05201da54e8988c6f8953b6f2d7953bc2b9ceb2419687cdf04583b9cea"
+  },
+  {
+    "name": "voidify-2.46.7-windows-arm64.zip",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-windows-arm64.zip",
+    "digest": "sha256:93d1619d8a63ea5676615a8ce6dbf44b024afe9d1b0d4f59de03745b2c8d79e3"
+  },
+  {
+    "name": "voidify-2.46.7-windows-x32.zip",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-windows-x32.zip",
+    "digest": "sha256:c2181614d1aef4c38639c5515012c65d0eb1c18e5ac0b12b8fd2137734b2a2cd"
+  },
+  {
+    "name": "voidify-2.46.7-windows-x64.zip",
+    "url": "https://github.com/BombedByXander/voidify/releases/download/v2.46.7/voidify-2.46.7-windows-x64.zip",
+    "digest": "sha256:15b5a9a56c029bfcf76ea17c20df0332e921d8192c9743be11f9692fdb2b94a6"
+  }
+]
