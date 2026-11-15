@@ -9,50 +9,18 @@
   if (title) new MutationObserver(updateTitle).observe(title, { childList: true, subtree: true, characterData: true });
   updateTitle();
 
-  function installHomeFeature(api) {
+  function installHomeHub(api) {
     const history = api.Platform.History;
-    const feature = document.createElement("section");
-    feature.className = "voidify-feature";
-    feature.innerHTML = '<div><small></small><h1></h1><p></p><button type="button"></button></div><img alt="" hidden>';
-    const [caption, heading, subtitle, action] = feature.firstElementChild.children;
-    const artwork = feature.lastElementChild;
-    function updateFeature() {
-      const item = api.Player.data?.item;
-      const meta = item?.metadata || {};
-      const active = Boolean(meta.title);
-      caption.textContent = active ? "Currently playing" : "Your library";
-      heading.textContent = active ? meta.title : "Liked Songs";
-      subtitle.textContent = active ? meta.artist_name || meta.album_title || "" : "";
-      subtitle.hidden = !subtitle.textContent;
-      action.textContent = active ? (api.Player.isPlaying() ? "Pause" : "Resume") : "Open Liked Songs";
-      action.onclick = active ? () => api.Player.togglePlay() : () => history.push("/collection/tracks");
-      const url = (meta.image_url || "").replace(/^spotify:image:/, "https://i.scdn.co/image/");
-      if (url && artwork.getAttribute("src") !== url) artwork.src = url;
-      artwork.hidden = !url;
-    }
-    artwork.onerror = () => { artwork.hidden = true; };
-    function mount() {
+    function updateLayout() {
       const root = document.querySelector(".Root__top-container");
       if (!root) return;
-      const home = root.querySelector('.Root__main-view [data-testid="home-page"], .Root__main-view .main-home-homeHeader');
-      if (history.location.pathname === "/" && home) {
-        if (feature.parentElement !== home.parentElement || feature.nextElementSibling !== home) {
-          home.before(feature);
-          updateFeature();
-        }
-      } else if (feature.isConnected) feature.remove();
+      const onHome = history.location.pathname === "/";
+      root.classList.toggle("voidify-home-hub", onHome);
     }
-    // Route containers also remount when the player changes layout.
-    let queued = false;
-    function scheduleMount() {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; mount(); });
-    }
-    new MutationObserver(scheduleMount).observe(document.body, {childList: true, subtree: true});
-    history.listen(scheduleMount);
-    for (const event of ["songchange", "onplaypause"]) api.Player.addEventListener(event, updateFeature);
-    mount();
+    // The panel stays in its React tree so its live controls retain their handlers.
+    history.listen(updateLayout);
+    new MutationObserver(updateLayout).observe(document.body, {childList: true, subtree: true});
+    updateLayout();
   }
 
   const installNavigation = () => {
@@ -61,13 +29,13 @@
       setTimeout(installNavigation, 300);
       return;
     }
-    installHomeFeature(api);
+    installHomeHub(api);
     const about = () => {
       const content = document.createElement("div");
       content.className = "voidify-about";
       content.innerHTML = mark + "<p>Your desktop player with Voidify Marketplace, themes, and extensions.</p>";
       const version = document.createElement("small");
-      version.textContent = "Voidify Desktop" + (api.Config?.version ? " Â· Engine " + api.Config.version : "");
+      version.textContent = "Voidify Desktop" + (api.Config?.version ? " Ã‚Â· Engine " + api.Config.version : "");
       content.append(version);
       api.PopupModal.display({ title: "About Voidify", content });
     };
