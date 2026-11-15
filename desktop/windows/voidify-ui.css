@@ -1,6 +1,7 @@
 /* Voidify Midnight. Keep native layout measurements for the resizable panes
    and virtualized track lists. */
 :root {
+  --voidify-panel-gradient: linear-gradient(135deg, #533445, #302833 58%, #201c23);
   --voidify-line: rgba(255, 234, 247, .09);
   --voidify-rose: #ff92ad;
   --voidify-type: "Segoe UI Variable Text", "Segoe UI", sans-serif;
@@ -18,8 +19,11 @@
   background-color: #312b33;
   border-radius: 10px;
 }
-.Root__nav-bar, .main-yourLibraryX-entryPoints, .main-yourLibraryX-library {
-  background-color: #211e24;
+.Root__nav-bar {
+  background: var(--voidify-panel-gradient);
+}
+.Root__nav-bar :is(.main-yourLibraryX-entryPoints, .main-yourLibraryX-libraryContainer, .main-yourLibraryX-library) {
+  background: transparent;
 }
 .main-yourLibraryX-header { box-shadow: inset 0 -1px var(--voidify-line); }
 .main-yourLibraryX-listItem { border-radius: 8px; }
@@ -33,7 +37,7 @@
   box-shadow: inset 0 0 0 1px var(--voidify-line);
 }
 .Root__main-view:has(.voidify-feature) {
-  background: linear-gradient(135deg, #533445, #302833 58%, #201c23);
+  background: var(--voidify-panel-gradient);
 }
 /* Keep the gradient on the viewport while Home shelves scroll over it. */
 .Root__main-view:has(.voidify-feature) :is(:has(.voidify-feature), [data-testid="home-page"], .main-home-filterChipsSection, .main-shelf-shelf),
@@ -76,17 +80,40 @@
 .main-trackList-trackListHeader { color: var(--spice-subtext); }
 .main-trackList-rowImage { border-radius: 5px; }
 .Root__now-playing-bar {
-  background: linear-gradient(105deg, #31262e, #242026 46%, #262228);
-  border-radius: 12px;
-  box-shadow: inset 0 1px rgba(255,234,247,.12);
+  margin: 0;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #493447, #302733 37%, #27232b 68%, #372c3c);
+  box-shadow: inset 0 0 0 1px #ffe3f01c, inset 0 1px #ffe3f024, 0 4px 14px #100d1626;
 }
-.main-nowPlayingBar-container { background: transparent; border: 0; }
-[data-testid="control-button-playpause"] {
-  background-color: var(--voidify-rose);
-  color: #29131e;
+.Root__now-playing-bar .main-nowPlayingBar-container { background: transparent; border: 0; }
+.Root__now-playing-bar .main-nowPlayingBar-nowPlayingBar { padding-inline: clamp(0px, 1vw - 8px, 12px); }
+.Root__now-playing-bar [data-testid="cover-art-image"] {
+  border-radius: 8px;
+  box-shadow: 0 3px 9px #110e1655;
 }
-.Root__now-playing-bar [data-testid="cover-art-image"] { border-radius: 7px; }
-.Root__now-playing-bar [role="slider"] { --fg-color: var(--voidify-rose); }
+.Root__now-playing-bar .player-controls__buttons { gap: clamp(8px, 1.4vw, 20px); }
+.Root__now-playing-bar [data-testid="control-button-playpause"]:enabled {
+  --background-base: #f5d4e5;
+  --background-highlight: #ffe5f1;
+  --text-base: #322333;
+  background-color: var(--background-base);
+  color: var(--text-base);
+  box-shadow: 0 2px 8px #130e194d;
+}
+.Root__now-playing-bar .progress-bar {
+  --fg-color: #e8b8d4;
+  --bg-color: #ffffff24;
+}
+.Root__now-playing-bar .progress-bar:is(:hover, :focus-within) { --fg-color: #ffd8eb; }
+.Root__now-playing-bar button:focus-visible {
+  outline: 2px solid #ffcee4;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .Root__now-playing-bar button {
+    transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+  }
+}
 .Root__top-container :focus-visible { outline-color: var(--voidify-rose); }
 @media (max-width: 800px) {
   .Root__main-view, .Root__now-playing-bar { border-radius: 8px; }
