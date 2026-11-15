@@ -1,0 +1,16 @@
+{
+	"name": "Hide Window Controls",
+	"id": "hide-window-controls",
+	"kind": "extension",
+	"version": "0.1.10",
+	"authors": ["spicetify"],
+	"description": "Hide Windows window buttons and macOS traffic lights, including their reserved space. Toggle in Settings.",
+	"entries": {
+		"js": "index.js"
+	},
+	"hasMixins": false,
+	"dependencies": {
+		"stdlib": "^1.11.0"
+	},
+	"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/hide-window-controls.svg"
+}

@@ -1,0 +1,61 @@
+name: Publish
+
+# Releases are per-module tags: <name>@<version> names the exact unit
+# being published, so tag uniqueness is the vault's never-overwrite
+# rule. Push tags with `node scripts/release.ts tag --push` (it orders
+# dependencies first); retry a failed run by re-running it, never by
+# re-tagging.
+on:
+   push:
+      tags:
+         - "*@[0-9]*"
+
+# Two publishes must never interleave: both would build a vault commit
+# on top of origin/main and race the push.
+concurrency:
+   group: publish
+   cancel-in-progress: false
+
+jobs:
+   publish:
+      name: Publish
+      runs-on: ubuntu-latest
+      if: github.repository_owner == 'spicetify'
+
+      permissions:
+         contents: write
+
+      steps:
+         -  name: Clone repository
+            uses: actions/checkout@v4
+            with:
+               # The gate and release notes read tags and history; the
+               # default shallow clone has neither.
+               fetch-depth: 0
+
+         -  name: Clone classmaps
+            uses: actions/checkout@v4
+            with:
+               repository: spicetify/classmaps
+               path: classmaps
+
+         -  name: Setup pnpm
+            uses: pnpm/action-setup@v6
+
+         -  name: Setup Node
+            uses: actions/setup-node@v6
+            with:
+               node-version: "24"
+               cache: pnpm
+
+         -  name: Install dependencies
+            run: pnpm install --frozen-lockfile
+
+         # Gate: workspace ranges must be satisfied by each dependency's
+         # version or compat list, or this module could land in the vault
+         # depending on something the loader refuses at boot.
+         -  name: Check dependency ranges
+            run: node scripts/check-deps.ts
+
+         -  name: Publish
+            uses: ./.github/actions/release

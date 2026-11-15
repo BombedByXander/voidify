@@ -1,0 +1,364 @@
+/* Copyright (C) 2026 Afonso Jorge Ramos
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/* Settings section */
+.spicetify-manager-section {
+	.spicetify-manager-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 6px 0;
+
+		&__label {
+			color: var(--spice-subtext, #a7a7a7);
+			font-size: 14px;
+		}
+
+		&__value {
+			font-size: 14px;
+		}
+	}
+}
+
+.spicetify-manager-cta {
+	padding: 6px 16px;
+	border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--spice-text, #fff);
+	font-size: 13px;
+	font-weight: 700;
+	cursor: pointer;
+
+	&:hover {
+		border-color: var(--spice-text, #fff);
+	}
+}
+
+/* Manager page */
+.spicetify-manager-page {
+	padding: 24px 32px 48px;
+	max-width: 900px;
+	margin: 0 auto;
+	color: var(--spice-text, #fff);
+
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+	}
+
+	h2 {
+		margin: 24px 0 10px;
+		font-size: 1.25rem;
+	}
+
+	.spicetify-manager-subtitle {
+		margin: 4px 0 0;
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 14px;
+	}
+
+	.spicetify-manager-header {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 16px;
+
+		.spicetify-searchbar {
+			width: 240px;
+		}
+	}
+
+	.spicetify-manager-status {
+		min-height: 20px;
+		margin-top: 10px;
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 13px;
+	}
+
+	.spicetify-manager-env {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.spicetify-manager-note {
+		margin: 10px 0 0;
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 13px;
+
+		code {
+			background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.08);
+			border-radius: 4px;
+			padding: 1px 5px;
+		}
+	}
+
+	.spicetify-manager-modules {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.spicetify-manager-module {
+		padding: 12px 16px;
+		border-radius: 8px;
+		background: var(--spice-card, #202020);
+
+		&__head {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 6px;
+		}
+
+		&__name {
+			font-weight: 700;
+			margin-right: 4px;
+		}
+
+		&__deps,
+		&__failure {
+			margin-top: 6px;
+			font-size: 13px;
+			color: var(--spice-subtext, #a7a7a7);
+		}
+
+		&__failure {
+			color: var(--spice-text, #ff6b76);
+		}
+
+		&__actions {
+			display: flex;
+			gap: 8px;
+			margin-top: 10px;
+
+			button {
+				padding: 4px 14px;
+				border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+				border-radius: 999px;
+				background: transparent;
+				color: var(--spice-text, #fff);
+				font-size: 13px;
+				cursor: pointer;
+
+				&:hover:not(:disabled) {
+					border-color: var(--spice-text, #fff);
+				}
+
+				&:disabled {
+					opacity: 0.5;
+					cursor: default;
+				}
+			}
+
+			.spicetify-manager-danger:hover:not(:disabled) {
+				border-color: #ff4151;
+				color: #ff4151;
+			}
+		}
+
+		&__note {
+			align-self: center;
+			font-size: 12px;
+			color: var(--spice-subtext, #a7a7a7);
+		}
+	}
+
+	.spicetify-manager-badge {
+		padding: 2px 8px;
+		border-radius: 999px;
+		background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.1);
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 11px;
+		white-space: nowrap;
+
+		&--ok {
+			background: rgba(var(--spice-rgb-button, 30, 215, 96), 0.16);
+			color: var(--spice-text, #1ed760);
+		}
+
+		&--bad {
+			background: rgba(var(--spice-rgb-notification-error, 255, 65, 81), 0.18);
+			color: var(--spice-text, #ff6b76);
+		}
+	}
+
+	.spicetify-manager-section-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		button {
+			padding: 4px 14px;
+			border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+			border-radius: 999px;
+			background: transparent;
+			color: var(--spice-text, #fff);
+			font-size: 12px;
+			cursor: pointer;
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: default;
+			}
+		}
+	}
+
+	.spicetify-manager-diag {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		max-height: 320px;
+		overflow-y: auto;
+		padding: 10px;
+		border-radius: 8px;
+		background: rgba(0, 0, 0, 0.3);
+		font-family: ui-monospace, monospace;
+		font-size: 12px;
+
+		&__entry {
+			display: flex;
+			gap: 10px;
+		}
+
+		&__time {
+			color: var(--spice-subtext, #a7a7a7);
+			flex-shrink: 0;
+		}
+
+		&--warn {
+			color: #ffd166;
+		}
+
+		&--error {
+			color: var(--spice-text, #ff6b76);
+		}
+	}
+
+	.spicetify-manager-empty {
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 14px;
+	}
+}
+
+.spicetify-manager-menu-item {
+	width: 100%;
+}
+
+.spicetify-manager-page .spicetify-manager-update {
+	margin: 10px 0 0;
+	font-size: 13px;
+	color: var(--spice-subtext, #a7a7a7);
+
+	&--waiting,
+	&--unverified {
+		color: #ffd166;
+	}
+
+	&--ready {
+		color: var(--spice-button, #1ed760);
+	}
+
+	&--unsupported {
+		color: #ff6b6b;
+	}
+}
+
+.spicetify-manager-page .spicetify-manager-toggle {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 10px;
+	font-size: 13px;
+}
+
+.spicetify-manager-page .spicetify-manager-update-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+
+	// Match the pill buttons used elsewhere in the panel; without this the
+	// copy-command buttons fall back to the washed-out browser default.
+	button {
+		padding: 4px 14px;
+		border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--spice-text, #fff);
+		font-size: 13px;
+		font-family: inherit;
+		cursor: pointer;
+		transition: border-color 0.1s ease;
+
+		&:hover {
+			border-color: var(--spice-text, #fff);
+		}
+
+		&:active {
+			background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.06);
+		}
+	}
+}
+
+// Recovery-mode panel (fallback.ts) — plain DOM, so styles carry the look.
+.spicetify-manager-fallback {
+	position: fixed;
+	right: 16px;
+	bottom: 96px;
+	z-index: 9999;
+	max-width: 420px;
+	max-height: 60vh;
+	overflow-y: auto;
+	padding: 16px;
+	border-radius: 8px;
+	background: var(--spice-card, #121212);
+	color: var(--spice-text, #fff);
+	border: 1px solid var(--spice-button-disabled, #535353);
+	font-size: 13px;
+
+	&__title {
+		font-weight: 700;
+		margin-bottom: 4px;
+	}
+
+	&__note {
+		opacity: 0.7;
+		margin-bottom: 12px;
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin-bottom: 12px;
+
+		li {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+
+			span {
+				flex: 1;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+
+	button {
+		padding: 2px 10px;
+		border-radius: 12px;
+		background: var(--spice-button, #1ed760);
+		color: var(--spice-main, #121212);
+		font-weight: 600;
+
+		&:disabled {
+			opacity: 0.4;
+		}
+	}
+}

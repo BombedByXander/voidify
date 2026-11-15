@@ -1,0 +1,260 @@
+{
+	"v": {
+		"1.0.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.0.0/store@1.0.0.zip"],
+			"providers": [],
+			"checksum": "sha256:4d6dae7f0b88be502f44157c62383f1554e181787c0368f8f687c2145b10dd5d",
+			"updatedAt": "2026-08-03",
+			"hidden": true
+		},
+		"1.0.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.0.1/store@1.0.1.zip"],
+			"providers": [],
+			"checksum": "sha256:66c422fb526e250cb28ba405ece615fa801bdaba7da5a190c6aacdef7e3c888a",
+			"updatedAt": "2026-08-03",
+			"hidden": true
+		},
+		"1.0.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.0.2/store@1.0.2.zip"],
+			"providers": [],
+			"checksum": "sha256:0a03dcbdf6f4389712b1f24c1c386fb010da16320620267bada2292915503ace",
+			"updatedAt": "2026-08-03",
+			"hidden": true
+		},
+		"1.0.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.0.3/store@1.0.3.zip"],
+			"providers": [],
+			"checksum": "sha256:d4480b047d946e5b665a214df5bff3da4717ae53e27a3e43b4c0b3ebe30d020e",
+			"updatedAt": "2026-08-04",
+			"hidden": true
+		},
+		"1.1.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.1.0/store@1.1.0.zip"],
+			"providers": [],
+			"checksum": "sha256:904dac01a559cb5da337b336c71ccfed386eaf12e9034bf43b4c8c07a8a21a76",
+			"updatedAt": "2026-08-04",
+			"hidden": true
+		},
+		"1.2.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.2.0/store@1.2.0.zip"],
+			"providers": [],
+			"checksum": "sha256:51fbbec13a672f469d0b0c4b944df6a99d3235459f1fa254c342f4f1a284e21e",
+			"updatedAt": "2026-08-04",
+			"hidden": true
+		},
+		"1.2.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.2.1/store@1.2.1.zip"],
+			"providers": [],
+			"checksum": "sha256:596d4a8cc5857ab6d794508424c15dc4683ec9d27d8f1ff15b79257fd823d6d4",
+			"updatedAt": "2026-08-04",
+			"hidden": true
+		},
+		"1.2.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.2.4/store@1.2.4.zip"],
+			"providers": [],
+			"checksum": "sha256:752751cbd001f691201ed9e1832345a6f70852f42b40bd8b4594cb65f55b9154",
+			"updatedAt": "2026-08-05",
+			"hidden": true
+		},
+		"1.3.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.3.0/store@1.3.0.zip"],
+			"providers": [],
+			"checksum": "sha256:01d52dd76df5230f920534ec8705ffad1a4796ae8470a772e1628bb2e24697c0",
+			"updatedAt": "2026-08-06",
+			"hidden": true
+		},
+		"1.4.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.4.0/store@1.4.0.zip"],
+			"providers": [],
+			"checksum": "sha256:87d9fb997e8974cd800ee9dfcfef7fa1f428019830e1371eefe5ef5463863fdc",
+			"updatedAt": "2026-08-06",
+			"hidden": true
+		},
+		"1.4.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.4.1/store@1.4.1.zip"],
+			"providers": [],
+			"checksum": "sha256:098cac2b622c95168b2a9a1a4e9b12b00cedef6b5ba6432567e8730a33fcbab8",
+			"updatedAt": "2026-08-09",
+			"hidden": true
+		},
+		"1.4.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.4.2/store@1.4.2.zip"],
+			"providers": [],
+			"checksum": "sha256:dab1b01e411e0122fa3b0f59e20dfd3ee33cb141c6be6915d6b7aa1b5392f6bb",
+			"updatedAt": "2026-08-10",
+			"hidden": true
+		},
+		"1.5.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.5.0/store@1.5.0.zip"],
+			"providers": [],
+			"checksum": "sha256:fd7588b56d62c05ff95167c855a629c13dc8bd65461ef1e78a4f8fe81f673200",
+			"updatedAt": "2026-08-10",
+			"hidden": true
+		},
+		"1.5.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.5.1/store@1.5.1.zip"],
+			"providers": [],
+			"checksum": "sha256:1b5c8c34d2b268dec8e21b03ea15edb062ea155671fd9c19bfb74881ec825ca3",
+			"updatedAt": "2026-08-10",
+			"hidden": true
+		},
+		"1.5.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.5.2/store@1.5.2.zip"],
+			"providers": [],
+			"checksum": "sha256:d52a421c122059f8c8d4ed988cde8989470422753b8b3f167be10fd1ea7841f7",
+			"updatedAt": "2026-08-10",
+			"hidden": true
+		},
+		"1.5.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.5.3/store@1.5.3.zip"],
+			"providers": [],
+			"checksum": "sha256:c35a756a1e61175bb8c4386b7e72e157e645e978a307c34734cdb1dcb2c54ac4",
+			"updatedAt": "2026-08-10",
+			"hidden": true
+		},
+		"1.5.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.5.4/store@1.5.4.zip"],
+			"providers": [],
+			"checksum": "sha256:ba687a79bfce2071c4158f025c44138dcdc5ce13af67534d784547f503dbfa84",
+			"updatedAt": "2026-08-14",
+			"hidden": true
+		},
+		"1.5.5": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.5.5/store@1.5.5.zip"],
+			"providers": [],
+			"checksum": "sha256:fd3e6d4c36f84eb0584e73b888cb873fdec4ef723ec86f666604cba8ef61ebe1",
+			"updatedAt": "2026-08-17",
+			"hidden": true
+		},
+		"1.6.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.6.0/store@1.6.0.zip"],
+			"providers": [],
+			"checksum": "sha256:056a94e6fb88197b0365da08ec120bc4014b86d5bfc72bcab8837ffa8a5caead",
+			"updatedAt": "2026-08-18",
+			"hidden": true
+		},
+		"1.6.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.6.1/store@1.6.1.zip"],
+			"providers": [],
+			"checksum": "sha256:83a0a51a72ef6b5d71b3b7b06adafaf93a3e0e2d5db686689788270c77b78177",
+			"updatedAt": "2026-08-19",
+			"hidden": true
+		},
+		"1.7.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.0/store@1.7.0.zip"],
+			"providers": [],
+			"checksum": "sha256:1b518e0f3408ed0969924b55c0c11da92227067d04706ff026175857bbf9efeb",
+			"updatedAt": "2026-08-19",
+			"hidden": true
+		},
+		"1.7.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.1/store@1.7.1.zip"],
+			"providers": [],
+			"checksum": "sha256:0ec805d010859f7d90a0571f38f81ea532cd1d748a81e1c70087c0ccca5eadd9",
+			"updatedAt": "2026-08-20",
+			"hidden": true
+		},
+		"1.7.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.2/store@1.7.2.zip"],
+			"providers": [],
+			"checksum": "sha256:7c0f1a13299a750b02f75533b4c15c5afa32aaaf9ac54bdda32976e570c41aa7",
+			"updatedAt": "2026-09-01",
+			"hidden": true
+		},
+		"1.7.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.3/store@1.7.3.zip"],
+			"providers": [],
+			"checksum": "sha256:3e398bc56fdf3f60109dc5501abd520f92d853198420de12eb0d1f937d958173",
+			"updatedAt": "2026-09-14",
+			"hidden": true
+		},
+		"1.7.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.4/store@1.7.4.zip"],
+			"providers": [],
+			"checksum": "sha256:0fab685760e600374b8d0a52eac66599e0b555d2b1660b81968434ba103c9c0a",
+			"updatedAt": "2026-09-14",
+			"hidden": true
+		},
+		"1.7.5": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.5/store@1.7.5.zip"],
+			"providers": [],
+			"checksum": "sha256:b11d081ba24621cd14ae4393194c03376e09fa802b62891239db11cd6e91770a",
+			"updatedAt": "2026-09-14",
+			"hidden": true
+		},
+		"1.7.6": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.6/store@1.7.6.zip"],
+			"providers": [],
+			"checksum": "sha256:2ffde1b5b601439bb79e70783e3d5ae71bc5f64d5d72d953587d3229225601ed",
+			"updatedAt": "2026-09-14",
+			"hidden": true
+		},
+		"1.7.7": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.7/store@1.7.7.zip"],
+			"providers": [],
+			"checksum": "sha256:97f21b6a5733af8711f0e5d518affbca9a57609bd808b9f3e2cc81c1e8eefa36",
+			"updatedAt": "2026-09-15",
+			"hidden": true
+		},
+		"1.7.8": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.7.8/store@1.7.8.zip"],
+			"providers": [],
+			"checksum": "sha256:cd578a20732c2f2ea0ad6982759912a99cae86b9a095b92f7e1050dc686a2efc",
+			"updatedAt": "2026-09-17",
+			"hidden": true
+		},
+		"1.8.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.8.0/store@1.8.0.zip"],
+			"providers": [],
+			"checksum": "sha256:7a3fb1b27db3c08fc03b458ae9c6a5bfdc0e1840df654768a9291cedfa49882a",
+			"updatedAt": "2026-09-30",
+			"hidden": true
+		},
+		"1.8.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.8.1/store@1.8.1.zip"],
+			"providers": [],
+			"checksum": "sha256:f38a7771ff16056d5af2e5d9e821a8c9ac099027ce0907b64362a7db46a6be7c",
+			"updatedAt": "2026-10-01",
+			"hidden": true
+		},
+		"1.9.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.9.0/store@1.9.0.zip"],
+			"providers": [],
+			"checksum": "sha256:463593dacf82d7a7641d0afef2ab067a6dd039aeec69cdd90e158cbe2e51de49",
+			"updatedAt": "2026-11-03",
+			"hidden": true
+		},
+		"1.9.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.9.1/store@1.9.1.zip"],
+			"providers": [],
+			"checksum": "sha256:4f5c754291d56567cb5e45de46893ff82f73cd1f21b8e97bbfd08f8293286b6a",
+			"updatedAt": "2026-11-04",
+			"hidden": true
+		},
+		"1.9.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.9.2/store@1.9.2.zip"],
+			"providers": [],
+			"checksum": "sha256:9544cec124551e8efa7c3fbaf8807b2d7f4c9b86ef681e7c9b9c6846b41c18f8",
+			"updatedAt": "2026-11-04",
+			"hidden": true
+		},
+		"1.9.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/store@1.9.3/store@1.9.3.zip"],
+			"providers": [],
+			"checksum": "sha256:965912fef5088b5cc2b72c8bdf2f895d53d577a9c4fcd0c4c237d8438fc85fca",
+			"updatedAt": "2026-11-04",
+			"hidden": true
+		}
+	},
+	"metadata": {
+		"name": "Store",
+		"description": "Browse, install, and manage v3 modules from vaults",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "app",
+		"license": "GPL-3.0-or-later"
+	}
+}

@@ -1,0 +1,155 @@
+name: CI
+
+# The same gates the publish flow enforces, run at review time: a PR (or
+# a merge-queue batch) that would fail the release fails here instead.
+# merge_group is required for GitHub merge queues to have checks to run.
+on:
+   pull_request:
+   merge_group:
+   # Release Please creates its PR with GITHUB_TOKEN, which does not emit a
+   # pull_request workflow run. npm-publish.yml explicitly dispatches CI at
+   # that PR's head commit instead.
+   workflow_dispatch:
+   push:
+      branches:
+         - main
+
+concurrency:
+   group: ci-${{ github.ref }}
+   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+   repository:
+      name: Repository checks (Ubuntu)
+      runs-on: ubuntu-latest
+
+      steps:
+         -  name: Clone repository
+            uses: actions/checkout@v4
+            with:
+               # release.ts status diffs each module against its own
+               # release tags; the default shallow clone has neither
+               # tags nor history.
+               fetch-depth: 0
+
+         -  name: Clone classmaps
+            uses: actions/checkout@v4
+            with:
+               repository: spicetify/classmaps
+               path: classmaps
+
+
+         -  name: Setup pnpm
+            uses: pnpm/action-setup@v6
+
+         -  name: Setup Node
+            uses: actions/setup-node@v6
+            with:
+               node-version: "24"
+               cache: pnpm
+
+         -  name: Install dependencies
+            run: pnpm install --frozen-lockfile
+
+         -  name: Format
+            run: pnpm fmt:check
+
+         # vault.json is generated from vault/<id>.json and rebuilt after a
+         # merge, so a PR that only adds a source file is expected to leave
+         # it stale. Touching the aggregate by hand is not: if this PR
+         # changed it, it must be exactly what the sources compose to.
+         -  name: Vault aggregate is generated
+            if: github.event_name != 'push'
+            run: |
+               set -e
+               # Full fetch: merge-base has to walk the base branch, which a
+               # shallow one cannot do once the base has moved ahead.
+               git fetch --no-tags origin "${GITHUB_BASE_REF:-main}"
+               BASE=$(git merge-base FETCH_HEAD HEAD)
+               if git diff --quiet "$BASE" HEAD -- vault.json; then
+                  echo "vault.json untouched by this change"
+                  exit 0
+               fi
+               node scripts/vault-build.ts --check
+
+         # The full release build: module-standard error tier enforced,
+         # every module must stitch. Runs before Check because the build
+         # generates each module's classmap.d.ts, which tsc needs.
+         -  name: Build modules
+            run: node scripts/stitch.ts
+
+         # tsc + oxlint + check-deps (dependency ranges vs versions+compat)
+         -  name: Check
+            run: pnpm check
+
+         -  name: Test modules
+            run: pnpm test
+
+         -  name: Test kit
+            run: npm test --prefix packages/kit
+
+         # A changed module must carry a new, unpublished version or the
+         # next release would overwrite a live vault entry. Hard in PR
+         # and merge-queue contexts (pre-merge enforcement works there);
+         # on direct pushes it degrades to a job-summary warning, and the
+         # release workflow only ever publishes bumped versions anyway.
+         -  name: Check version bumps
+            if: github.event_name != 'push'
+            run: node scripts/release.ts status
+
+         -  name: Unreleased work summary
+            if: github.event_name == 'push'
+            run: node scripts/release.ts status --summary --soft >> "$GITHUB_STEP_SUMMARY"
+
+   kit-create:
+      name: Kit create (${{ matrix.os }})
+      runs-on: ${{ matrix.os }}
+      strategy:
+         fail-fast: false
+         matrix:
+            os: [ubuntu-latest, macos-latest, windows-latest]
+
+      steps:
+         -  name: Clone repository
+            uses: actions/checkout@v4
+
+         -  name: Clone classmaps
+            uses: actions/checkout@v4
+            with:
+               repository: spicetify/classmaps
+               path: classmaps
+
+         -  name: Setup pnpm
+            uses: pnpm/action-setup@v6
+
+         -  name: Setup Node
+            uses: actions/setup-node@v6
+            with:
+               node-version: "24"
+               cache: pnpm
+
+         -  name: Install dependencies
+            run: pnpm install --frozen-lockfile
+
+         -  name: Test kit
+            run: npm test --prefix packages/kit
+
+         -  name: Build generated projects
+            run: node packages/kit/scripts/create-smoke.mjs
+            env:
+               SPICETIFY_KIT_VENDOR_CLASSMAPS: ${{ github.workspace }}/classmaps
+
+   verify:
+      name: Verify
+      if: always()
+      needs: [repository, kit-create]
+      runs-on: ubuntu-latest
+
+      steps:
+         -  name: Require every platform gate
+            env:
+               REPOSITORY_RESULT: ${{ needs.repository.result }}
+               KIT_CREATE_RESULT: ${{ needs.kit-create.result }}
+            run: |
+               test "$REPOSITORY_RESULT" = success
+               test "$KIT_CREATE_RESULT" = success

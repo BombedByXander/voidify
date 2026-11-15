@@ -1,0 +1,14 @@
+{
+	"name": "Ziro",
+	"id": "ziro",
+	"kind": "theme",
+	"version": "0.1.7",
+	"authors": ["schnensch0"],
+	"description": "Soft rounded design inspired by the Zorin GTK themes",
+	"entries": {
+		"css": "index.css"
+	},
+	"hasMixins": false,
+	"dependencies": {},
+	"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/ziro.jpg"
+}

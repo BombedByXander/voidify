@@ -1,0 +1,76 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.0/text@0.1.0.zip"],
+			"providers": [],
+			"checksum": "sha256:bafaebdd2f3f3c941ffe2ab0ddce5b4e1c2477899dc13bf332622b06fc81320d",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.1/text@0.1.1.zip"],
+			"providers": [],
+			"checksum": "sha256:c27e8db45780d9accd04c0408ee4decfba690014440e50b3414a2ec41894c56a",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.2/text@0.1.2.zip"],
+			"providers": [],
+			"checksum": "sha256:91cb1f268d4ab8873b69215bb22e51f877bab9723cd04506719052d5f01021e1",
+			"updatedAt": "2026-08-05"
+		},
+		"0.1.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.3/text@0.1.3.zip"],
+			"providers": [],
+			"checksum": "sha256:37d2f61389c7cd40a6d38bebbb217043780d9a1bc1567f36d249fbeb2a1af159",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.4/text@0.1.4.zip"],
+			"providers": [],
+			"checksum": "sha256:a3fbd9748aac3fe10030847cb484828941bb3e9e8a66ec974ce76faac51af162",
+			"updatedAt": "2026-08-13"
+		},
+		"0.1.5": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.5/text@0.1.5.zip"],
+			"providers": [],
+			"checksum": "sha256:0a7a7648359397f54f8cfce561c6819cb6d8dc877c8a911cf1deadbf9380cbf0",
+			"updatedAt": "2026-09-14"
+		},
+		"0.1.6": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.6/text@0.1.6.zip"],
+			"providers": [],
+			"checksum": "sha256:4bcb9348ebee63e5d3949da470a7f46d80ab8bdb55680c3d305e69df4449251e",
+			"updatedAt": "2026-09-16"
+		},
+		"0.1.7": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.7/text@0.1.7.zip"],
+			"providers": [],
+			"checksum": "sha256:9a9ee9fc95df6894ff39ade853b9c2e3adc7d3552dd0e45c2eac09bab540134b",
+			"updatedAt": "2026-10-02"
+		},
+		"0.1.8": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.8/text@0.1.8.zip"],
+			"providers": [],
+			"checksum": "sha256:fa6889a9833eb510bd5aba2eea049eace95563f84eed3dbd96b5f026cb5f52a6",
+			"updatedAt": "2026-11-04"
+		},
+		"0.1.9": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/text@0.1.9/text@0.1.9.zip"],
+			"providers": [],
+			"checksum": "sha256:2e19b240df0ce589a66f2a6817c1faeb61dbd5336f62e538e64490f136b2d11f",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Text",
+		"description": "Mimics the terminal look of spotify-tui, with 21 schemes",
+		"authors": [
+			{
+				"name": "darkthemer"
+			}
+		],
+		"kind": "theme",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/text.png",
+		"license": "GPL-3.0-or-later"
+	}
+}

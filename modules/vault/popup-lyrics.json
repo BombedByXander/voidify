@@ -1,0 +1,120 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.0/popup-lyrics@0.1.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:9365f30ff6ba48f28447a68092f9bb99c03b66fd032a4fdb29f1b0ec99b803e4",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.1/popup-lyrics@0.1.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:3334537b2386555d126d7b05a9408df5c0affab30e9b0ce5edc32f76849ff8f0",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.2": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.2/popup-lyrics@0.1.2.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:f5cb5ed3a41137c44c70bc46553292af2fe7a1274a4312f03d60643aafea293d",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.3/popup-lyrics@0.1.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:e0798bcd9a036f9d44ecbc3954a82899151c6160e0ca2607fb6ca9072fd30120",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.4/popup-lyrics@0.1.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:7a1f2411598169a495b26b338e90298720736a2648165c18d1145017df3bbb1f",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.5": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.5/popup-lyrics@0.1.5.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:8472a53effd7863c47b52d1688c743293bbe75b0692d74d6ffbce8c8b99f5456",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.6": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.1.6/popup-lyrics@0.1.6.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:4845cbcf469815e2ffc8bdbb36f785038110287ad7e5dbaa1968f2bdac3d4b0e",
+			"updatedAt": "2026-08-12"
+		},
+		"0.2.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.2.0/popup-lyrics@0.2.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:c707306b5240cdbd87d41475785ab4b4dd59f74eb73950df1ecf42cecc0b178e",
+			"updatedAt": "2026-08-13"
+		},
+		"0.2.2": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.2.2/popup-lyrics@0.2.2.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:71d2f379d1c9adf7c7a556723804bbb4a59ce97f8807e697296e422f302352a4",
+			"updatedAt": "2026-08-17"
+		},
+		"0.2.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.2.3/popup-lyrics@0.2.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:ec3ecca0ef7239f3e6788928d629719112249e04ea5b244ab328a8601628a76c",
+			"updatedAt": "2026-09-14"
+		},
+		"0.2.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.2.4/popup-lyrics@0.2.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:bf39a5520305a1a0e2fb92ae6f7dcf8e0bbe67b5764e8c832e1fc80c28579403",
+			"updatedAt": "2026-09-16"
+		},
+		"0.2.5": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.2.5/popup-lyrics@0.2.5.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:df69c92939370d67cb5cc129ea20628c56dc79379f962a3f7f9646530d99edaf",
+			"updatedAt": "2026-11-04"
+		},
+		"0.2.6": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/popup-lyrics@0.2.6/popup-lyrics@0.2.6.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:e9660289d934e6bdcc7071ea032ad51f903c25f63fc55d632beb5d3735d714e4",
+			"updatedAt": "2026-11-05"
+		}
+	},
+	"metadata": {
+		"name": "Popup Lyrics",
+		"description": "Pop synced lyrics up in a picture-in-picture window, sourced from Spotify, Musixmatch, Netease or LRCLIB.",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "extension",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/popup-lyrics.png",
+		"license": "GPL-3.0-or-later"
+	}
+}

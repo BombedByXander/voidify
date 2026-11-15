@@ -1,0 +1,702 @@
+@use "client-colors";
+
+:root {
+	--max-custom-navlink-count: 4;
+	--navlink-hover-scale-boost: 0.04;
+	--navlink-size: 48px;
+}
+
+.custom-navlinks-scrollable_container {
+	max-width: calc(
+		var(--navlink-size) * var(--max-custom-navlink-count) + 8px * (var(--max-custom-navlink-count) - 1)
+	);
+	-webkit-app-region: no-drag;
+
+	& > * {
+		overflow-y: hidden;
+		padding: calc(var(--navlink-size) * var(--navlink-hover-scale-boost));
+	}
+
+	div[role="presentation"] {
+		& > * {
+			z-index: 1;
+
+			&:not(:last-child) {
+				margin-inline-end: 8px;
+			}
+		}
+	}
+}
+
+.custom-navlink {
+	-webkit-app-region: unset;
+}
+
+/* The v3 navlink anchor is a flex box (see navlink register): keep its links
+   vertically centred on the bar and 8px apart, the client's own control
+   rhythm. The anchor owns that spacing: builds differ in whether the client
+   margins its navlink class at all (1.2.84 does not), so the links' client
+   margins are zeroed inside the anchor and the gap does the work. */
+.spicetify-navlinks-anchor {
+	align-items: center;
+	gap: 8px;
+
+	.main-globalNav-navLink {
+		margin: 0;
+	}
+}
+
+/* A custom panel owns the right-sidebar grid track while open. Spotify's
+   native panel subtree remains mounted but inert/hidden, so closing restores
+   its exact previous state instead of reconstructing private client state. */
+.Root__top-container[data-spicetify-panel-active] {
+	--spicetify-panel-width: var(--spicetify-panel-requested-width);
+}
+
+.Root__top-container[data-spicetify-panel-active] .Root__right-sidebar > [hidden] {
+	display: none !important;
+}
+
+.spicetify-panel-host {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	overflow: hidden;
+	border-radius: var(--encore-corner-radius-larger, 8px);
+	background: var(--spice-main, var(--background-base, #121212));
+	color: var(--spice-text, var(--text-base, #fff));
+}
+
+.spicetify-panel-host:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--spice-text, var(--essential-base, #fff));
+}
+
+.spicetify-panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 16px;
+	flex: 0 0 auto;
+}
+
+.spicetify-panel-title {
+	min-width: 0;
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.spicetify-panel-content {
+	min-height: 0;
+	flex: 1 1 auto;
+	overflow: auto;
+	padding: 0 16px 16px;
+}
+
+@media (max-width: 800px) {
+	.Root__top-container[data-spicetify-panel-active] {
+		--spicetify-panel-width: min(
+			var(--spicetify-panel-requested-width),
+			calc(100vw - 96px - var(--spicetify-panel-trailing-width, 0px))
+		);
+	}
+}
+
+/* Topbar geometry guard. The client sizes the legacy topbar-right container
+   for exactly its own buttons (width: calc(135px / zoom)), so the module
+   buttons this register mounts overflow it and flex squeezes every icon in
+   the row (the native bell renders 6px wide). min-width beats the width
+   declaration, so the container grows to fit whatever is mounted. */
+.main-topBar-topbarContentRight,
+.main-actionButtons {
+	min-width: max-content;
+}
+
+/* Playbar button geometry guard. The classmap can resolve the playbar button
+   wrapper (MAP.main.playbar.buttons.button.wrapper) to a container-level class
+   on some clients (e.g. .player-controls__buttons: width:100%; gap:16px;
+   margin-bottom:8px), which stretches every module playbar button to full
+   width and lifts it off the control baseline. Pin our playbar buttons to the
+   native icon-button geometry regardless of what class they inherit. */
+.spicetify-playbar-buttons button {
+	width: auto;
+	gap: 0;
+	margin-bottom: 0;
+}
+
+/* Context-menu items are rendered as <a> for navigations and <button> for
+   actions, and the client sets no cursor of its own, so the two halves of the
+   same menu inherit different UA defaults. Give every enabled item the pointer
+   the links already get. */
+.main-contextMenu-menuItemButton:not([disabled]):not([aria-disabled="true"]) {
+	cursor: pointer;
+}
+
+/* The same split colours the two halves differently. The client's blanket
+   `a:not([data-encore-id])` fallback outranks its own `.main-contextMenu-
+   menuItemButton` colour, so the navigating half of a menu is painted by
+   whatever that fallback resolves to and the acting half by the item colour.
+   Give both the theme's text colour, at the fallback's specificity so the
+   client's own hover, disabled and checked-item colours still win.
+
+   The chain resolves a theme's own menu colour first: this rule outranks the
+   plain `.main-contextMenu-menuItemButton` a theme would set, so reading its
+   variable is what keeps that choice from being overwritten. Falling all the
+   way through to --text-base covers having no theme at all, where no
+   --spice-* is defined. */
+a.main-contextMenu-menuItemButton,
+button.main-contextMenu-menuItemButton {
+	color: var(--spice-context-menu-text, var(--spice-text, var(--text-base)));
+}
+
+/* stdlib search bar (lib/components useSearchBar): sensible everywhere,
+   overridable by module stylesheets. */
+.spicetify-searchbar {
+	padding: 8px 10px;
+	border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.18);
+	border-radius: 4px;
+	background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.06);
+	color: var(--spice-text, #fff);
+	font-size: 14px;
+
+	&::placeholder {
+		color: var(--spice-subtext, #a7a7a7);
+	}
+
+	&:focus {
+		outline: none;
+		border-color: rgba(var(--spice-rgb-text, 255, 255, 255), 0.35);
+	}
+}
+
+/* Module surfaces: text controls follow the theme by default. Form elements
+   never inherit color (the UA default is near-black), so every module UI on
+   dark surfaces would repeat this fix otherwise. Buttons are left alone —
+   they are usually component-styled. */
+/* Route pages cover the client's own view, which keeps rendering (empty)
+   underneath, so the default surface is opaque. A theme with a global
+   backdrop (a gradient, an animated sky) overrides this to transparent
+   the same way it punches out the client's own containers. */
+.spicetify-route-page {
+	background: var(--spice-main, var(--background-base, #121212));
+}
+
+.spicetify-settings-page.x-settings-container {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 32px;
+}
+
+/* Spotify ships these rules in the lazy /preferences chunk. The standalone
+   Spicetify route can be the first settings surface opened in a session, so
+   keep an exact scoped copy instead of depending on a prior native-route visit. */
+.spicetify-settings-page .x-settings-headerContainer {
+	display: flex;
+}
+
+.spicetify-settings-page .x-settings-header {
+	flex: 1 1 0%;
+}
+
+.spicetify-settings-page .x-settings-section {
+	display: grid;
+	gap: 8px;
+}
+
+/* Encore has no 18px body-title token in this client. Keep its typography
+   contract for family, weight and colour, and raise only the section level by
+   the requested 2px over the 16px subsection heading. */
+.spicetify-settings-section-heading {
+	font-size: 18px;
+}
+
+.spicetify-settings-section-subheading {
+	margin-block-start: 16px;
+}
+
+.spicetify-settings-page .x-settings-row {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 8px 24px;
+}
+
+.spicetify-settings-page .x-settings-firstColumn {
+	display: flex;
+	align-items: center;
+}
+
+.spicetify-settings-label-copy {
+	display: grid;
+	gap: 4px;
+}
+
+.spicetify-settings-actions {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	min-width: 0;
+	width: 100%;
+
+	input {
+		min-width: 0;
+		flex: 1;
+	}
+
+	button {
+		white-space: nowrap;
+	}
+}
+
+.spicetify-settings-page .x-settings-secondColumn {
+	display: flex;
+	position: relative;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+/* Settings primitives also render inside owned dialogs. The client's
+   preferences layout is route-scoped, so dialogs need their own compact,
+   responsive version of the same two-column contract. */
+.spicetify-dialog .x-settings-section {
+	display: grid;
+	gap: 0;
+}
+
+.spicetify-dialog .x-settings-section + .x-settings-section {
+	margin-block-start: 28px;
+}
+
+.spicetify-dialog .spicetify-settings-section-heading {
+	margin: 0;
+	padding-block-end: 8px;
+	border-block-end: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.1);
+}
+
+.spicetify-dialog .x-settings-row {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(160px, 1fr);
+	gap: 12px 24px;
+	padding-block: 12px;
+}
+
+.spicetify-dialog .x-settings-row:not(:last-child) {
+	border-block-end: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.06);
+}
+
+.spicetify-dialog .x-settings-firstColumn {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+}
+
+.spicetify-dialog .x-settings-secondColumn {
+	display: flex;
+	position: relative;
+	min-width: 0;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+@media (max-width: 720px) {
+	.spicetify-dialog .x-settings-row {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.spicetify-dialog .x-settings-secondColumn,
+	.spicetify-dialog .spicetify-settings-actions {
+		justify-content: flex-start;
+	}
+}
+
+.spicetify-cors-proxy-controls {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	width: min(480px, 100%);
+
+	input {
+		min-width: 0;
+		flex: 1;
+	}
+}
+
+.spicetify-root-children,
+.spicetify-popover,
+.spicetify-route-page,
+[data-spicetify-anchor] {
+	input,
+	textarea,
+	select {
+		color: var(--spice-text, #fff);
+		font: inherit;
+	}
+}
+
+/* Owned floating surfaces. Their geometry is measured by floating.tsx and
+   only left/top/visibility are inline; every visual choice stays themeable. */
+.spicetify-floating-anchor {
+	display: inline-flex;
+	min-width: 0;
+}
+
+.spicetify-tooltip,
+.spicetify-popover {
+	position: fixed;
+	z-index: 1100;
+	box-sizing: border-box;
+	border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.09);
+	background: var(--spice-main-elevated, var(--spice-card, #282828));
+	color: var(--spice-text, #fff);
+	box-shadow: 0 12px 32px rgba(var(--spice-rgb-shadow, 0, 0, 0), 0.46);
+}
+
+.spicetify-tooltip {
+	max-width: min(320px, calc(100vw - 16px));
+	padding: 8px 10px;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.35;
+	pointer-events: auto;
+}
+
+.spicetify-popover {
+	max-width: min(420px, calc(100vw - 16px));
+	max-height: min(70vh, calc(100vh - 16px));
+	overflow: auto;
+	overscroll-behavior: contain;
+	border-radius: 8px;
+}
+
+.spicetify-popover--owned {
+	min-width: 188px;
+}
+
+.spicetify-popover-menu {
+	display: flex;
+	flex-direction: column;
+	padding: 4px;
+}
+
+.spicetify-popover-menu-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	width: 100%;
+	min-height: 40px;
+	border: 0;
+	border-radius: 4px;
+	padding: 8px 12px;
+	background: transparent;
+	color: var(--spice-text, #fff);
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.1);
+		outline: none;
+	}
+
+	&[aria-checked="true"]::after {
+		content: "✓";
+		font-weight: 700;
+	}
+
+	&:disabled {
+		opacity: 0.48;
+		cursor: default;
+	}
+}
+
+/* Spotify-look chrome for self-contained module DOM (dialogs, anchors,
+   popovers). These classes replicate the Encore look for everything
+   module-owned, including surfaces mounted outside the client React tree. */
+.spicetify-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 500px;
+	padding: 8px 24px;
+	background: var(--spice-text, #fff);
+	color: var(--spice-main, #121212);
+	font-weight: 700;
+	font-size: 14px;
+	font-family: inherit;
+	cursor: pointer;
+
+	&:hover {
+		transform: scale(1.04);
+	}
+
+	&:active {
+		transform: scale(1);
+		opacity: 0.8;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		transform: none;
+		cursor: default;
+	}
+}
+
+.spicetify-button--secondary {
+	background: transparent;
+	color: var(--spice-text, #fff);
+	box-shadow: inset 0 0 0 1px var(--spice-subtext, #a7a7a7);
+
+	&:hover {
+		box-shadow: inset 0 0 0 1px var(--spice-text, #fff);
+	}
+}
+
+.spicetify-button--danger {
+	background: transparent;
+	color: #ff6b6b;
+	box-shadow: inset 0 0 0 1px rgba(255, 107, 107, 0.55);
+
+	&:hover {
+		box-shadow: inset 0 0 0 1px #ff6b6b;
+	}
+}
+
+/* Matches the client's own main-dropDown-dropDown select: elevated
+   base, no border, custom chevron (appearance:none for a consistent
+   arrow across platforms). */
+.spicetify-select {
+	height: 32px;
+	padding: 0 32px 0 12px;
+	border: none;
+	border-radius: 4px;
+	background-color: var(--spice-main-elevated, #242424);
+	color: var(--spice-subtext, #a7a7a7);
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 400;
+	cursor: pointer;
+	appearance: none;
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	background-size: 16px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23a7a7a7'%3E%3Cpath d='M14 6l-6 6-6-6 1.4-1.4L8 9.2l4.6-4.6z'/%3E%3C/svg%3E");
+
+	&:hover {
+		color: var(--spice-text, #fff);
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	option {
+		background-color: var(--spice-main-elevated, #242424);
+		color: var(--spice-text, #fff);
+	}
+}
+
+/* The circular icon button Spotify uses for modal close (Credits, etc). */
+.spicetify-button-circle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.07);
+	color: var(--spice-subtext, #a7a7a7);
+	font-size: 18px;
+	line-height: 1;
+	font-family: inherit;
+	cursor: pointer;
+
+	&:hover {
+		background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.12);
+		color: var(--spice-text, #fff);
+	}
+}
+
+/* Generic modal chrome for module-owned dialogs. */
+.spicetify-scrim {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: max(16px, var(--main-gap, 8px));
+	background: rgba(0, 0, 0, 0.68);
+}
+
+.spicetify-dialog {
+	display: flex;
+	width: min(680px, 100%);
+	max-height: min(84vh, calc(100vh - 32px));
+	min-height: 0;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.08);
+	background: var(--spice-main-elevated, var(--spice-card, #242424));
+	color: var(--spice-text, #fff);
+	border-radius: 12px;
+	box-shadow: 0 18px 64px rgba(var(--spice-rgb-shadow, 0, 0, 0), 0.58);
+
+	.spicetify-dialog-header {
+		display: flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 20px 24px 12px;
+
+		h2 {
+			min-width: 0;
+			margin: 0;
+			color: var(--spice-text, #fff);
+			font-size: 18px;
+			font-weight: 700;
+			line-height: 1.3;
+		}
+
+		.spicetify-button-circle {
+			flex: 0 0 auto;
+		}
+	}
+
+	.spicetify-dialog-body {
+		display: flex;
+		flex: 1 1 auto;
+		min-height: 0;
+		flex-direction: column;
+		gap: 12px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding: 8px 24px 24px;
+	}
+
+	input,
+	textarea,
+	select {
+		color: var(--spice-text, #fff);
+		font: inherit;
+	}
+}
+
+.spicetify-dialog--large {
+	width: min(1120px, 100%);
+}
+
+/* Shared chrome for module-owned badges, chips, and card containers —
+   the reusable base the vanilla component kit (lib/primitives-vanilla.ts) applies.
+   Values mirror the store's original store-local classes so the look is
+   unchanged. Layout of card contents stays the consumer's concern. */
+.spicetify-badge {
+	padding: 2px 8px;
+	border-radius: 999px;
+	/* Tint from the theme text, not flat white: over a light scheme a
+	   white wash is invisible, and the badge loses its shape. */
+	background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.1);
+	color: var(--spice-subtext, #a7a7a7);
+	font-size: 11px;
+	white-space: nowrap;
+
+	/* The tone lives in the background wash; the label stays on the
+	   theme text so it is legible whatever the accent turns out to be.
+	   `button` is an accent *surface* and reads as pale-on-pale when a
+	   theme picks a soft one. */
+	&--ok {
+		background: rgba(var(--spice-rgb-button, 30, 215, 96), 0.18);
+		color: var(--spice-text, #1ed760);
+	}
+
+	&--bad {
+		background: rgba(var(--spice-rgb-notification-error, 255, 107, 107), 0.18);
+		color: var(--spice-text, #ff6b6b);
+	}
+}
+
+.spicetify-chip {
+	border: none;
+	border-radius: 16px;
+	padding: 6px 14px;
+	/* `card` over `highlight`: three times as many themes declare it, and
+	   where both exist it sits further from `main`, which is what a chip
+	   on the page background needs. */
+	background: var(--spice-card, #202020);
+	color: var(--spice-text, #fff);
+	cursor: pointer;
+	font-size: 13px;
+
+	&--active {
+		background: var(--spice-text, #fff);
+		color: var(--spice-main, #121212);
+	}
+}
+
+.spicetify-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 16px;
+	border-radius: 8px;
+	background: var(--spice-card, #202020);
+}
+
+/* Deprecated standalone toggle contract. The React Toggle primitive now uses
+   Spotify's x-toggle-* structure, but patch releases keep this class working
+   for consumers that imported TOGGLE_CLASS directly. */
+.spicetify-toggle {
+	appearance: none;
+	-webkit-appearance: none;
+	position: relative;
+	flex: none;
+	width: 48px;
+	height: 28px;
+	margin: 0;
+	border-radius: 14px;
+	background-color: var(--spice-misc, #727272);
+	transition: background-color 200ms ease;
+	cursor: pointer;
+}
+
+.spicetify-toggle::before {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: transform 200ms ease;
+}
+
+.spicetify-toggle:checked {
+	background-color: var(--spice-button, #1ed760);
+}
+
+.spicetify-toggle:checked::before {
+	transform: translateX(20px);
+}
+
+.spicetify-toggle:focus-visible {
+	outline: 2px solid var(--spice-text, #fff);
+	outline-offset: 2px;
+}

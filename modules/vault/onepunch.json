@@ -1,0 +1,46 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/onepunch@0.1.0/onepunch@0.1.0.zip"],
+			"providers": [],
+			"checksum": "sha256:1dc33e064f4ecad44cfbeec6045ef1e61076c74d2e61e5a422806993290a7b06",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/onepunch@0.1.1/onepunch@0.1.1.zip"],
+			"providers": [],
+			"checksum": "sha256:36761b96ba933dd3bb761afa7d4bbd0b1dfb522615d809179580d05d747fe994",
+			"updatedAt": "2026-08-09"
+		},
+		"0.1.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/onepunch@0.1.2/onepunch@0.1.2.zip"],
+			"providers": [],
+			"checksum": "sha256:a7e8bde3d4fb69df2c0dedd46f9f8eb0452cfd9fdf00d3da129cb68c9dab4255",
+			"updatedAt": "2026-08-18"
+		},
+		"0.1.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/onepunch@0.1.3/onepunch@0.1.3.zip"],
+			"providers": [],
+			"checksum": "sha256:0738e0e1ca8d4040979cace8ce4ee35b7ed37e912d239111a76bb8215d0482a7",
+			"updatedAt": "2026-08-19"
+		},
+		"0.1.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/onepunch@0.1.4/onepunch@0.1.4.zip"],
+			"providers": [],
+			"checksum": "sha256:77024b49e2e02a0ac1e44e6f0341cd710093d82adffa77556bfd78fe04b06960",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Onepunch",
+		"description": "A simple gruvbox-flavored theme, dark and light",
+		"authors": [
+			{
+				"name": "okarin001"
+			}
+		],
+		"kind": "theme",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/onepunch.png",
+		"license": "GPL-3.0-or-later"
+	}
+}

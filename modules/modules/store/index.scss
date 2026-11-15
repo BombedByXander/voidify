@@ -1,0 +1,755 @@
+.spicetify-store-anchor {
+	position: fixed;
+	top: 12px;
+	right: 12px;
+	// Above the view it floats over, below the client's own furniture: at
+	// 9999 this sat over the playbar and every dialog.
+	z-index: 5;
+
+	.spicetify-store-btn {
+		padding: 6px 16px;
+		border-radius: 999px;
+		border: none;
+		background: var(--spice-button, #1ed760);
+		color: var(--spice-button-text, #000);
+		font-weight: 700;
+		cursor: pointer;
+	}
+}
+
+.spicetify-store-panel {
+	position: fixed;
+	top: 64px;
+	right: 16px;
+	width: 380px;
+	max-height: 70vh;
+	overflow-y: auto;
+	z-index: 5;
+
+	// Inside the stdlib popover the host owns position and chrome.
+	&.spicetify-store-panel--anchored {
+		position: static;
+		top: auto;
+		right: auto;
+		z-index: auto;
+		max-height: none;
+		box-shadow: none;
+		background: transparent;
+	}
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 16px;
+	border-radius: 8px;
+	background: var(--spice-player, #121212);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+	color: var(--spice-text, #fff);
+
+	h2,
+	h3 {
+		margin: 0;
+	}
+
+	.spicetify-store-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.spicetify-store-close {
+		background: none;
+		border: none;
+		color: inherit;
+		font-size: 20px;
+		cursor: pointer;
+	}
+
+	.spicetify-store-search {
+		width: 100%;
+		padding: 8px;
+		border-radius: 4px;
+		border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.2);
+		background: rgba(0, 0, 0, 0.3);
+		color: inherit;
+	}
+
+	.spicetify-store-status {
+		font-size: 12px;
+		opacity: 0.7;
+		min-height: 14px;
+	}
+
+	.spicetify-store-row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 0;
+		border-bottom: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.08);
+	}
+
+	.spicetify-store-name {
+		font-weight: 600;
+		flex: 1;
+	}
+
+	.spicetify-store-version {
+		font-size: 11px;
+		opacity: 0.6;
+	}
+
+	.spicetify-store-row button {
+		padding: 4px 12px;
+		border-radius: 999px;
+		border: none;
+		background: var(--spice-button, #1ed760);
+		color: var(--spice-button-text, #000);
+		cursor: pointer;
+		font-size: 12px;
+	}
+
+	.spicetify-store-row button:disabled {
+		opacity: 0.5;
+		cursor: default;
+	}
+
+	.spicetify-store-danger {
+		background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.1) !important;
+		color: inherit !important;
+	}
+
+	.spicetify-store-empty {
+		opacity: 0.5;
+		font-size: 12px;
+		padding: 8px 0;
+	}
+}
+
+/* Full store page (/bespoke/store) */
+.spicetify-store-page {
+	padding: 24px 32px 48px;
+	max-width: 1100px;
+	margin: 0 auto;
+	color: var(--spice-text, #fff);
+	container-type: inline-size;
+
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+	}
+
+	.spicetify-store-page-subtitle {
+		margin: 4px 0 0;
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 14px;
+	}
+
+	.spicetify-store-page-header {
+		display: flex;
+		// flex-start: the search sits at the very top right, level with
+		// the title, not bottomed out against the subtitle.
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 16px;
+		margin-bottom: 8px;
+
+		.spicetify-store-page-search {
+			width: 260px;
+		}
+	}
+
+	.spicetify-store-section-title {
+		margin: 32px 0 12px;
+		font-size: 1.25rem;
+	}
+
+	.spicetify-store-status {
+		min-height: 20px;
+		margin-bottom: 12px;
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 13px;
+	}
+
+	.spicetify-store-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 12px;
+	}
+
+	.spicetify-store-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 12px;
+		border-radius: 8px;
+		background: var(--spice-card, #202020);
+		transition:
+			background-color 0.2s ease,
+			background-image 0.2s ease;
+
+		// Catalog cards are clickable (the card itself opens details).
+		&.spicetify-store-card--catalog {
+			cursor: pointer;
+
+			// Lift the card the way the client lifts its own: a tint of the
+			// text colour laid over whatever the card already is, rather than
+			// a second colour. --spice-card-hover is not a canonical key, so
+			// for almost every theme it is unset and the literal behind it
+			// wins - which is how a cream theme ended up with a charcoal card
+			// under the cursor. A tint has no such problem: it darkens a light
+			// theme and lightens a dark one because it is derived from the
+			// text colour either way.
+			&:hover,
+			&:focus-within {
+				background-image: linear-gradient(
+					var(--background-tinted-highlight, rgba(var(--spice-rgb-text, 255, 255, 255), 0.1)),
+					var(--background-tinted-highlight, rgba(var(--spice-rgb-text, 255, 255, 255), 0.1))
+				);
+
+				.spicetify-store-card-fab {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			&:focus-visible {
+				outline: 2px solid var(--spice-text, #fff);
+				outline-offset: 2px;
+			}
+
+			// Align the badge row across a grid row, now that the
+			// actions row is gone. Reserve room on the right so badges
+			// never slide under the corner FAB.
+			.spicetify-store-card-meta {
+				margin-top: auto;
+				padding-right: 48px;
+			}
+		}
+
+		// Wraps the preview so the install-count badge can pin to the artwork.
+		.spicetify-store-card-art {
+			position: relative;
+		}
+
+		.spicetify-store-card-preview {
+			display: block;
+			width: 100%;
+			aspect-ratio: 16 / 9;
+			object-fit: cover;
+			border-radius: 4px;
+		}
+
+		// Icon + count pinned to the artwork's bottom-left, over a soft
+		// scrim so it stays legible on any preview.
+		.spicetify-store-installs {
+			position: absolute;
+			left: 8px;
+			bottom: 8px;
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			padding: 3px 8px 3px 6px;
+			border-radius: 999px;
+			background: rgba(0, 0, 0, 0.6);
+			color: #fff;
+			font-size: 11px;
+			font-weight: 600;
+			line-height: 1;
+			backdrop-filter: blur(2px);
+			pointer-events: none;
+
+			svg {
+				width: 13px;
+				height: 13px;
+				fill: currentColor;
+			}
+		}
+
+		// Circular install button pinned to the card's bottom-right
+		// corner, revealed on hover: the album-card play FAB, white
+		// with a download glyph instead of green with a play triangle.
+		.spicetify-store-card-fab {
+			position: absolute;
+			right: 12px;
+			bottom: 12px;
+			width: 40px;
+			height: 40px;
+			padding: 0;
+			border: none;
+			border-radius: 50%;
+			display: grid;
+			place-items: center;
+			background: var(--spice-text, #fff);
+			color: var(--spice-main, #000);
+			cursor: pointer;
+			box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
+			opacity: 0;
+			transform: translateY(8px);
+			transition:
+				opacity 0.2s ease,
+				transform 0.2s ease;
+
+			svg {
+				width: 20px;
+				height: 20px;
+				fill: currentColor;
+			}
+
+			// After the reveal rules so the scale wins the specificity tie.
+			&:hover {
+				transform: scale(1.06);
+			}
+
+			// CLI-installed and current: an inert check. The :disabled
+			// visibility below is for mid-install only; this state is
+			// permanent, so it stays hover-revealed like the other glyphs
+			// instead of sitting over the artwork at rest. Before the
+			// :focus-visible and :disabled rules so both win the tie.
+			&.spicetify-store-card-fab--installed {
+				opacity: 0;
+				transform: translateY(8px);
+			}
+
+			&:focus-visible {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			// Mid-install the FAB stays visible but inert.
+			&:disabled {
+				cursor: default;
+				opacity: 0.6;
+				transform: translateY(0);
+			}
+
+			// Installed and current: the corner action becomes removal,
+			// so the glyph turns negative-red as the destructive tell.
+			&.spicetify-store-card-fab--remove {
+				color: var(--spice-negative, #e91429);
+			}
+		}
+
+		.spicetify-store-card-name {
+			margin: 0;
+			font-size: 0.9rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			a {
+				color: inherit;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		.spicetify-store-card-desc {
+			margin: 0;
+			color: var(--spice-subtext, #a7a7a7);
+			font-size: 12px;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.spicetify-store-card-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+		}
+
+		.spicetify-store-card-actions .spicetify-button {
+			padding: 4px 12px;
+			font-size: 12px;
+		}
+
+		// A card can carry several actions (update, toggle, edit, discard a
+		// shadowed record, removal). Without wrapping they compress until
+		// their labels break mid-word and the pills render as circles.
+		.spicetify-store-card-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin-top: auto;
+		}
+
+		// The non-destructive actions wrap among themselves, so removal stays
+		// an icon at the bottom-right corner however many of them a card has.
+		// The group never shrinks below its widest button, which lets a wide
+		// armed uninstall wrap to its own row instead of overlapping it.
+		.spicetify-store-card-actions {
+			align-items: flex-end;
+		}
+
+		.spicetify-store-card-actions-main {
+			display: flex;
+			flex: 1 1 0;
+			flex-wrap: wrap;
+			gap: 8px;
+			min-width: min-content;
+		}
+
+		.spicetify-store-card-trash,
+		.spicetify-store-card-trash-armed {
+			margin-left: auto;
+		}
+
+		.spicetify-store-card-icon {
+			flex: none;
+			width: 28px;
+			height: 28px;
+			padding: 0;
+			border-radius: 50%;
+			display: grid;
+			place-items: center;
+			cursor: pointer;
+
+			svg {
+				width: 16px;
+				height: 16px;
+				fill: currentColor;
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: default;
+			}
+		}
+
+		// Filled like the primary pills, so a pending update is the most
+		// prominent thing on the card.
+		.spicetify-store-card-update {
+			border: none;
+			background: var(--spice-button, #1ed760);
+			color: var(--spice-main, #000);
+		}
+
+		.spicetify-store-card-trash {
+			border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+			background: transparent;
+			color: var(--spice-text, #fff);
+
+			&:hover:not(:disabled) {
+				border-color: #ff4151;
+				color: #ff4151;
+			}
+		}
+	}
+
+	.spicetify-store-cta {
+		padding: 6px 16px;
+		border: none;
+		border-radius: 999px;
+		background: var(--spice-button, #1ed760);
+		color: var(--spice-main, #000);
+		font-size: 13px;
+		font-weight: 700;
+		cursor: pointer;
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: default;
+		}
+	}
+
+	.spicetify-store-danger {
+		padding: 6px 14px;
+		border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--spice-text, #fff);
+		font-size: 13px;
+		cursor: pointer;
+
+		&:hover {
+			border-color: #ff4151;
+			color: #ff4151;
+		}
+	}
+
+	.spicetify-store-empty {
+		color: var(--spice-subtext, #a7a7a7);
+		font-size: 14px;
+	}
+}
+
+.spicetify-store-open-page {
+	margin-left: auto;
+	margin-right: 8px;
+	padding: 4px 10px;
+	border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.25);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--spice-text, #fff);
+	font-size: 12px;
+	cursor: pointer;
+
+	&:hover {
+		border-color: var(--spice-text, #fff);
+	}
+}
+
+.spicetify-store-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 12px 0 4px;
+
+	.spicetify-store-chips {
+		display: flex;
+		gap: 8px;
+		flex: 1;
+	}
+}
+
+@container (max-width: 800px) {
+	.spicetify-store-toolbar .spicetify-select {
+		width: 32px;
+		padding: 0;
+		// !important: themes recolor bare `select` with !important, which
+		// would paint the label back over the icon.
+		color: transparent !important;
+		background-position: center;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23a7a7a7'%3E%3Cpath d='M2 4h12v1.5H2zm0 3.25h8v1.5H2zm0 3.25h5v1.5H2z'/%3E%3C/svg%3E");
+	}
+}
+
+.spicetify-store-active-theme {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 8px 0;
+	padding: 10px 14px;
+	border-radius: 8px;
+	background: rgba(var(--spice-rgb-button, 30, 215, 96), 0.14);
+	font-size: 14px;
+
+	.spicetify-store-active-theme-label {
+		color: var(--spice-subtext, #a7a7a7);
+	}
+
+	.spicetify-store-active-theme-name {
+		flex: 1;
+		color: var(--spice-text, #fff);
+	}
+}
+
+.spicetify-store-updates {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 8px 0;
+	padding: 10px 14px;
+	border-radius: 8px;
+	background: rgba(var(--spice-rgb-button, 30, 215, 96), 0.14);
+	color: var(--spice-text, #fff);
+	font-size: 14px;
+}
+
+.spicetify-store-apply[hidden] {
+	display: none;
+}
+
+.spicetify-store-apply {
+	margin: 8px 0;
+	padding: 12px 14px;
+	border: 1px solid var(--spice-button-disabled, #555);
+	border-radius: 8px;
+	color: var(--spice-text, #fff);
+	font-size: 14px;
+
+	p {
+		margin: 0 0 10px;
+	}
+
+	.spicetify-store-apply-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.spicetify-store-cta {
+		display: inline-block;
+		padding: 6px 16px;
+		border: 1px solid var(--spice-button-disabled, #555);
+		background: var(--spice-main, #121212);
+		color: var(--spice-text, #fff);
+		font: inherit;
+		text-decoration: none;
+		cursor: pointer;
+	}
+}
+
+.spicetify-store-detail-preview {
+	width: 100%;
+	max-height: 260px;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+.spicetify-store-repo-link {
+	color: var(--spice-subtext, #a7a7a7);
+	font-size: 13px;
+	text-decoration: none;
+
+	&:hover {
+		color: var(--spice-text, #fff);
+		text-decoration: underline;
+	}
+}
+
+.spicetify-store-license {
+	color: var(--spice-subtext, #a7a7a7);
+	font-size: 13px;
+	margin-left: auto;
+}
+
+// The details dialog's meta row is outside the card scope, so give it the
+// same flex layout — and center-align so the icon pill lines up with the
+// text pills instead of sitting on a different baseline.
+.spicetify-store-card-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+}
+
+// Install count inline in the details meta row: a pill matching the
+// neighbouring badges (same background, radius, height), just with an icon.
+.spicetify-store-installs-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px 2px 6px;
+	border-radius: 999px;
+	background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.08);
+	color: var(--spice-subtext, #a7a7a7);
+	font-size: 11px;
+	white-space: nowrap;
+
+	svg {
+		width: 12px;
+		height: 12px;
+		fill: currentColor;
+	}
+}
+
+// Authors appear only in the details dialog, which renders outside the card,
+// so this rule cannot be nested under it. Size is inherited so the line sits
+// with the dialog's body copy rather than reading as a card caption.
+.spicetify-store-card-authors {
+	color: var(--spice-subtext, #a7a7a7);
+
+	a {
+		color: inherit;
+		text-decoration: underline;
+	}
+}
+
+// The details description reads as body copy, not a cramped caption.
+.spicetify-store-detail-desc {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--spice-text, #fff);
+}
+
+// Primary action first, the repo link a quiet trailing footnote.
+.spicetify-store-card-actions {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 4px 0;
+}
+
+.spicetify-store-snippet-css {
+	min-height: 220px;
+	resize: vertical;
+	background: var(--spice-highlight, #1a1a1a);
+	color: var(--spice-text);
+	border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.1);
+	border-radius: 8px;
+	padding: 12px;
+	font-family: ui-monospace, monospace;
+	font-size: 13px;
+	tab-size: 2;
+}
+
+.spicetify-store-markdown {
+	font-size: 14px;
+	line-height: 1.5;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	code {
+		background: rgba(var(--spice-rgb-text, 255, 255, 255), 0.08);
+		border-radius: 4px;
+		padding: 1px 5px;
+		font-family: ui-monospace, monospace;
+		font-size: 12px;
+	}
+
+	pre {
+		background: rgba(0, 0, 0, 0.35);
+		border-radius: 8px;
+		padding: 12px;
+		overflow-x: auto;
+
+		code {
+			background: none;
+			padding: 0;
+			white-space: pre;
+		}
+	}
+
+	ul {
+		padding-left: 20px;
+		list-style: disc;
+	}
+
+	a {
+		color: var(--spice-button-active, #1ed760);
+	}
+}
+
+.spicetify-store-card--revoked {
+	outline: 1px solid rgba(var(--spice-rgb-notification-error, 255, 99, 99), 0.6);
+}
+
+// Enabled modules read at a glance without hovering: a green outline
+// instead of an enabled badge (outline, so no layout shift).
+.spicetify-store-card--enabled {
+	outline: 1px solid var(--spice-button-active, #1ed760);
+}
+
+.spicetify-store-data-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 28px 0 8px;
+	opacity: 0.9;
+
+	.spicetify-store-data-label {
+		font-size: 13px;
+		color: var(--spice-subtext, #a7a7a7);
+	}
+
+	button {
+		border: 1px solid rgba(var(--spice-rgb-text, 255, 255, 255), 0.15);
+		background: transparent;
+		color: var(--spice-text);
+		border-radius: 6px;
+		padding: 5px 12px;
+		cursor: pointer;
+		font-size: 13px;
+	}
+}
+
+.spicetify-store-card select {
+	margin-top: 6px;
+}

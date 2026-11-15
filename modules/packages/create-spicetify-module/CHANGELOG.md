@@ -1,0 +1,81 @@
+# Changelog
+
+## [0.1.9](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.8...create-spicetify-module@0.1.9) (2026-11-05)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.4.4 to ^0.5.0
+
+## [0.1.8](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.7...create-spicetify-module@0.1.8) (2026-10-01)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.4.3 to ^0.4.4
+
+## [0.1.7](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.6...create-spicetify-module@0.1.7) (2026-10-01)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.4.2 to ^0.4.3
+
+## [0.1.6](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.5...create-spicetify-module@0.1.6) (2026-09-29)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.4.1 to ^0.4.2
+
+## [0.1.5](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.4...create-spicetify-module@0.1.5) (2026-09-29)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.4.0 to ^0.4.1
+
+## [0.1.4](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.3...create-spicetify-module@0.1.4) (2026-09-28)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.3.1 to ^0.4.0
+
+## [0.1.3](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.2...create-spicetify-module@0.1.3) (2026-09-05)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.3.0 to ^0.3.1
+
+## [0.1.2](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.1...create-spicetify-module@0.1.2) (2026-08-19)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @spicetify/kit bumped from ^0.2.0 to ^0.3.0
+
+## [0.1.1](https://github.com/spicetify/modules/compare/create-spicetify-module@0.1.0...create-spicetify-module@0.1.1) (2026-08-18)
+
+### Dependencies
+
+- The following workspace dependencies were updated
+    - dependencies
+        - @spicetify/kit bumped from ^0.1.0 to ^0.2.0

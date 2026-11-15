@@ -1,0 +1,43 @@
+name: Publish
+
+on:
+   push:
+      tags:
+       - "*"
+
+jobs:
+   publish:
+      name: Publish
+      runs-on: ubuntu-latest
+
+      permissions:
+         contents: write
+
+      steps:
+         -  name: Checkout
+            uses: actions/checkout@v4
+
+         -  name: Install Node v20
+            uses: actions/setup-node@v1
+            with:
+               node-version: 20
+
+         -  name: Install TypeScript
+            run: npm install typescript --save-dev
+
+         -  name: Transpile TypeScript
+            run: npx tsc --outDir dist
+
+         -  name: Package hooks into tar.gz
+            run: |
+               pushd dist
+               cp ../COPYING .
+               7z a -bb0 -sdel hooks.tar *
+               7z a -bb0 -sdel hooks.tar.gz hooks.tar
+               popd
+
+         -  name: Release
+            uses: softprops/action-gh-release@v2
+            with:
+               files: |
+                  dist/*

@@ -1,0 +1,237 @@
+/*
+ * Copyright (C) 2026 spicetify
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+// TabBar.js — the provider tab bar rendered into the top bar.
+
+import type * as ReactTypes from "react";
+import { client, React as react } from "/modules/stdlib/mod.ts";
+import { OptionsMenu } from "./options-menu.tsx";
+
+const { useState, useEffect } = react;
+const spotifyVersion = client.platform.version;
+
+interface TabOption {
+	key: string;
+	value: string;
+	active: boolean;
+}
+interface TabActions {
+	switchTo: (key: string) => void;
+	lockIn: (key: string) => void;
+}
+interface TabBarProps {
+	links: string[];
+	activeLink?: string;
+	lockLink?: string;
+	switchCallback: (key: string) => void;
+	lockCallback: (key: string) => void;
+	windowSize?: number;
+}
+export class TabBarItem extends react.Component<TabActions & { item: TabOption }> {
+	onSelect(event: ReactTypes.MouseEvent) {
+		event.preventDefault();
+		this.props.switchTo(this.props.item.key);
+	}
+	onLock(event: ReactTypes.MouseEvent) {
+		event.preventDefault();
+		this.props.lockIn(this.props.item.key);
+	}
+	render() {
+		return react.createElement(
+			"li",
+			{
+				className: "lyrics-tabBar-headerItem",
+				onClick: this.onSelect.bind(this),
+				onDoubleClick: this.onLock.bind(this),
+				onContextMenu: this.onLock.bind(this),
+			},
+			react.createElement(
+				"a",
+				{
+					"aria-current": "page",
+					className: `lyrics-tabBar-headerItemLink ${this.props.item.active ? "lyrics-tabBar-active" : ""}`,
+					draggable: "false",
+					href: "",
+				},
+				react.createElement(
+					"span",
+					{
+						className: "main-type-mestoBold",
+					},
+					this.props.item.value,
+				),
+			),
+		);
+	}
+}
+
+export const TabBarMore = react.memo(({ items, switchTo, lockIn }: TabActions & { items: TabOption[] }) => {
+	const activeItem = items.find((item) => item.active);
+
+	function onLock(event: ReactTypes.MouseEvent) {
+		event.preventDefault();
+		if (activeItem) {
+			lockIn(activeItem.key);
+		}
+	}
+	return react.createElement(
+		"li",
+		{
+			className: `lyrics-tabBar-headerItem ${activeItem ? "lyrics-tabBar-active" : ""}`,
+			onDoubleClick: onLock,
+			onContextMenu: onLock,
+		},
+		react.createElement(OptionsMenu, {
+			options: items,
+			onSelect: switchTo,
+			selected: activeItem,
+			defaultValue: "More",
+			bold: true,
+		}),
+	);
+});
+
+export const TopBarContent = ({ links, activeLink, lockLink, switchCallback, lockCallback }: TabBarProps) => {
+	const resizeHost = document.querySelector(
+		".Root__main-view .os-resize-observer-host, .Root__main-view .os-size-observer, .Root__main-view .main-view-container__scroll-node",
+	);
+	const [windowSize, setWindowSize] = useState(resizeHost?.clientWidth ?? window.innerWidth);
+	const resizeHandler = () => setWindowSize(resizeHost?.clientWidth ?? window.innerWidth);
+
+	useEffect(() => {
+		if (!resizeHost) return;
+		const observer = new ResizeObserver(resizeHandler);
+		observer.observe(resizeHost);
+		return () => {
+			observer.disconnect();
+		};
+	}, [resizeHandler]);
+
+	return react.createElement(
+		TabBarContext,
+		null,
+		react.createElement(TabBar, {
+			links,
+			activeLink,
+			lockLink,
+			switchCallback,
+			lockCallback,
+			windowSize,
+		}),
+	);
+};
+
+// The classic app portaled the mode switcher into the client top bar, but the
+// lyrics container paints over that bar, so it always renders inline instead.
+export const TabBarContext = ({ children }: { children?: ReactTypes.ReactNode }) =>
+	react.createElement("div", { className: "lyrics-plus-topbar-content" }, children);
+
+export const TabBar = react.memo(
+	({
+		links,
+		activeLink,
+		lockLink,
+		switchCallback,
+		lockCallback,
+		windowSize = Number.POSITIVE_INFINITY,
+	}: TabBarProps) => {
+		const tabBarRef = react.useRef<HTMLUListElement>(null);
+		const [childrenSizes, setChildrenSizes] = useState<number[]>([]);
+		const [availableSpace, setAvailableSpace] = useState(0);
+		const [droplistItem, setDroplistItems] = useState<number[]>([]);
+
+		const options: TabOption[] = [];
+		for (let i = 0; i < links.length; i++) {
+			const key = links[i];
+			if (spotifyVersion >= "1.2.31" && key === "genius") continue;
+			let value = key[0].toUpperCase() + key.slice(1);
+			if (key === lockLink) value = `• ${value}`;
+			const active = key === activeLink;
+			options.push({ key, value, active });
+		}
+
+		useEffect(() => {
+			if (!tabBarRef.current) return;
+			setAvailableSpace(tabBarRef.current.clientWidth);
+		}, [windowSize]);
+
+		useEffect(() => {
+			if (!tabBarRef.current) return;
+
+			const tabbarItemSizes = [];
+			for (const child of tabBarRef.current.children) {
+				tabbarItemSizes.push(child.clientWidth);
+			}
+
+			setChildrenSizes(tabbarItemSizes);
+		}, [links]);
+
+		useEffect(() => {
+			if (!tabBarRef.current) return;
+
+			const totalSize = childrenSizes.reduce((a, b) => a + b, 0);
+
+			// Can we render everything?
+			if (totalSize <= availableSpace) {
+				setDroplistItems([]);
+				return;
+			}
+
+			// The `More` button can be set to _any_ of the children. So we
+			// reserve space for the largest item instead of always taking
+			// the last item.
+			const viewMoreButtonSize = Math.max(...childrenSizes);
+
+			// Figure out how many children we can render while also showing
+			// the More button
+			const itemsToHide: number[] = [];
+			let stopWidth = viewMoreButtonSize;
+
+			childrenSizes.forEach((childWidth, i) => {
+				if (availableSpace >= stopWidth + childWidth) {
+					stopWidth += childWidth;
+				} else {
+					// First elem is edit button
+					itemsToHide.push(i);
+				}
+			});
+
+			setDroplistItems(itemsToHide);
+		}, [availableSpace, childrenSizes]);
+
+		return react.createElement(
+			"nav",
+			{
+				className: "lyrics-tabBar lyrics-tabBar-nav",
+			},
+			react.createElement(
+				"ul",
+				{
+					className: "lyrics-tabBar-header",
+					ref: tabBarRef,
+				},
+				react.createElement("li", {
+					className: "lyrics-tabBar-headerItem",
+				}),
+				options
+					.filter((_, id) => !droplistItem.includes(id))
+					.map((item) =>
+						react.createElement(TabBarItem, {
+							item,
+							switchTo: switchCallback,
+							lockIn: lockCallback,
+						}),
+					),
+				droplistItem.length || childrenSizes.length === 0
+					? react.createElement(TabBarMore, {
+							items: droplistItem.map((i) => options[i]).filter(Boolean),
+							switchTo: switchCallback,
+							lockIn: lockCallback,
+						})
+					: null,
+			),
+		);
+	},
+);

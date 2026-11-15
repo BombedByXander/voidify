@@ -1,0 +1,34 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/reddit@0.1.0/reddit@0.1.0.zip"],
+			"providers": [],
+			"checksum": "sha256:ab0cf715006dcab6deb55879d0e15328aeb2479843226efd4432a4c6ebd032e5",
+			"updatedAt": "2026-08-19"
+		},
+		"0.1.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/reddit@0.1.1/reddit@0.1.1.zip"],
+			"providers": [],
+			"checksum": "sha256:72134a91000c7f3298fae84bf0d5734ce17636950eb18b977f0a337a248e42e8",
+			"updatedAt": "2026-09-14"
+		},
+		"0.1.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/reddit@0.1.2/reddit@0.1.2.zip"],
+			"providers": [],
+			"checksum": "sha256:2a75dd9f1e9b68c1b6cc34173d6d42df61c390f3a31c35c2588f5aeae9569f2d",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Reddit",
+		"description": "Discover Spotify playlists, albums, and songs shared by Reddit music communities.",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "app",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/reddit.svg",
+		"license": "GPL-3.0-or-later"
+	}
+}

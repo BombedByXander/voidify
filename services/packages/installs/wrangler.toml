@@ -1,0 +1,41 @@
+name = "installs"
+main = "src/index.ts"
+workers_dev = true
+compatibility_date = "2024-12-19"
+
+routes = [{ pattern = "installs.spicetify.app", custom_domain = true }]
+
+# The unique-install store. Create it once and paste the id here:
+#   wrangler d1 create spicetify-installs
+#   wrangler d1 execute spicetify-installs --file schema.sql          # local
+#   wrangler d1 execute spicetify-installs --remote --file schema.sql # prod
+[[d1_databases]]
+binding = "DB"
+database_name = "spicetify-installs"
+database_id = "df941afa-274a-46f6-a33f-669bf07263c0"
+
+# HMAC key for hashing the Spotify account id — never commit it:
+#   wrangler secret put ACCOUNT_HASH_SECRET
+# For local dev, put it in .dev.vars (gitignored).
+
+# Per-IP POST rate limit: the account id is client-asserted, so this caps how
+# fast one source can inflate counts.
+[[ratelimits]]
+name = "POST_LIMIT"
+namespace_id = "1001"
+simple = { limit = 30, period = 60 }
+
+# Per-module POST rate limit: caps one module's intake however many IPs a
+# flood is spread across, which the per-IP limit alone cannot do.
+[[ratelimits]]
+name = "MODULE_LIMIT"
+namespace_id = "1002"
+simple = { limit = 60, period = 60 }
+
+# Nightly ip_hash expiry (see IP_HASH_RETENTION_MS). Off the hour to avoid the
+# top-of-hour crowd on Cloudflare's scheduler.
+[triggers]
+crons = ["23 4 * * *"]
+
+[observability.logs]
+enabled = false

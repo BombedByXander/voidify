@@ -1,0 +1,96 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.0/hide-window-controls@0.1.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:939c1f552713e5d565f15e724ab6fb30d61069b1ae8daad92ea1091ae33e8e58",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.1/hide-window-controls@0.1.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:59be653b8fdf6b5baa45bd3faef8d11f6f4533f8ae307307faac0792e5b267ee",
+			"updatedAt": "2026-08-10"
+		},
+		"0.1.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.3/hide-window-controls@0.1.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:449cc5d65f09efb02b03548e9dba853964f6a4e1cc59affb1460f9e079eebc1d",
+			"updatedAt": "2026-08-12"
+		},
+		"0.1.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.4/hide-window-controls@0.1.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:615d26f6b08d8f4071bbf21d117e143fbe18bbff1db80c3744cb614c6d903635",
+			"updatedAt": "2026-08-13"
+		},
+		"0.1.5": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.5/hide-window-controls@0.1.5.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:4724e1a967f503dcf9975c44868ae82e3c4d8c140d26ac478bdca894e4f24801",
+			"updatedAt": "2026-08-17"
+		},
+		"0.1.6": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.6/hide-window-controls@0.1.6.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:8eef0e0d661b6d6ef40ea8b12577f1bb8a9d57a77275670e023ed8536bdf9aa0",
+			"updatedAt": "2026-09-05"
+		},
+		"0.1.7": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.7/hide-window-controls@0.1.7.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:7be843de361b84791acb12f84f6ffa9bb64bf63044c855348c9306a3500a13a6",
+			"updatedAt": "2026-09-05"
+		},
+		"0.1.8": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.8/hide-window-controls@0.1.8.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:e1255684f748d7c2967c6b766580976d32d80bceafcdf2e5edb01d4396aec4b1",
+			"updatedAt": "2026-09-14"
+		},
+		"0.1.9": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.9/hide-window-controls@0.1.9.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:55cb207b614d8ae5b5bf212521759ada1ec675aa1c026bcf37db25bc4b803787",
+			"updatedAt": "2026-09-29"
+		},
+		"0.1.10": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/hide-window-controls@0.1.10/hide-window-controls@0.1.10.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:f142256cee0b07701b60a6aa387d2955dd0dd83768b57198ff473992e0798a31",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Hide Window Controls",
+		"description": "Hide Windows window buttons and macOS traffic lights, including their reserved space. Toggle in Settings.",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "extension",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/hide-window-controls.svg",
+		"license": "GPL-3.0-or-later"
+	}
+}

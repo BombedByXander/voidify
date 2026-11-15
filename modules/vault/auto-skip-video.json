@@ -1,0 +1,64 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/auto-skip-video@0.1.0/auto-skip-video@0.1.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:8c6fdfc84145dfdb424d6b069482e7676cda04cadd7b68f76ed5ae8ff02d8bc9",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/auto-skip-video@0.1.1/auto-skip-video@0.1.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:6d6808281b437b649c5988b9c33ccf20ba36260c9c7615e10f895eb28cd6fa7b",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.2": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/auto-skip-video@0.1.2/auto-skip-video@0.1.2.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:2a3c9cfaa656d2d0be5e5c84879a0c09d78dd4f31d1b82519fdbb6e0c949e645",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/auto-skip-video@0.1.3/auto-skip-video@0.1.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:dec0575d5ab3a27f754847c335a5893fc0fa4fd5ffa463505ad81a43c6f4f198",
+			"updatedAt": "2026-08-12"
+		},
+		"0.1.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/auto-skip-video@0.1.4/auto-skip-video@0.1.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:545183b06d2a37ccce8d6f873df6a9bd66e7675624b5f14e4d11fa23c3e0222a",
+			"updatedAt": "2026-09-14"
+		},
+		"0.1.5": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/auto-skip-video@0.1.5/auto-skip-video@0.1.5.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:4655e396c5e0074c69a46bb43d73605a25cd1cb8f2fbbb6304d55133ea5f9aed",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Auto Skip Video",
+		"description": "Auto-skip music videos. Toggle in Settings.",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "extension",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/auto-skip-video.svg",
+		"license": "GPL-3.0-or-later"
+	}
+}

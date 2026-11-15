@@ -1,0 +1,152 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.0/lyrics-plus@0.1.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:621364c56494beaaf328a4eba52c7da3799c6688e98a1ab80add59a513466f7e",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.1/lyrics-plus@0.1.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:25496881d8aff8b914fc0e457d3a4201ed793588a8ba5a35eb23686e2f1eb52e",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.2": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.2/lyrics-plus@0.1.2.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:baee2d6fb3a7989d073a4ddbe89a3997a5937007046b6e205c4f0e5d5aa87d3d",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.3/lyrics-plus@0.1.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:5f16a4baeeebd591e56c13555ec752ee2b55e18ded18444d4b063c7d226f4215",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.4/lyrics-plus@0.1.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:cd101c7b80a80235935539c1a7f40ca9e3d59a3fc895a1a97c6d1873d3e78ca9",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.5": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.5/lyrics-plus@0.1.5.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:8a1edc882b65d3486933e84bfee04863108ded51a7c207f1bde71b957d658050",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.6": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.6/lyrics-plus@0.1.6.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:02ea79db5333f0ffeca5d1685e83e2c833727a227f8b24183e5226ccdcfef65c",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.7": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.7/lyrics-plus@0.1.7.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:ad0c9c175a0ca4a84bf94ed34f1ea4f65f5856521429c0a5c078e0cba7a7ca6e",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.8": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.1.8/lyrics-plus@0.1.8.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:43f891a49ea52fa81e9e7765a25378c08ef488877803f38a294d6af40b8ea95c",
+			"updatedAt": "2026-08-13"
+		},
+		"0.2.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.2.0/lyrics-plus@0.2.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:32b0d503cc42a8b46fb7b04a6ee5b6d898a122ea1e48968268d6425a1d0b2bad",
+			"updatedAt": "2026-08-13"
+		},
+		"0.2.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.2.3/lyrics-plus@0.2.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:750851ff20673eaeb171b9f026e9c2ea11eb0ba9b2606941fcdb0f315155784c",
+			"updatedAt": "2026-08-17"
+		},
+		"0.2.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.2.4/lyrics-plus@0.2.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:0c908ab2b1b85ada09eb536874e294c4f3df987e5569bfca6feaf433e22c2fb6",
+			"updatedAt": "2026-08-24"
+		},
+		"0.2.5": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.2.5/lyrics-plus@0.2.5.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:5a26b235c8fb46dcd5a16c0a35ab805d8476728f7d6bde332d5b69322c319c99",
+			"updatedAt": "2026-09-14"
+		},
+		"0.2.6": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.2.6/lyrics-plus@0.2.6.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:c22c27896932e0cbb36d03546bb0de4908ff6df2a30464d0dea775967bf87942",
+			"updatedAt": "2026-09-16"
+		},
+		"0.3.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.3.0/lyrics-plus@0.3.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:17a7fecb7e7d0add47ac507fc1d763e4e3fe6b21c88e81dac26b8e5f20501243",
+			"updatedAt": "2026-09-18"
+		},
+		"0.4.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.4.0/lyrics-plus@0.4.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:7c853383c8a5716a95f5df5ce8c90fc2fa8a1c3672d427b78095e679d57000a2",
+			"updatedAt": "2026-10-09"
+		},
+		"0.4.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/lyrics-plus@0.4.1/lyrics-plus@0.4.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:9a1eedfceeb1e7ed35eedc3e4517a58bb84e97ebdf90fc5713ae932d757727c6",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Lyrics Plus",
+		"description": "Full-featured lyrics: synced, karaoke, unsynced and translated, from Musixmatch, Spotify, LRCLIB and Netease.",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "app",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/lyrics-plus.png",
+		"license": "GPL-3.0-or-later"
+	}
+}

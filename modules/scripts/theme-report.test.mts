@@ -1,0 +1,983 @@
+/*
+ * Copyright (C) 2026 Afonso Jorge Ramos
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+// Everything here is pure: colour maths, ini parsing, png comparison, and the
+// source-level contract that holds scheme handling to the client loader. The
+// capture half needs a running Spotify and is exercised by running the tool.
+
+import assert from "node:assert/strict";
+import { execFileSync, spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { after, describe, it } from "node:test";
+import { PNG } from "pngjs";
+import { Window } from "happy-dom";
+
+import {
+	accept,
+	auditAll,
+	auditScheme,
+	auditTheme,
+	comparePng,
+	compareRun,
+	classmapShots,
+	classmapCompleteness,
+	inspectClassmapState,
+	maskClassmapPrivacy,
+	hasAlbumsOnlyLibrary,
+	isLayoutPreference,
+	CLASSMAP_VIEWPORT,
+	prepareClassmapBaseline,
+	snapshotBaseline,
+	requireOutsideGit,
+	type LiveResult,
+	type SelectorRun,
+	contrastRatio,
+	DERIVED_COLORS,
+	fillCanonical,
+	hexToRgb,
+	listSchemes,
+	MIN_RATIO,
+	parseColorSchemes,
+	cropScreenshot,
+	relativeLuminance,
+	resolveScheme,
+	schemeVars,
+	readSettingsControls,
+	probeSelectors,
+	swapPlayback,
+	lostSelectors,
+	SELECTORS_FILE,
+} from "./theme-report.ts";
+
+describe("screenshot region", () => {
+	it("converts CSS coordinates using the client's zoom-adjusted pixel ratio", () => {
+		const source = new PNG({ width: 20, height: 20 });
+		source.data.fill(0);
+		source.data[(4 * 20 + 2) * 4] = 255;
+		const result = PNG.sync.read(
+			cropScreenshot(PNG.sync.write(source), { x: 1, y: 2, width: 3, height: 4, dpr: 2 }),
+		);
+		assert.equal(result.width, 6);
+		assert.equal(result.height, 8);
+		assert.equal(result.data[0], 255);
+	});
+	it("refuses empty or offscreen regions instead of recording an unrelated frame", () => {
+		for (const clip of [
+			{ x: 0, y: 0, width: 0, height: 2, dpr: 1 },
+			{ x: 0.5, y: 0, width: 0, height: 2, dpr: 1 },
+			{ x: -1, y: 0, width: 2, height: 2, dpr: 1 },
+			{ x: 19, y: 0, width: 2, height: 2, dpr: 1 },
+			{ x: NaN, y: 0, width: 2, height: 2, dpr: 1 },
+		])
+			assert.throws(() => cropScreenshot(png(20, 20, [0, 0, 0]), clip), /visible box/);
+	});
+});
+
+describe("pinned playback", () => {
+	const fakeClient = (failPlay = false) => {
+		const log: string[] = [];
+		const state = {
+			item: { uri: "spotify:track:mine" },
+			context: { uri: "spotify:album:mine" },
+			positionAsOfTimestamp: 1234,
+			isPaused: false,
+		};
+		let muted = false;
+		(globalThis as any).window = {
+			Spicetify: {
+				Player: { getMute: () => muted, setMute: (m: boolean) => (log.push(`mute:${m}`), (muted = m)) },
+				Platform: {
+					PlayerAPI: {
+						getState: () => state,
+						play: async (ctx: { uri: string }, _: object, opts: { skipTo?: { uri: string } }) => {
+							if (failPlay) throw new Error("offline");
+							log.push(`play:${opts.skipTo?.uri ?? ctx.uri}`);
+							state.item = { uri: opts.skipTo?.uri ?? ctx.uri };
+							state.isPaused = false;
+						},
+						pause: async () => (log.push("pause"), (state.isPaused = true)),
+						seekTo: async (ms: number) => (log.push(`seek:${ms}`), (state.positionAsOfTimestamp = ms)),
+					},
+				},
+			},
+		};
+		return { log, state, isMuted: () => muted };
+	};
+	after(() => delete (globalThis as any).window);
+
+	it("loads the track muted and paused, and reports what was playing", async () => {
+		const client = fakeClient();
+		const previous = await swapPlayback({ uri: "spotify:track:fixed" }, 0, true);
+		assert.deepEqual(previous, {
+			uri: "spotify:track:mine",
+			context: "spotify:album:mine",
+			position: 1234,
+			paused: false,
+		});
+		assert.deepEqual(client.log, ["mute:true", "play:spotify:track:fixed", "pause", "seek:0", "mute:false"]);
+		assert.equal(client.state.isPaused, true);
+	});
+
+	it("puts the mute state back when the track cannot be loaded", async () => {
+		const client = fakeClient(true);
+		await assert.rejects(swapPlayback({ uri: "spotify:track:fixed" }, 0, true), /offline/);
+		assert.equal(client.isMuted(), false);
+	});
+});
+
+describe("selector binding", () => {
+	const probe = (html: string, css: string, key?: string) => {
+		const window = new Window();
+		try {
+			window.document.body.innerHTML = html;
+			const args = [css, key].filter((x) => x !== undefined).map((x) => JSON.stringify(x));
+			return structuredClone(window.eval(`(${probeSelectors.toString()})(${args.join(",")})`));
+		} finally {
+			window.close();
+		}
+	};
+
+	it("reports which selector parts match, ignoring interaction states and pseudo-elements", () => {
+		const result = probe(
+			`<aside><button data-testid="cover-art-button"><div class="cover-art"></div></button><form><input class="search"></form></aside>`,
+			`
+				.gone .cover-art, [data-testid="cover-art-button"] .cover-art { width: 1px }
+				[data-testid="cover-art-button"]:hover, .cover-art:focus-within { color: red }
+				.cover-art::after, form .search:not(:placeholder-shown) { content: "" }
+				@media (min-width: 1px) { .also-gone { color: red } }`,
+		);
+		assert.deepEqual(result.matched, [
+			'[data-testid="cover-art-button"] .cover-art',
+			'[data-testid="cover-art-button"]:hover',
+			".cover-art:focus-within",
+			".cover-art::after",
+			"form .search:not(:placeholder-shown)",
+		]);
+		assert.deepEqual(
+			result.all.filter((s: string) => !result.matched.includes(s)),
+			[".gone .cover-art", ".also-gone"],
+		);
+	});
+
+	it("splits selector lists only on top-level commas", () => {
+		const result = probe(
+			`<div class="a"><span class="c"></span></div><b aria-label="Play, pause" class="x"></b>`,
+			`:is(.a, :not(.b)) .c, [aria-label="Play, pause"].x { color: red }`,
+		);
+		assert.deepEqual(result, {
+			all: [":is(.a, :not(.b)) .c", '[aria-label="Play, pause"].x'],
+			matched: [":is(.a, :not(.b)) .c", '[aria-label="Play, pause"].x'],
+			skipped: 0,
+		});
+	});
+
+	it("names parts after the source stylesheet when the served one only differs in class names", () => {
+		const result = probe(
+			`<div class="hashed123"></div>`,
+			".hashed123 { color: red }",
+			".main-stable { color: red }",
+		);
+		assert.deepEqual(result, { all: [".main-stable"], matched: [".main-stable"], skipped: 0 });
+	});
+
+	it("keeps the served names when the source does not line up rule for rule", () => {
+		const result = probe(
+			`<div class="hashed123"><span></span></div>`,
+			".hashed123 span { color: red }",
+			"[data-testid=x] { color: red }",
+		);
+		assert.deepEqual(result.all, [".hashed123 span"]);
+	});
+
+	it("flags only selectors that matched before, still exist, and match nothing now on the same routes", () => {
+		const run = (themes: SelectorRun["themes"]): SelectorRun => ({ playing: true, themes });
+		const baseline = run({
+			starry: {
+				"/": { all: [".a", ".b", ".c", ".d"], matched: [".a", ".b", ".c"], skipped: 0 },
+				"/search": { all: [".s"], matched: [".s"], skipped: 0 },
+			},
+			gone: { "/": { all: [".x"], matched: [".x"], skipped: 0 } },
+		});
+		const current = run({
+			starry: { "/": { all: [".a", ".b", ".d", ".s"], matched: [".a"], skipped: 0 } },
+			fresh: { "/": { all: [".y"], matched: [], skipped: 0 } },
+		});
+		assert.deepEqual(lostSelectors(baseline, current), [{ theme: "starry", selector: ".b" }]);
+	});
+
+	it("accepting a run keeps its selector results as the next baseline", () => {
+		const current = mkdtempSync(path.join(tmpdir(), "theme-report-current-"));
+		const baseline = path.join(mkdtempSync(path.join(tmpdir(), "theme-report-baseline-")), "baseline");
+		writeFileSync(path.join(current, SELECTORS_FILE), "{}");
+		writeFileSync(path.join(current, "frame.png"), "");
+		writeFileSync(path.join(current, "shots.json"), "{}");
+		try {
+			accept(current, baseline);
+			assert.ok(existsSync(path.join(baseline, SELECTORS_FILE)));
+			assert.ok(existsSync(path.join(baseline, "frame.png")));
+			assert.ok(!existsSync(path.join(baseline, "shots.json")));
+		} finally {
+			rmSync(current, { recursive: true, force: true });
+			rmSync(path.dirname(baseline), { recursive: true, force: true });
+		}
+	});
+});
+
+describe("settings control capture", () => {
+	for (const encore of ["e-10750", "e-10800"]) {
+		it(`includes links and both toggle states with ${encore} classes`, async () => {
+			const window = new Window();
+			try {
+				window.document.body.innerHTML = `
+					<div class="x-settings-row">
+						<a class="${encore}-legacy-button" data-encore-id="buttonSecondary">View<svg></svg></a>
+						<button>Action</button>
+						<label><input id="off" type="checkbox"><span class="x-toggle-indicatorWrapper"><span class="x-toggle-indicator"></span></span></label>
+						<label><input id="on" type="checkbox" checked disabled><span class="x-toggle-indicatorWrapper"><span class="x-toggle-indicator"></span></span></label>
+					</div>`;
+				// Only test discovery here. Layout and the cascade require Spotify.
+				const result: ReturnType<typeof readSettingsControls> = structuredClone(
+					window.eval(`(${readSettingsControls.toString()})()`),
+				);
+				assert.deepEqual(
+					result.buttons.map((button) => button.tag),
+					["A", "BUTTON"],
+				);
+				assert.ok(result.buttons[0].icon);
+				assert.deepEqual(
+					result.toggles.map(({ id, checked, disabled }) => ({ id, checked, disabled })),
+					[
+						{ id: "off", checked: false, disabled: false },
+						{ id: "on", checked: true, disabled: true },
+					],
+				);
+				assert.ok(result.toggles.every((toggle) => toggle.track && toggle.thumb));
+			} finally {
+				await window.happyDOM.close();
+			}
+		});
+	}
+	it("reports missing toggle parts instead of silently skipping the control", async () => {
+		const window = new Window();
+		try {
+			window.document.body.innerHTML = '<div class="x-settings-row"><input type="checkbox"></div>';
+			const result: ReturnType<typeof readSettingsControls> = structuredClone(
+				window.eval(`(${readSettingsControls.toString()})()`),
+			);
+			assert.equal(result.toggles.length, 1);
+			assert.equal(result.toggles[0].track, null);
+			assert.equal(result.toggles[0].thumb, null);
+		} finally {
+			await window.happyDOM.close();
+		}
+	});
+});
+
+const roots: string[] = [];
+
+function tmp(): string {
+	const dir = mkdtempSync(path.join(tmpdir(), "theme-report-"));
+	roots.push(dir);
+	return dir;
+}
+
+function themeWith(ini: string): string {
+	const dir = tmp();
+	writeFileSync(path.join(dir, "color.ini"), ini);
+	return dir;
+}
+
+/** A themes/ directory holding one theme per entry. */
+function themesDir(themes: Record<string, string>): string {
+	const root = tmp();
+	for (const [name, ini] of Object.entries(themes)) {
+		mkdirSync(path.join(root, name), { recursive: true });
+		writeFileSync(path.join(root, name, "color.ini"), ini);
+	}
+	return root;
+}
+
+/** A solid image, optionally with one differently-coloured block. */
+function png(
+	width: number,
+	height: number,
+	fill: [number, number, number],
+	block?: { x: number; y: number; w: number; h: number; colour: [number, number, number] },
+): Buffer {
+	const image = new PNG({ width, height });
+	for (let y = 0; y < height; y++) {
+		for (let x = 0; x < width; x++) {
+			const inBlock = block && x >= block.x && x < block.x + block.w && y >= block.y && y < block.y + block.h;
+			const [r, g, b] = inBlock ? block.colour : fill;
+			const i = (width * y + x) << 2;
+			image.data[i] = r;
+			image.data[i + 1] = g;
+			image.data[i + 2] = b;
+			image.data[i + 3] = 255;
+		}
+	}
+	return PNG.sync.write(image);
+}
+
+after(() => {
+	for (const r of roots) rmSync(r, { recursive: true, force: true });
+});
+
+/* ------------------------------------------------------ scheme resolution */
+
+describe("parseColorSchemes", () => {
+	it("splits sections, lowercases keys, and preserves section case", () => {
+		const schemes = parseColorSchemes("[Dark Mode]\nGradientTop = 000000\ntext = FFFFFF\n");
+		assert.deepEqual(Object.keys(schemes), ["Dark Mode"]);
+		assert.deepEqual(schemes["Dark Mode"], { gradienttop: "000000", text: "FFFFFF" });
+	});
+
+	it("files keys before any section under the empty-string scheme", () => {
+		const schemes = parseColorSchemes("text = FFFFFF\nmain = 000000\n");
+		assert.deepEqual(Object.keys(schemes), [""]);
+	});
+
+	it("strips inline and whole-line comments", () => {
+		assert.equal(parseColorSchemes("; a\n# b\nmain = 000000 ; the sky\n")[""].main, "000000");
+	});
+
+	it("drops sections that declare nothing", () => {
+		assert.deepEqual(Object.keys(parseColorSchemes("[Empty]\n[Real]\ntext = FFFFFF\n")), ["Real"]);
+	});
+});
+
+describe("fillCanonical", () => {
+	it("derives card from main when neither card nor main-elevated is declared", () => {
+		assert.equal(fillCanonical({ main: "121212", text: "FFFFFF" }).card, "121212");
+	});
+
+	it("never overwrites a declared key", () => {
+		assert.equal(fillCanonical({ main: "121212", card: "202020" }).card, "202020");
+	});
+
+	it("derives selected-row from text, which is why contrast skips derived pairs", () => {
+		assert.equal(fillCanonical({ main: "121212", text: "FFFFFF" })["selected-row"], "FFFFFF");
+	});
+});
+
+describe("hexToRgb and schemeVars", () => {
+	it("expands a three-digit hex", () => {
+		assert.equal(hexToRgb("fff"), "255,255,255");
+	});
+
+	it("accepts a leading hash and rejects nonsense", () => {
+		assert.equal(hexToRgb("#1ed760"), "30,215,96");
+		assert.equal(hexToRgb("not-a-colour"), null);
+	});
+
+	it("adds a missing hash and emits the matching rgb triple", () => {
+		const vars = schemeVars({ main: "121212" });
+		assert.equal(vars["--spice-main"], "#121212");
+		assert.equal(vars["--spice-rgb-main"], "18,18,18");
+	});
+
+	it("emits the property but no rgb triple for a malformed value", () => {
+		const vars = schemeVars({ main: "rgba(0,0,0,.5)" });
+		assert.equal(vars["--spice-main"], "#rgba(0,0,0,.5)");
+		assert.equal(vars["--spice-rgb-main"], undefined);
+	});
+});
+
+describe("resolveScheme", () => {
+	it("picks the first scheme when none is named", () => {
+		assert.equal(resolveScheme(themeWith("[One]\nmain = 000000\n[Two]\nmain = FFFFFF\n"))?.name, "One");
+	});
+
+	it("separates declared keys from derived ones", () => {
+		const scheme = resolveScheme(themeWith("[Base]\nmain = 121212\ntext = FFFFFF\n"));
+		assert.equal(scheme?.declared.card, undefined);
+		assert.equal(scheme?.resolved.card, "121212");
+	});
+
+	it("throws with the available names when the requested scheme is absent", () => {
+		assert.throws(() => resolveScheme(themeWith("[One]\nmain = 000000\n"), "Nope"), /has no scheme "Nope".*One/s);
+	});
+
+	it("returns null for a placeholder color.ini that declares nothing", () => {
+		assert.equal(resolveScheme(themeWith("; empty\n\n[turntable]\n")), null);
+	});
+
+	it("returns null when the theme has no color.ini", () => {
+		assert.equal(resolveScheme(tmp()), null);
+	});
+});
+
+describe("listSchemes", () => {
+	it("returns names in file order", () => {
+		assert.deepEqual(listSchemes(themeWith("[One]\nmain = 000000\n[Two]\nmain = FFFFFF\n")), ["One", "Two"]);
+	});
+
+	it("returns nothing for a directory with no color.ini", () => {
+		assert.deepEqual(listSchemes(tmp()), []);
+	});
+});
+
+/* ------------------------------------------ parity with the client loader */
+
+// Drift here is silent and total: a derivation the loader gained and this copy
+// lacks makes every capture subtly wrong while every other test still passes.
+// The loader is a sibling checkout, so where it is absent this skips loudly.
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const WORKSPACE = path.dirname(path.dirname(HERE));
+const LOADER = path.join(WORKSPACE, "cli", "src", "jsHelper", "modularLoader", "index.ts");
+const SKIP = `loader not found at ${path.relative(WORKSPACE, LOADER)} - check out the cli repo beside this one`;
+
+const loaderSource = () => (existsSync(LOADER) ? readFileSync(LOADER, "utf8") : null);
+
+function extractDerivedColors(source: string): Array<[string, string[]]> {
+	const start = source.indexOf("const DERIVED_COLORS");
+	assert.notEqual(start, -1, "loader no longer declares DERIVED_COLORS - the contract needs updating");
+	const block = source.slice(start, source.indexOf("\n];", start));
+	return [...block.matchAll(/\["([^"]+)",\s*\[([^\]]*)\]\]/g)].map((m) => [
+		m[1],
+		[...m[2].matchAll(/"([^"]+)"/g)].map((s) => s[1]),
+	]);
+}
+
+describe("scheme parity with the client loader", () => {
+	it("derivation table matches, entry for entry and in order", (t) => {
+		const source = loaderSource();
+		if (!source) return t.skip(SKIP);
+		assert.deepEqual(extractDerivedColors(source), DERIVED_COLORS);
+	});
+});
+
+describe("the parity extractor itself", () => {
+	it("reads a derivation table out of source text", () => {
+		const synthetic = `const DERIVED_COLORS: Array<[string, string[]]> = [\n\t["a", ["b"]],\n\t["c", ["d", "e"]],\n];\n`;
+		assert.deepEqual(extractDerivedColors(synthetic), [
+			["a", ["b"]],
+			["c", ["d", "e"]],
+		]);
+	});
+
+	it("notices an entry this copy would be missing", () => {
+		const drifted = `const DERIVED_COLORS: Array<[string, string[]]> = [\n\t["a", ["b"]],\n\t["new", ["a"]],\n];\n`;
+		assert.notDeepEqual(extractDerivedColors(drifted), [["a", ["b"]]]);
+	});
+});
+
+/* --------------------------------------------------------- contrast audit */
+
+describe("contrast maths", () => {
+	it("puts black on white at the 21:1 ceiling", () => {
+		assert.equal(Math.round(contrastRatio("0,0,0", "255,255,255")), 21);
+	});
+
+	it("puts a colour against itself at the 1:1 floor", () => {
+		assert.equal(contrastRatio("18,18,18", "18,18,18"), 1);
+	});
+
+	it("is symmetric regardless of which colour is foreground", () => {
+		assert.equal(contrastRatio("30,215,96", "18,18,18"), contrastRatio("18,18,18", "30,215,96"));
+	});
+
+	it("orders luminance from black through grey to white", () => {
+		assert.ok(relativeLuminance("0,0,0") < relativeLuminance("128,128,128"));
+		assert.ok(relativeLuminance("128,128,128") < relativeLuminance("255,255,255"));
+	});
+});
+
+describe("pair selection", () => {
+	it("passes a high-contrast declared pair", () => {
+		const audit = auditScheme("t", "s", { text: "FFFFFF", main: "000000" });
+		assert.equal(audit.findings.length, 0);
+		assert.ok(audit.evaluated > 0);
+	});
+
+	it("reports a low-contrast declared pair with its measured ratio", () => {
+		const finding = auditScheme("t", "s", { text: "777777", main: "808080" }).findings.find(
+			(f) => f.pair === "text on main",
+		);
+		assert.ok(finding);
+		assert.ok(finding.ratio < MIN_RATIO);
+	});
+
+	it("skips a pair whose background the theme never declares", () => {
+		// selected-row derives from text, so a naive check would score 1:1.
+		const audit = auditScheme("t", "s", { text: "FFFFFF", main: "000000" });
+		assert.ok(!audit.findings.some((f) => f.bgKey === "selected-row"));
+		assert.ok(audit.skipped > 0);
+	});
+
+	it("does not judge a derived card as an authored choice", () => {
+		const audit = auditScheme("t", "s", { text: "FFFFFF", main: "FFFFFE" });
+		assert.ok(!audit.findings.some((f) => f.bgKey === "card"));
+	});
+
+	it("evaluates a declared card even when it is nearly the text colour", () => {
+		const audit = auditScheme("t", "s", { text: "FFFFFF", main: "000000", card: "FEFEFE" });
+		assert.ok(audit.findings.some((f) => f.bgKey === "card"));
+	});
+
+	it("prefers a surface-specific foreground over the general one", () => {
+		const audit = auditScheme("t", "s", { text: "111111", "sidebar-text": "FFFFFF", sidebar: "000000" });
+		assert.equal(
+			audit.findings.find((f) => f.bgKey === "sidebar"),
+			undefined,
+		);
+	});
+
+	it("falls back to the general foreground when no specific one is declared", () => {
+		const sidebar = auditScheme("t", "s", { text: "111111", sidebar: "000000" }).findings.find(
+			(f) => f.bgKey === "sidebar",
+		);
+		assert.equal(sidebar?.fgKey, "text");
+	});
+
+	it("contributes neither result nor error when neither key is declared", () => {
+		const audit = auditScheme("t", "s", { button: "1ED760" });
+		assert.equal(audit.evaluated, 0);
+		assert.equal(audit.findings.length, 0);
+		assert.equal(audit.malformed.length, 0);
+	});
+});
+
+describe("malformed colours", () => {
+	it("reports an unparseable value separately from a contrast failure", () => {
+		const audit = auditScheme("t", "s", { text: "not-a-colour", main: "000000" });
+		assert.equal(audit.malformed.length, 1);
+		assert.equal(audit.findings.length, 0);
+	});
+
+	it("does not count a malformed pair as evaluated", () => {
+		assert.equal(auditScheme("t", "s", { text: "zzz", main: "000000" }).evaluated, 0);
+	});
+});
+
+describe("whole-theme and multi-theme audits", () => {
+	it("covers every scheme, not just the first", () => {
+		const root = themesDir({
+			multi: "[Good]\ntext = FFFFFF\nmain = 000000\n[Bad]\ntext = 777777\nmain = 808080\n",
+		});
+		const audit = auditTheme(root, "multi");
+		assert.ok(audit.findings.some((f) => f.scheme === "Bad"));
+		assert.ok(!audit.findings.some((f) => f.scheme === "Good"));
+	});
+
+	it("labels a section-less file as the default scheme", () => {
+		const root = themesDir({ flat: "text = 777777\nmain = 808080\n" });
+		assert.equal(auditTheme(root, "flat").findings[0]?.scheme, "(default)");
+	});
+
+	it("returns nothing for a placeholder ini that declares no colours", () => {
+		const root = themesDir({ placeholder: "; nothing\n[placeholder]\n" });
+		assert.equal(auditTheme(root, "placeholder").evaluated, 0);
+	});
+
+	it("aggregates across themes and can be narrowed to named ones", () => {
+		const root = themesDir({
+			alpha: "[a]\ntext = 777777\nmain = 808080\n",
+			beta: "[b]\ntext = 707070\nmain = 787878\n",
+		});
+		assert.equal(new Set(auditAll(root).findings.map((f) => f.theme)).size, 2);
+		assert.deepEqual([...new Set(auditAll(root, ["alpha"]).findings.map((f) => f.theme))], ["alpha"]);
+	});
+});
+
+/* -------------------------------------------------------- png comparison */
+
+describe("comparePng", () => {
+	it("finds no change between identical images", () => {
+		const result = comparePng(png(40, 40, [0, 0, 0]), png(40, 40, [0, 0, 0]));
+		assert.equal(result.changedPixels, 0);
+		assert.equal(result.changedRatio, 0);
+		assert.equal(result.mismatch, undefined);
+	});
+
+	it("counts the pixels of a changed region", () => {
+		const result = comparePng(
+			png(40, 40, [0, 0, 0]),
+			png(40, 40, [0, 0, 0], { x: 0, y: 0, w: 10, h: 10, colour: [255, 255, 255] }),
+		);
+		assert.equal(result.changedPixels, 100);
+		assert.equal(result.totalPixels, 1600);
+	});
+
+	it("produces a delta image when the two differ", () => {
+		const result = comparePng(png(20, 20, [0, 0, 0]), png(20, 20, [255, 255, 255]));
+		assert.ok(result.delta && result.delta.length > 0);
+	});
+
+	it("reports differing dimensions as a mismatch, not a pixel count", () => {
+		// Comparing the overlap would score a render that shifted everything by
+		// one row as almost identical.
+		const result = comparePng(png(40, 40, [0, 0, 0]), png(40, 41, [0, 0, 0]));
+		assert.match(result.mismatch ?? "", /40x40.*40x41/);
+		assert.equal(result.delta, null);
+	});
+});
+
+describe("classmaps suite", () => {
+	function completeRun(): { live: LiveResult; current: string } {
+		const current = tmp();
+		const shots = classmapShots().map((shot) => ({
+			...shot,
+			stable: true,
+			themeVersion: shot.theme === "text" ? "1.0.0" : undefined,
+		}));
+		const image = png(1440, 1000, [0, 0, 0]);
+		for (const shot of shots) {
+			mkdirSync(path.dirname(path.join(current, shot.file)), { recursive: true });
+			writeFileSync(path.join(current, shot.file), image);
+		}
+		return {
+			current,
+			live: {
+				shots,
+				failures: [],
+				restored: "text",
+				clientVersion: "1.3.0",
+				moduleVersions: { text: "1.0.0", stdlib: "1.3.0" },
+				suite: "classmaps",
+				viewport: CLASSMAP_VIEWPORT,
+				cleanupVerified: true,
+			},
+		};
+	}
+
+	it("requires the Your Library settings heading and its control, not the sidebar heading", () => {
+		const window = new Window({ url: "https://xpui.app.spotify.com/index.html" });
+		try {
+			window.eval(
+				`Element.prototype.getBoundingClientRect = function() { return { width: 100, height: 20, top: 20, bottom: 40 }; };`,
+			);
+			window.document.body.innerHTML =
+				'<h2>Your Library</h2><div class="x-settings-container"><h1>Settings</h1></div>';
+			const inspect = () =>
+				window.eval(`(${inspectClassmapState.toString()})("settings-library", "/preferences")`);
+			assert.equal(inspect(), false);
+			window.document.querySelector(".x-settings-container")!.innerHTML += "<h2>Your Library</h2>";
+			assert.equal(inspect(), false);
+			window.document.querySelector(".x-settings-container")!.innerHTML +=
+				'<div class="x-settings-row"><input id="settings.library.compact-mode"></div>';
+			assert.equal(inspect(), true);
+			assert.equal(window.eval(`(${inspectClassmapState.toString()})("settings-library", "/index.html")`), false);
+		} finally {
+			void window.happyDOM.close();
+		}
+	});
+
+	it("uses the same fourteen theme/state filenames across Spotify versions", () => {
+		const shots = classmapShots();
+		assert.equal(shots.length, 14);
+		assert.equal(new Set(shots.map((shot) => shot.file)).size, 14);
+		assert.equal(shots.find((shot) => shot.theme === "text")?.scheme, "Spicetify");
+		assert.ok(shots.every((shot) => /^(text|unthemed)\/[a-z-]+\.png$/.test(shot.file)));
+	});
+
+	it("reports a small localized change regardless of its full-frame percentage", () => {
+		const current = tmp();
+		const baseline = tmp();
+		const delta = tmp();
+		const shot = { ...classmapShots()[0], stable: true };
+		for (const root of [current, baseline])
+			mkdirSync(path.dirname(path.join(root, shot.file)), { recursive: true });
+		writeFileSync(path.join(baseline, shot.file), png(1000, 1000, [0, 0, 0]));
+		writeFileSync(
+			path.join(current, shot.file),
+			png(1000, 1000, [0, 0, 0], { x: 500, y: 500, w: 2, h: 2, colour: [255, 255, 255] }),
+		);
+		const [change] = compareRun(current, baseline, [shot], delta, true);
+		assert.equal(change.status, "changed");
+		assert.equal(change.changedPixels, 4);
+		assert.ok(change.changedRatio < 0.00001);
+		assert.ok(existsSync(path.join(delta, shot.file)));
+	});
+
+	it("distinguishes missing references, resized frames, missing captures, and unstable states", () => {
+		const current = tmp();
+		const baseline = tmp();
+		const delta = tmp();
+		const shot = { ...classmapShots()[0], stable: true };
+		mkdirSync(path.dirname(path.join(current, shot.file)), { recursive: true });
+		writeFileSync(path.join(current, shot.file), png(20, 20, [0, 0, 0]));
+		assert.equal(compareRun(current, baseline, [shot], delta, true)[0].status, "new");
+		mkdirSync(path.dirname(path.join(baseline, shot.file)), { recursive: true });
+		writeFileSync(path.join(baseline, shot.file), png(21, 20, [0, 0, 0]));
+		assert.equal(compareRun(current, baseline, [shot], delta, true)[0].status, "resized");
+		assert.equal(compareRun(current, baseline, [{ ...shot, stable: false }], delta, true)[0].status, "incomplete");
+		rmSync(path.join(current, shot.file));
+		assert.equal(compareRun(current, baseline, [shot], delta, true)[0].status, "missing");
+	});
+
+	it("requires every state, correct scheme and dimensions, stability, and verified cleanup", () => {
+		const { current, live } = completeRun();
+		assert.deepEqual(classmapCompleteness(live, current), []);
+		assert.match(
+			classmapCompleteness({ ...live, shots: live.shots.slice(1) }, current).join("\n"),
+			/exactly one capture/,
+		);
+		assert.match(classmapCompleteness({ ...live, cleanupVerified: false }, current).join("\n"), /cleanup/);
+		assert.match(
+			classmapCompleteness(
+				{ ...live, shots: live.shots.map((shot) => ({ ...shot, stable: false })) },
+				current,
+			).join("\n"),
+			/unstable/,
+		);
+		assert.match(
+			classmapCompleteness(
+				{ ...live, shots: live.shots.map((shot) => ({ ...shot, scheme: "Other" })) },
+				current,
+			).join("\n"),
+			/scheme mismatch/,
+		);
+		writeFileSync(path.join(current, live.shots[0].file), png(1, 1, [0, 0, 0]));
+		assert.match(classmapCompleteness(live, current).join("\n"), /resized PNG/);
+	});
+
+	it("prepares PNG-only candidates without replacing an existing directory", () => {
+		const { current, live } = completeRun();
+		const destination = path.join(tmp(), "candidates");
+		writeFileSync(path.join(current, "report.json"), "{}");
+		assert.equal(prepareClassmapBaseline(current, destination, live), 14);
+		assert.ok(!existsSync(path.join(destination, "report.json")));
+		assert.deepEqual(
+			readFileSync(path.join(destination, live.shots[0].file)),
+			readFileSync(path.join(current, live.shots[0].file)),
+		);
+		assert.throws(() => prepareClassmapBaseline(current, destination, live), /already exists/);
+		assert.throws(
+			() =>
+				prepareClassmapBaseline(current, path.join(tmp(), "incomplete"), {
+					...live,
+					failures: [{ theme: "text", error: "navigation failed" }],
+				}),
+			/incomplete suite/,
+		);
+	});
+
+	it("refuses artifact directories inside repositories", () => {
+		const repo = tmp();
+		mkdirSync(path.join(repo, ".git"));
+		assert.throws(() => requireOutsideGit(path.join(repo, "new", "candidates")), /outside git/);
+		const approved = path.join(repo, "baseline");
+		mkdirSync(approved);
+		writeFileSync(path.join(approved, "keep.png"), png(1, 1, [0, 0, 0]));
+		assert.throws(() => accept(tmp(), approved), /outside git/);
+		assert.ok(existsSync(path.join(approved, "keep.png")));
+	});
+
+	it("compares against the target commit even when working-tree baselines were replaced", () => {
+		const repo = tmp();
+		const destination = path.join(tmp(), "reference");
+		const git = (...args: string[]) =>
+			execFileSync("git", ["-C", repo, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+		git("init", "--initial-branch=main");
+		const baseline = path.join(repo, "visual", "baseline");
+		mkdirSync(path.join(baseline, "text"), { recursive: true });
+		const original = png(2, 2, [0, 0, 0]);
+		writeFileSync(path.join(baseline, "text", "home.png"), original);
+		git("add", ".");
+		git(
+			"-c",
+			"user.name=Test",
+			"-c",
+			"user.email=test@example.invalid",
+			"-c",
+			"commit.gpgsign=false",
+			"-c",
+			"core.hooksPath=/dev/null",
+			"commit",
+			"-m",
+			"baseline",
+		);
+		writeFileSync(path.join(baseline, "text", "home.png"), png(2, 2, [255, 255, 255]));
+		const snapshot = snapshotBaseline(baseline, destination, "main");
+		assert.deepEqual(readFileSync(path.join(snapshot.directory, "text", "home.png")), original);
+		assert.match(snapshot.source, /^[a-f0-9]{40}:visual\/baseline$/);
+		assert.throws(() => snapshotBaseline(baseline, destination, "main"), /already exists/);
+		const reuseOut = tmp();
+		writeFileSync(
+			path.join(reuseOut, "shots.json"),
+			JSON.stringify({ suite: "classmaps", shots: [], failures: [], restored: null, clientVersion: "1.3.0" }),
+		);
+		const replay = spawnSync(
+			process.execPath,
+			[
+				path.join(HERE, "theme-report.ts"),
+				"--suite",
+				"classmaps",
+				"--no-capture",
+				"--no-open",
+				"--baseline-dir",
+				baseline,
+				"--baseline-ref",
+				"main",
+				"--out",
+				reuseOut,
+			],
+			{ encoding: "utf8" },
+		);
+		assert.equal(replay.status, 1, "missing capture states must remain incomplete");
+		assert.deepEqual(
+			readFileSync(path.join(reuseOut, "reference", "text", "home.png")),
+			original,
+			"no-capture must snapshot the target branch when no prior snapshot exists",
+		);
+		assert.match(
+			JSON.parse(readFileSync(path.join(reuseOut, "report.json"), "utf8")).baselineSource,
+			/^[a-f0-9]{40}:visual\/baseline$/,
+		);
+	});
+});
+
+describe("layout preferences", () => {
+	it("recognizes account-prefixed pane settings without selecting credentials or other storage", () => {
+		for (const key of [
+			"ui.right_sidebar_content",
+			"column-widths",
+			"ylx-default-state-nav-bar-width",
+			"ylx-expanded-state-nav-bar-width",
+			"left-sidebar-default-state-width",
+			"left-sidebar-expanded-state-width",
+			"panel-width",
+			"left-sidebar-state",
+		]) {
+			assert.equal(isLayoutPreference(`fixture-account:${key}`), true);
+		}
+		assert.equal(isLayoutPreference("fixture-account:api-token"), false);
+		assert.equal(isLayoutPreference("fixture-account:playlist-cache"), false);
+	});
+});
+
+describe("classmaps privacy", () => {
+	it("clips playlist masks to their scrolling viewport", () => {
+		const window = new Window();
+		try {
+			window.document.body.innerHTML =
+				'<div id="viewport" style="overflow-x:hidden;overflow-y:hidden"><a href="/playlist/private"><img id="art" src="private.png"></a></div>';
+			window.eval(
+				`Element.prototype.getBoundingClientRect = function() { return this.id === "viewport" ? new DOMRect(100, 100, 200, 200) : new DOMRect(250, 250, 150, 150); };`,
+			);
+			window.eval(`(${maskClassmapPrivacy.toString()})();`);
+			const mask = window.document.getElementById("spicetify-report-privacy")!.querySelector("span")!;
+			assert.deepEqual(
+				[mask.style.left, mask.style.top, mask.style.width, mask.style.height],
+				["250px", "250px", "50px", "50px"],
+			);
+			const menu = window.document.createElement("div");
+			menu.setAttribute("role", "menu");
+			menu.getBoundingClientRect = () => new window.DOMRect(275, 250, 100, 50);
+			window.document.body.append(menu);
+			window.eval(`(${maskClassmapPrivacy.toString()})();`);
+			const clipped = window.document.getElementById("spicetify-report-privacy")!.querySelector("span")!;
+			assert.deepEqual(
+				[clipped.style.left, clipped.style.width],
+				["250px", "25px"],
+				"playlist masks must not paint over an open menu",
+			);
+		} finally {
+			void window.happyDOM.close();
+		}
+	});
+	it("requires Albums selection and rejects remaining library playlist rows", () => {
+		const window = new Window();
+		try {
+			const check = () => window.eval(`(${hasAlbumsOnlyLibrary.toString()})();`);
+			assert.equal(check(), false);
+			window.document.body.innerHTML =
+				'<div data-encore-id="chip" aria-label="Albums" aria-checked="false"></div><nav class="Root__nav-bar"></nav>';
+			assert.equal(check(), false);
+			window.document.querySelector('[aria-label="Albums"]')!.setAttribute("aria-checked", "true");
+			assert.equal(check(), true);
+			window.document.querySelector("nav")!.innerHTML =
+				'<p id="listrow-subtitle-spotify:playlist:private">Playlist</p>';
+			assert.equal(check(), false);
+		} finally {
+			void window.happyDOM.close();
+		}
+	});
+	function maskedCount(markup: string): number {
+		const window = new Window();
+		try {
+			window.document.body.innerHTML = markup;
+			const before = window.document.body.innerHTML;
+			window.eval(
+				`Element.prototype.getBoundingClientRect = function() { return new DOMRect(10, 20, 200, 40); }; Range.prototype.getClientRects = function() { return [new DOMRect(15, 25, 80, 20)]; };`,
+			);
+			window.eval(`(${maskClassmapPrivacy.toString()})();`);
+			const layer = window.document.getElementById("spicetify-report-privacy")!;
+			const count = layer.children.length;
+			layer.remove();
+			assert.equal(window.document.body.innerHTML, before, "masking must preserve the source content and layout");
+			return count;
+		} finally {
+			void window.happyDOM.close();
+		}
+	}
+
+	for (const markup of [
+		'<input aria-label="Musixmatch token" value="fixture">',
+		'<input placeholder="Last.fm API key" value="fixture">',
+		'<label for="provider">Provider credential</label><input id="provider" value="fixture">',
+		'<span id="field-label">Provider secret</span><input aria-labelledby="field-label" value="fixture">',
+	])
+		it("masks credentials identified by accessible labels and placeholders", () => {
+			assert.equal(maskedCount(markup), 1);
+		});
+
+	it("does not mask toggles or hidden inputs whose labels mention credentials", () => {
+		assert.equal(
+			maskedCount(
+				'<label>Musixmatch token<input type="checkbox" checked></label><input type="hidden" name="token" value="fixture"><input aria-label="Token" value="fixture" style="opacity:0">',
+			),
+			0,
+		);
+	});
+
+	it("preserves noncredential input values and empty credential placeholders", () => {
+		assert.equal(
+			maskedCount('<input aria-label="Search" value="Song title"><input placeholder="Musixmatch token">'),
+			0,
+		);
+	});
+
+	it("masks playlist shortcut and recommendation artwork and names while preserving albums", () => {
+		assert.equal(
+			maskedCount(
+				'<a href="/playlist/private"><img src="private.png"></a><a href="/playlist/private">Private title</a><div data-encore-id="card"><img src="recommendation.png"><a href="/playlist/recommended">Playlist title</a></div><a href="/album/public"><img src="album.png">Album title</a>',
+			),
+			4,
+		);
+	});
+
+	it("masks creator names in identity regions while preserving matching music text and Profile", () => {
+		assert.equal(
+			maskedCount(
+				'<p data-encore-id="listRowSubtitle" id="listrow-subtitle-spotify:playlist:1">Playlist • Casey Example</p><h2>Casey Example</h2><a href="/user/123">Profile</a><a href="/user/spotify">Spotify</a>',
+			),
+			1,
+		);
+	});
+
+	it("masks the adjacent account avatar in Liked Songs metadata while preserving artwork", () => {
+		assert.equal(
+			maskedCount(
+				'<button data-testid="user-widget-link" aria-label="Alex Example"></button><div class="main-entityHeader-metaData"><img class="main-avatar-image" alt="Alex Example" src="avatar.png"><span>Alex Example</span><img alt="Album artwork" src="album.png"></div>',
+			),
+			2,
+		);
+	});
+
+	it("masks personal recommendations and owner avatars without changing music text", () => {
+		assert.equal(
+			maskedCount(
+				'<button data-testid="user-widget-link" aria-label="Alex Example"></button><h2>Made for Alex Example</h2><p>Alex Example song title</p><a href="/user/123"><img src="avatar.png">Alex Example</a>',
+			),
+			3,
+		);
+	});
+});

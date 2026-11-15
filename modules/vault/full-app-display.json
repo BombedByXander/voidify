@@ -1,0 +1,96 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.1.0/full-app-display@0.1.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:11ab2b85e7c8c8e6f216eff9cdb6e981dcaaab15cbaa098652d6ba26e1c8d0e0",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.1.1/full-app-display@0.1.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:20be1669fc36c6c995c376607bb3d2056efbe912930df323de5952b9bf59a5d3",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.2": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.1.2/full-app-display@0.1.2.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:5778ed5e4eb0702228352b13c39453312ee5ebd7627b025fb746dbbd406dbb00",
+			"updatedAt": "2026-08-03"
+		},
+		"0.1.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.1.3/full-app-display@0.1.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:c16380aa6397d9c9d6c988377544413a89cc02769488e6ff7fb6c015fde4744f",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.1.4/full-app-display@0.1.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:741032712d1958abe7babb9323e570768b21812221d60e3f84fe7388686995ff",
+			"updatedAt": "2026-08-12"
+		},
+		"0.2.0": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.2.0/full-app-display@0.2.0.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:5f03ce4210d587d3eb888a72c39952c4da8ef3051ef9c5a7f1c7b1ae86dd8402",
+			"updatedAt": "2026-08-13"
+		},
+		"0.2.1": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.2.1/full-app-display@0.2.1.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:7dd2246beae6220c677e7b005a2c57fd1acae3e8fdec6cb3275c5aca1739fd15",
+			"updatedAt": "2026-08-17"
+		},
+		"0.2.2": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.2.2/full-app-display@0.2.2.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:7503140d655331d1320291cd9877a8da5ad6b1c7117ceadea515e7a21a578b61",
+			"updatedAt": "2026-09-14"
+		},
+		"0.2.3": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.2.3/full-app-display@0.2.3.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:22e048a276ffe5f21830ad5f5035ea7cdfabf6082e9783d38cf16eef58a24f37",
+			"updatedAt": "2026-09-16"
+		},
+		"0.2.4": {
+			"artifacts": [
+				"https://github.com/spicetify/modules/releases/download/full-app-display@0.2.4/full-app-display@0.2.4.zip"
+			],
+			"providers": [],
+			"checksum": "sha256:648838f4c76ede36df7ee76231c5c1707dd4ef4012b4909b10d4e8273b95d0a4",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Full App Display",
+		"description": "Fullscreen now-playing overlay with big artwork, track info, progress and controls.",
+		"authors": [
+			{
+				"name": "spicetify"
+			}
+		],
+		"kind": "extension",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/full-app-display.png",
+		"license": "GPL-3.0-or-later"
+	}
+}

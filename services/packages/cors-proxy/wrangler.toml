@@ -1,0 +1,11 @@
+name = "cors-proxy"
+main = "src/index.ts"
+workers_dev = true
+compatibility_date = "2024-12-19"
+# fetch-cookie / tough-cookie reach for a couple of Node builtins.
+compatibility_flags = ["nodejs_compat"]
+
+routes = [{ pattern = "cors-proxy.spicetify.app", custom_domain = true }]
+
+[observability.logs]
+enabled = false

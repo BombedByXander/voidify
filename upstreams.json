@@ -1,0 +1,80 @@
+[
+  {
+    "path": "cli",
+    "upstream": "https://github.com/spicetify/cli",
+    "ref": "refs/tags/v2.46.7",
+    "commit": "867df4af012a07f0b9d5c6b4bc8d7c29badb8ca9"
+  },
+  {
+    "path": "marketplace",
+    "upstream": "https://github.com/spicetify/marketplace",
+    "ref": "refs/tags/v1.0.12",
+    "commit": "f95ad8b763a793383be696b016b8f664c4af0008"
+  },
+  {
+    "path": "spicetify-themes",
+    "upstream": "https://github.com/spicetify/spicetify-themes",
+    "ref": "HEAD",
+    "commit": "176fdc7b334c3579475edc3f17452bf87f53d51b"
+  },
+  {
+    "path": "docs",
+    "upstream": "https://github.com/spicetify/docs",
+    "ref": "HEAD",
+    "commit": "d38162a3de28a8c0042e9a6b85432647d63d5394"
+  },
+  {
+    "path": "spicetify-creator",
+    "upstream": "https://github.com/spicetify/spicetify-creator",
+    "ref": "HEAD",
+    "commit": "ee30e5cf0a7e13202c6b5b4bc87912d48377d710"
+  },
+  {
+    "path": "spicetify-extensions",
+    "upstream": "https://github.com/spicetify/spicetify-extensions",
+    "ref": "HEAD",
+    "commit": "a7602ea7eafc6576dde0aa6b98052df29d90129b"
+  },
+  {
+    "path": "services",
+    "upstream": "https://github.com/spicetify/services",
+    "ref": "HEAD",
+    "commit": "c26d0b1da705427b54083820931cd0ad8c87c3dc"
+  },
+  {
+    "path": "modules",
+    "upstream": "https://github.com/spicetify/modules",
+    "ref": "HEAD",
+    "commit": "e47013f60c5d7c657a2ddae23cbf9298b3a74cd4"
+  },
+  {
+    "path": "hooks",
+    "upstream": "https://github.com/spicetify/hooks",
+    "ref": "HEAD",
+    "commit": "7ed4964888e2d7a55c2bd78e889ffd2e2eec1821"
+  },
+  {
+    "path": "classmaps",
+    "upstream": "https://github.com/spicetify/classmaps",
+    "ref": "HEAD",
+    "commit": "ed4d65600fed21b6ae120bf50dab2307aa673f31"
+  },
+  {
+    "path": "actions",
+    "upstream": "https://github.com/spicetify/actions",
+    "ref": "HEAD",
+    "commit": "91b890c761e773236bed6cb3ab78da223b83e523"
+  },
+  {
+    "path": "morphe-patches",
+    "upstream": "https://github.com/spicetify/morphe-patches",
+    "ref": "HEAD",
+    "commit": "6741682b28f5c120e7e995537b49705a5d8789ec"
+  },
+  {
+    "path": "pkgs",
+    "upstream": "https://github.com/spicetify/pkgs",
+    "ref": "HEAD",
+    "commit": "8acdfed520dc7fc3558c706ce38ae2d9106c5070"
+  }
+]

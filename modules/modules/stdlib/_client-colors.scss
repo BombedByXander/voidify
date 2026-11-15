@@ -1,0 +1,228 @@
+/* Client colour bridge.
+ *
+ * The v2 CLI ran a `replaceColors` pass over Spotify's own stylesheets at
+ * apply time, rewriting the literals baked into them into --spice-*
+ * variables. v3 themes are standalone modules and get no such pass, so
+ * every place the client hardcodes a colour still renders as shipped:
+ * built for a near-black backdrop. On a dark theme that is invisible; on a
+ * light one it is white glyphs on cream and black scrims over pastel.
+ *
+ * Doing this per theme means every light theme reimplements the same
+ * overrides and each new one rediscovers them, so it lives here and every
+ * theme inherits it. The mappings are correct for dark themes too: a theme
+ * whose text is white rewrites #fff to #fff.
+ *
+ * Everything is scoped to html.spicetify-themed (set by the loader while a
+ * theme's variables are on :root), so with no theme active this whole file
+ * contributes nothing and the client keeps its stock look.
+ *
+ * See docs/theming-the-client.md for how these were found and what is
+ * deliberately not here (contrast scrims over artwork and video remain the
+ * client's own and are correct on any theme).
+ */
+
+html.spicetify-themed {
+	background-color: var(--spice-main);
+
+	/* Encore design tokens. Most client text and surfaces resolve through
+	   these, so mapping them is what stops "everything is white". */
+	/* The encore theme classes sit on <html> itself, so these compound onto
+	   the parent rather than descending from it. */
+	&.encore-dark-theme,
+	&.encore-dark-theme .encore-base-set,
+	&.encore-dark-theme .encore-elevated-set,
+	&.encore-dark-theme .encore-overlay-set {
+		--text-base: var(--spice-text);
+		--text-subdued: var(--spice-subtext);
+		--text-bright-accent: var(--spice-button-active);
+		--essential-base: var(--spice-text);
+		--essential-subdued: var(--spice-subtext);
+		--essential-bright-accent: var(--spice-button-active);
+		--decorative-base: var(--spice-text);
+		--decorative-subdued: var(--spice-subtext);
+		--background-base: var(--spice-main);
+		--background-highlight: var(--spice-highlight);
+		--background-press: var(--spice-card);
+		--background-elevated-base: var(--spice-card);
+		--background-elevated-highlight: var(--spice-highlight-elevated);
+		--background-elevated-press: var(--spice-highlight-elevated);
+		--background-tinted-base: rgba(var(--spice-rgb-text), 0.07);
+		--background-tinted-highlight: rgba(var(--spice-rgb-text), 0.1);
+		--background-tinted-press: rgba(var(--spice-rgb-text), 0.14);
+	}
+
+	/* Unclassed anchors are `color: #fff` as a dark-theme fallback; shelf
+	   headings ("Jump back in") are the visible case. Inheriting puts them
+	   under whatever the surrounding text colour is, which is right in
+	   every context including over artwork.
+
+	   Context-menu items are exempt: they carry their own colour and are
+	   coloured in index.scss, but this selector outranks anything a class
+	   can say, so leaving them in drops the anchor half of every menu to
+	   the inherited body colour while the button half stays at full
+	   strength. */
+	a:not([data-encore-id]):not(.main-contextMenu-menuItemButton) {
+		color: inherit;
+	}
+
+	/* Track titles and the tracklist end column. */
+	.main-trackList-rowMainContentTitle,
+	.main-trackList-rowSectionEnd,
+	.main-trackList-rowImagePlayButton {
+		color: var(--spice-text);
+	}
+
+	/* The generic icon button: every module playbar button rides on it,
+	   along with lyrics, queue, connect, miniplayer and full screen. */
+	.main-genericButton-button {
+		color: var(--spice-subtext);
+
+		&:hover {
+			color: var(--spice-text);
+		}
+	}
+
+	/* Library filter box. */
+	.x-filterBox-expandButton,
+	.x-filterBox-searchIcon,
+	.x-filterBox-filterInput {
+		color: var(--spice-subtext);
+	}
+
+	.x-filterBox-filterInput::placeholder {
+		color: var(--spice-subtext);
+	}
+
+	/* The client scopes the active nav link's white under .Root__globalNav,
+	   so the override needs the same specificity to land. */
+	.Root__globalNav .main-globalNav-navLinkActive {
+		color: var(--spice-text);
+	}
+
+	/* Hovering or focusing the search box lifts its magnifier to a flat white
+	   literal, so on a light theme the icon washes out at the moment it is
+	   meant to stand out. The icon carries no mapped class of its own, so it
+	   is reached through encore's leading-icon slot; the trailing slot holds
+	   the clear and browse buttons, which the client leaves alone. */
+	.main-globalNav-searchInputContainer:hover [class*="form-input-icon__icon--leading"] button,
+	.main-globalNav-searchInputContainer:focus-within [class*="form-input-icon__icon--leading"] button {
+		color: var(--spice-text);
+	}
+
+	/* The shell's four containers are each a flat black literal rather than a
+	   token, so on any theme whose surfaces are not black they show through as
+	   bands: one across the top above the nav, one down the library column,
+	   and one behind the playbar. Each takes the token for the surface it is,
+	   not a blanket --spice-main: blossom paints its player #282e33 against a
+	   #1e2226 background and means it, and both sidebar and player fall back
+	   to main for a theme that declares neither. */
+	.Root__top-container,
+	.Root__globalNav {
+		background-color: var(--spice-main);
+	}
+
+	.Root__nav-bar {
+		background-color: var(--spice-sidebar);
+	}
+
+	.Root__now-playing-bar {
+		background-color: var(--spice-player);
+	}
+
+	/* Home's shortcut cards print their title in a flat white, sized for the
+	   artwork thumbnail beside it rather than the card behind it. On a light
+	   theme that is white on a pale card - ziro renders it at about 1.1:1 -
+	   while the shelf headings a few pixels below resolve through a token and
+	   stay readable, which is what makes it look like a theme bug. */
+	.view-homeShortcutsGrid-shortcut .view-homeShortcutsGrid-main,
+	.view-homeShortcutsGrid-name {
+		color: var(--spice-text);
+	}
+
+	/* The Now Playing panel's own headings and controls are a flat white and a
+	   flat #b3b3b3, both chosen against a near-black panel. */
+	.main-nowPlayingView-sectionHeader,
+	.main-nowPlayingView-onTourItemTime {
+		color: var(--spice-subtext);
+	}
+
+	.main-nowPlayingView-actionButton,
+	.main-nowPlayingView-headerButton:hover {
+		color: var(--spice-text);
+	}
+
+	/* Spotify bakes its stock #121212 surface into the metadata fade at the
+	   top of the expanded Now Playing panel. Keep the fade, but let it blend
+	   into the surface selected by the active theme. */
+	.main-nowPlayingView-contextItemInfo::before {
+		background-image: linear-gradient(
+			rgba(var(--spice-rgb-main), 0) 0%,
+			rgba(var(--spice-rgb-main), 0.45) 18%,
+			var(--spice-main) 89%,
+			var(--spice-main) 96%
+		);
+	}
+
+	/* When the Now Playing panel is collapsed, hovering its reveal rail makes
+	   the client expose a five-piece rounded gutter. Those pieces are painted
+	   flat black, so make them windows onto the surface the theme actually puts
+	   behind the rail. Transparency is important here: some themes use a
+	   gradient or artwork rather than --spice-main. The adjacent inert panel
+	   identifies this as the collapsed NPV handle without depending on its
+	   generated resize-handle classes. */
+	.Root__right-sidebar :has(> [inert] .main-nowPlayingView-container) > :first-child > * {
+		background-color: transparent;
+	}
+
+	/* The settings page's section wrapper is `color: #fff`, and the heading
+	   and row labels of every registered settings section inherit from it.
+	   Only .x-settings-title resolves through a token, so on a light theme
+	   the Spicetify rows disappear while the client's own rows beside them
+	   stay readable. */
+	.x-settings-section {
+		color: var(--spice-text);
+	}
+
+	/* The sticky home filter-chips bar paints --background-base, which the
+	   client re-derives per view from the artwork, so it arrives tinted
+	   with whatever accent the current page extracted rather than anything
+	   theme-related. Its ::after is a flat 60% black scrim over the
+	   shortcuts scrolling under it. */
+	.main-home-filterChipsSection,
+	.main-home-filterChipsSectionActive::after {
+		background-color: var(--spice-main) !important;
+	}
+}
+
+/* Match the client's specificity so theme rules can still override the
+   defaults. Keep geometry, disabled opacity, and focus treatment native. */
+:where(html.spicetify-themed) {
+	.x-toggle-indicatorWrapper {
+		background-color: var(--spice-button-disabled);
+	}
+	.x-toggle-indicator {
+		background-color: var(--spice-text);
+	}
+	input:hover:not([disabled], :active) ~ .x-toggle-indicatorWrapper {
+		background-color: var(--spice-subtext);
+	}
+	input:checked ~ .x-toggle-indicatorWrapper {
+		background-color: var(--spice-button);
+	}
+	input:checked:hover:not([disabled], :active) ~ .x-toggle-indicatorWrapper {
+		background-color: var(--spice-button-active);
+	}
+	input:checked ~ .x-toggle-indicatorWrapper .x-toggle-indicator {
+		background-color: var(--spice-main);
+	}
+}
+
+/* The shared carousel wrapper already reads these variables, but the client
+   defines both to a translucent #121212 on each shelf. :where() keeps the
+   themed scope specificity-neutral: the default beats the inherited client
+   literal, while a theme such as Text or Matte can still deliberately choose
+   its own edge treatment by source order. */
+:where(html.spicetify-themed) .search-searchCategory-contentArea {
+	--carousel-start-chevron-gradient: rgba(var(--spice-rgb-main), 0.7);
+	--carousel-end-chevron-gradient: rgba(var(--spice-rgb-main), 0.7);
+}

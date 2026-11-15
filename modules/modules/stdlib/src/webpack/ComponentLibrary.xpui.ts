@@ -1,0 +1,28 @@
+/*
+ * Copyright (C) 2024 Delusoire
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import { exported, exportedForwardRefs, exportedFunctions, src } from "./index.ts";
+
+await CHUNKS.xpui.promise;
+
+const componentNames = Object.keys(
+	exported.find((e) => e.BrowserDefaultFocusStyleProvider && Object.hasOwn(e, "BrowserDefaultFocusStyleProvider")),
+);
+const componentRegexes = componentNames.map(
+	(n) => new RegExp(String.raw`"data-encore-id":(?:[a-zA-Z_$][\w$]*\.){2}${n}\b`),
+);
+const componentPairs = [exportedFunctions.map((f) => [f, f]), exportedForwardRefs.map((f) => [(f as any).render, f])]
+	.flat()
+	.map(([s, f]) => {
+		const code = src(s);
+		return [
+			code.includes('"data-encore-id"')
+				? componentNames.find((_, i) => componentRegexes[i].test(code))
+				: undefined,
+			f,
+		];
+	});
+
+export const UI: any = Object.fromEntries(componentPairs);

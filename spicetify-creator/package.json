@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "repository": "https://github.com/spicetify/spicetify-creator.git",
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT"
+}

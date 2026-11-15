@@ -1,0 +1,94 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.0/adblock@0.1.0.zip"],
+			"providers": [],
+			"checksum": "sha256:ae2ffddb0d8345958f4c3a7f89d026aa3112fa6907ad1d8d33c89adc8ced07de",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.1/adblock@0.1.1.zip"],
+			"providers": [],
+			"checksum": "sha256:3907f076dfcbb0309ae3e2cdbb100d017ac6c392e342e0bf948b2f13bfdd33e0",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.2/adblock@0.1.2.zip"],
+			"providers": [],
+			"checksum": "sha256:580a0abebbb88515b4eb86b4de3659cf6e37e45c76bcc02b81bfb9540d061c06",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.3/adblock@0.1.3.zip"],
+			"providers": [],
+			"checksum": "sha256:eda5f7a68f5007f6c6035dff5f83b2629dda6fee6069d535fae66ac7693cff14",
+			"updatedAt": "2026-08-06"
+		},
+		"0.1.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.4/adblock@0.1.4.zip"],
+			"providers": [],
+			"checksum": "sha256:922609ec10ca12173cb1f235978718c97b896782dcf65200b2ba45120aaa4e97",
+			"updatedAt": "2026-08-07"
+		},
+		"0.1.5": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.5/adblock@0.1.5.zip"],
+			"providers": [],
+			"checksum": "sha256:d3b7f69853bb9d00a811e542d43eb1091ca1d5979f8c1caf076ae2311b69b38d",
+			"updatedAt": "2026-08-12"
+		},
+		"0.1.6": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.6/adblock@0.1.6.zip"],
+			"providers": [],
+			"checksum": "sha256:8885b014b5ed8d0746691755d7486b4fd210c40516949928f217030ed59b03c1",
+			"updatedAt": "2026-08-13"
+		},
+		"0.1.7": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.7/adblock@0.1.7.zip"],
+			"providers": [],
+			"checksum": "sha256:c31909eebcf716d65fd52ec59a4acb88acfbd4891ced30e315aa88ce99fd6341",
+			"updatedAt": "2026-08-13"
+		},
+		"0.1.8": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.8/adblock@0.1.8.zip"],
+			"providers": [],
+			"checksum": "sha256:25a00988f094c0bc0d9dc75b1d4df6c9331ee87a996daa12e8ffd49569235a44",
+			"updatedAt": "2026-08-20"
+		},
+		"0.1.9": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.9/adblock@0.1.9.zip"],
+			"providers": [],
+			"checksum": "sha256:b5a63724dfe2cbe202c8b4132810acbce2c220cd64844a991c573f2b16354e74",
+			"updatedAt": "2026-08-20"
+		},
+		"0.1.10": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.10/adblock@0.1.10.zip"],
+			"providers": [],
+			"checksum": "sha256:024e0fd4b04bee3b891c4fdd61317fe1c4235c2e462256ee9f997a6175bb7109",
+			"updatedAt": "2026-09-14"
+		},
+		"0.1.11": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/adblock@0.1.11/adblock@0.1.11.zip"],
+			"providers": [],
+			"checksum": "sha256:d1b2ab405e9fb502b4f1136fffabb6c31758e59d5f11ef0ae27397fd68ffdc33",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Adblock",
+		"description": "Blocks audio ads and hides ad and upsell surfaces. Toggle in Settings.",
+		"authors": [
+			{
+				"name": "spicetify"
+			},
+			{
+				"name": "rxri"
+			},
+			{
+				"name": "veryboringhwl"
+			}
+		],
+		"kind": "extension",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/adblock.svg",
+		"license": "GPL-3.0-or-later"
+	}
+}

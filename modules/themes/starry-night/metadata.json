@@ -1,0 +1,17 @@
+{
+	"name": "Starry Night",
+	"id": "starry-night",
+	"kind": "theme",
+	"version": "0.1.6",
+	"authors": ["Brandon Chen", "Julissa Laignelet"],
+	"description": "Night sky backdrop with twinkling stars and shooting stars, in seven skies",
+	"entries": {
+		"js": "index.js",
+		"css": "index.css"
+	},
+	"hasMixins": false,
+	"dependencies": {
+		"stdlib": "^1.11.0"
+	},
+	"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/starry-night.png"
+}

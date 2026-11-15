@@ -1,0 +1,293 @@
+/*
+ * Copyright (C) 2026 spicetify
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import "../stdlib/lib/test-setup.mts";
+
+import assert from "node:assert/strict";
+import { test } from "node:test";
+
+import {
+	createDebouncedReassertion,
+	createNativeWindowControls,
+	createSharedStateReconciler,
+	createStateReconciler,
+	resolveHiddenState,
+	shouldHide,
+} from "./logic.ts";
+
+import { SPACER_CSS } from "./spacer.ts";
+
+test("Windows collapses mapped and unmapped caption slots without hiding real controls", () => {
+	for (const container of ["main-globalNav-contentRight", "unmapped-container"]) {
+		document.documentElement.className = "spotify__os--is-windows spotify__container--is-desktop";
+		document.body.innerHTML = `<div class="Root__globalNav"><div class="${container}" style="margin-inline-end: -8px">
+			<div class="main-topBar-topbarContentRight"><button>Account</button></div><div class="unmapped-spacer"></div>
+		</div></div>`;
+		const style = document.createElement("style");
+		style.textContent = SPACER_CSS;
+		document.head.appendChild(style);
+		const nav = document.querySelector<HTMLElement>(`.${container}`)!;
+		const slot = nav.lastElementChild!;
+		try {
+			assert.equal(window.getComputedStyle(slot).display, "none");
+			assert.equal(window.getComputedStyle(nav).marginInlineEnd, "0");
+			assert.notEqual(window.getComputedStyle(nav.firstElementChild!).display, "none");
+			slot.innerHTML = "<button>Real control</button>";
+			assert.notEqual(window.getComputedStyle(slot).display, "none");
+			slot.replaceChildren();
+			style.remove();
+			assert.notEqual(window.getComputedStyle(slot).display, "none");
+			assert.equal(window.getComputedStyle(nav).marginInlineEnd, "-8px");
+		} finally {
+			style.remove();
+			document.body.replaceChildren();
+			document.documentElement.className = "";
+		}
+	}
+});
+
+test("Windows controls stay visible when the native daemon is unavailable", async () => {
+	const states: boolean[] = [];
+	const apply = createNativeWindowControls(
+		async () => {
+			throw new Error("unsupported daemon");
+		},
+		async (hidden) => {
+			states.push(hidden);
+		},
+		() => {},
+	);
+	await assert.rejects(apply(true), /unsupported daemon/);
+	assert.deepEqual(states, [false]);
+});
+
+test("native ownership is released even if showing Spotify's buttons fails", async () => {
+	let released = false;
+	const apply = createNativeWindowControls(
+		async () => ({
+			release: async () => {
+				released = true;
+			},
+		}),
+		async (hidden) => {
+			if (!hidden) throw new Error("visibility failed");
+		},
+		() => {},
+	);
+	await apply(true);
+	await assert.rejects(apply(false), /visibility failed/);
+	assert.equal(released, true);
+});
+
+test("Windows acquires hit filtering before hiding and shows controls before releasing", async () => {
+	const events: string[] = [];
+	const apply = createNativeWindowControls(
+		async () => {
+			events.push("acquire");
+			return {
+				release: async () => {
+					events.push("release");
+				},
+			};
+		},
+		async (hidden) => {
+			events.push(hidden ? "hide" : "show");
+		},
+		() => {},
+	);
+	await apply(true);
+	await apply(true);
+	await apply(false);
+	assert.deepEqual(events, ["acquire", "hide", "hide", "show", "release"]);
+});
+
+test("daemon disconnect during an in-flight hide leaves Windows controls visible", async () => {
+	let disconnect: (error: Error) => void = () => {};
+	let finishHide: () => void = () => {};
+	const pending = new Promise<void>((resolve) => {
+		finishHide = resolve;
+	});
+	let visible = true;
+	const apply = createNativeWindowControls(
+		async (onDisconnect) => {
+			disconnect = onDisconnect;
+			return { release: async () => {} };
+		},
+		async (hidden) => {
+			if (hidden) await pending;
+			visible = !hidden;
+		},
+		() => {},
+	);
+	const hiding = apply(true);
+	await Promise.resolve();
+	disconnect(new Error("daemon stopped"));
+	finishHide();
+	await hiding.catch(() => {});
+	assert.equal(visible, true);
+});
+
+test("shouldHide defaults on and stays off only for an explicit opt-out", () => {
+	assert.equal(shouldHide("1"), true);
+	assert.equal(shouldHide("0"), false);
+	assert.equal(shouldHide(null), true);
+});
+
+test("a requiring theme keeps the controls hidden over an explicit opt-out", () => {
+	assert.equal(resolveHiddenState("0", true), true);
+	assert.equal(resolveHiddenState("0", false), false);
+	assert.equal(resolveHiddenState("1", false), true);
+});
+
+test("state reconciliation lets a requirement win over an in-flight toggle", async () => {
+	let releaseFirst!: () => void;
+	let markFirstStarted!: () => void;
+	const firstPending = new Promise<void>((resolve) => (releaseFirst = resolve));
+	const firstStarted = new Promise<void>((resolve) => (markFirstStarted = resolve));
+	const applied: boolean[] = [];
+	const reconciler = createStateReconciler(async (hidden) => {
+		applied.push(hidden);
+		if (applied.length === 1) {
+			markFirstStarted();
+			await firstPending;
+		}
+	});
+
+	const staleToggle = reconciler.request(false);
+	await firstStarted;
+	const requirement = reconciler.request(true);
+	releaseFirst();
+	await Promise.all([staleToggle, requirement]);
+
+	assert.deepEqual(applied, [false, true]);
+});
+
+test("state reconciliation lets unload win over queued work", async () => {
+	let releaseFirst!: () => void;
+	let markFirstStarted!: () => void;
+	const firstPending = new Promise<void>((resolve) => (releaseFirst = resolve));
+	const firstStarted = new Promise<void>((resolve) => (markFirstStarted = resolve));
+	const applied: boolean[] = [];
+	const reconciler = createStateReconciler(async (hidden) => {
+		applied.push(hidden);
+		if (applied.length === 1) {
+			markFirstStarted();
+			await firstPending;
+		}
+	});
+
+	const staleRequirement = reconciler.request(true);
+	await firstStarted;
+	const unload = reconciler.stop(false);
+	releaseFirst();
+	await Promise.all([staleRequirement, unload]);
+
+	assert.deepEqual(applied, [true, false]);
+});
+
+test("a replacement instance wins over an in-flight stale unload", async () => {
+	let releaseUnload!: () => void;
+	let markUnloadStarted!: () => void;
+	const unloadPending = new Promise<void>((resolve) => (releaseUnload = resolve));
+	const unloadStarted = new Promise<void>((resolve) => (markUnloadStarted = resolve));
+	const applied: boolean[] = [];
+	const shared = { generation: 0, desired: false, transition: Promise.resolve() };
+	const apply = async (hidden: boolean) => {
+		applied.push(hidden);
+		if (applied.length === 2) {
+			markUnloadStarted();
+			await unloadPending;
+		}
+	};
+
+	const stale = createSharedStateReconciler(apply, shared);
+	await stale.request(true);
+	const staleUnload = stale.stop(false);
+	await unloadStarted;
+	const replacement = createSharedStateReconciler(apply, shared);
+	const replacementLoad = replacement.request(true);
+	releaseUnload();
+	await Promise.all([staleUnload, replacementLoad]);
+
+	assert.deepEqual(applied, [true, false, true]);
+	assert.equal(shared.desired, true);
+});
+
+test("shared reconciliation ignores same-generation requests after stop", async () => {
+	let releaseInitial!: () => void;
+	let markInitialStarted!: () => void;
+	const initialPending = new Promise<void>((resolve) => (releaseInitial = resolve));
+	const initialStarted = new Promise<void>((resolve) => (markInitialStarted = resolve));
+	const applied: boolean[] = [];
+	const shared = { generation: 0, desired: false, transition: Promise.resolve() };
+	const reconciler = createSharedStateReconciler(async (hidden) => {
+		applied.push(hidden);
+		if (applied.length === 1) {
+			markInitialStarted();
+			await initialPending;
+		}
+	}, shared);
+
+	const initial = reconciler.request(true);
+	await initialStarted;
+	const stop = reconciler.stop(false);
+	const staleRequest = reconciler.request(true);
+	releaseInitial();
+	await Promise.all([initial, stop, staleRequest]);
+
+	assert.deepEqual(applied, [true, false]);
+	assert.equal(shared.desired, false);
+});
+
+test("shared reconciliation can retry after an initial native failure", async () => {
+	let attempts = 0;
+	const applied: boolean[] = [];
+	const shared = { generation: 0, desired: false, transition: Promise.resolve() };
+	const reconciler = createSharedStateReconciler(async (hidden) => {
+		applied.push(hidden);
+		if (++attempts === 1) throw new Error("native bridge unavailable");
+	}, shared);
+
+	await assert.rejects(reconciler.request(true), /native bridge unavailable/);
+	await reconciler.request(true);
+
+	assert.deepEqual(applied, [true, true]);
+});
+
+test("shell lifecycle reassertion is debounced, contains failures, and cannot run after teardown", async () => {
+	let nextId = 0;
+	const pending = new Map<number, () => void>();
+	let reassertions = 0;
+	const errors: unknown[] = [];
+	const reassertion = createDebouncedReassertion(
+		async () => {
+			reassertions++;
+			throw new Error("native bridge unavailable");
+		},
+		(callback) => {
+			const id = ++nextId;
+			pending.set(id, () => {
+				pending.delete(id);
+				callback();
+			});
+			return id;
+		},
+		(id) => pending.delete(id),
+		(error) => errors.push(error),
+	);
+
+	reassertion.trigger();
+	reassertion.trigger();
+	assert.equal(pending.size, 1);
+	for (const callback of pending.values()) callback();
+	await Promise.resolve();
+	assert.equal(reassertions, 1);
+	assert.match(String(errors[0]), /native bridge unavailable/);
+
+	reassertion.trigger();
+	reassertion.stop();
+	assert.equal(pending.size, 0);
+	assert.equal(reassertions, 1);
+});

@@ -1,0 +1,202 @@
+/*
+ * Copyright (C) 2026 spicetify
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import "../stdlib/lib/test-setup.mts";
+
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { registerHooks, stripTypeScriptTypes } from "node:module";
+import { afterEach, it } from "node:test";
+import * as React from "react";
+import { createRoot, type Root } from "react-dom/client";
+
+const playback = { position: 0, playing: true };
+const shortcuts: { operation: string; arguments: unknown[] }[] = [];
+Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, lyricsPageTest: { playback, shortcuts } });
+const exposure = `
+export * as React from ${JSON.stringify(import.meta.resolve("react"))};
+const { playback, shortcuts } = globalThis.lyricsPageTest;
+export const client = {
+ player: { getProgress: () => playback.position, isPlaying: () => playback.playing },
+ locale: { get: () => "Lyrics provided by" },
+ icons: { search: "" },
+ platform: { History: { location: { pathname: "/lyrics-plus" } } },
+ mousetrap: () => ({
+  bind: (...args) => shortcuts.push({ operation: "bind", arguments: args }),
+  unbind: (...args) => shortcuts.push({ operation: "unbind", arguments: args }),
+ }),
+};
+`;
+const pageUrl = new URL("./pages.tsx", import.meta.url);
+const hooks = registerHooks({
+	resolve(specifier, context, nextResolve) {
+		if (specifier === "/modules/stdlib/mod.ts" && context.parentURL === pageUrl.href) {
+			return { url: `data:text/javascript,${encodeURIComponent(exposure)}`, shortCircuit: true };
+		}
+		return nextResolve(specifier, context);
+	},
+	load(url, context, nextLoad) {
+		if (url === pageUrl.href) {
+			return {
+				format: "module",
+				source: stripTypeScriptTypes(readFileSync(pageUrl, "utf8")),
+				shortCircuit: true,
+			};
+		}
+		return nextLoad(url, context);
+	},
+});
+const { LyricsBackground, SearchBar, SyncedLyricsPage, SyncedExpandedLyricsPage, UnsyncedLyricsPage, VersionSelector } =
+	await import("./pages.tsx");
+const { CONFIG } = await import("./config.ts");
+hooks.deregister();
+
+const roots: Root[] = [];
+async function render(element: React.ReactElement) {
+	const container = document.createElement("div");
+	document.body.append(container);
+	const root = createRoot(container);
+	roots.push(root);
+	await React.act(async () => root.render(element));
+	return container;
+}
+
+afterEach(async () => {
+	await React.act(async () => roots.splice(0).forEach((root) => root.unmount()));
+	document.body.replaceChildren();
+	playback.position = 0;
+	playback.playing = true;
+	shortcuts.length = 0;
+});
+
+it("renders both synchronized views while lyrics are empty", async () => {
+	await render(React.createElement(SyncedLyricsPage, { lyrics: [] }));
+	await render(React.createElement(SyncedExpandedLyricsPage, { lyrics: [] }));
+	assert.equal(document.querySelectorAll(".lyrics-idling-indicator").length, 2);
+});
+
+it("uses Spotify artwork for the backdrop and falls back if it fails to load", async () => {
+	const container = await render(React.createElement(LyricsBackground, { image: "spotify:image:abc123" }));
+	const image = container.querySelector("img");
+	assert.ok(image);
+	assert.equal(image.src, "https://i.scdn.co/image/abc123");
+	assert.equal(image.alt, "");
+	assert.equal(container.firstElementChild?.getAttribute("aria-hidden"), "true");
+	await React.act(async () => image.dispatchEvent(new Event("error")));
+	assert.equal(container.querySelectorAll("img").length, 0);
+});
+
+it("keeps a solid backdrop when there is no artwork", async () => {
+	const container = await render(React.createElement(LyricsBackground, { image: "" }));
+	assert.equal(container.querySelectorAll("img").length, 0);
+});
+
+it("keeps active scrolling lyrics sharp and caps blur on distant lines", async () => {
+	playback.position = 1000;
+	const container = await render(
+		React.createElement(SyncedExpandedLyricsPage, {
+			lyrics: Array.from({ length: 8 }, (_, i) => ({ text: `Line ${i}`, startTime: i * 1000 })),
+		}),
+	);
+	const active = container.querySelector<HTMLElement>(
+		".lyrics-lyricsContainer-LyricsLine-active:not(.lyrics-idling-indicator)",
+	);
+	assert.equal(active?.style.getPropertyValue("--blur-index"), "0");
+	const distant = [...container.querySelectorAll<HTMLElement>(".lyrics-lyricsContainer-LyricsLine")].find(
+		(line) => line.textContent === "Line 7",
+	);
+	assert.equal(distant?.style.getPropertyValue("--blur-index"), "4");
+});
+
+const chineseLyrics = [
+	{ text: "你好", startTime: 0 },
+	{ text: "OK", startTime: 1000 },
+];
+const pinyin = [
+	{ startTime: 0, text: "nǐ hǎo" },
+	{ startTime: 1000, text: "O K" },
+];
+const romanizedViews = [
+	() => React.createElement(SyncedLyricsPage, { lyrics: chineseLyrics, romanization: pinyin }),
+	() => React.createElement(SyncedExpandedLyricsPage, { lyrics: chineseLyrics, romanization: pinyin }),
+	() => React.createElement(UnsyncedLyricsPage, { lyrics: chineseLyrics, romanization: pinyin }),
+];
+const romanizedLines = (container: Element) =>
+	[...container.querySelectorAll(".lyrics-lyricsContainer-RomanizedLine")].map((line) => line.textContent);
+
+it("shows pinyin under its line in every lyrics view unless it repeats the line", async (t) => {
+	t.mock.property(CONFIG.visual, "romanization", "pinyin");
+	for (const view of romanizedViews) {
+		const container = await render(view());
+		assert.deepEqual(romanizedLines(container), ["nǐ hǎo"]);
+		const line = container.querySelector(".lyrics-lyricsContainer-RomanizedLine")?.parentElement;
+		assert.match(line?.textContent ?? "", /^你好/);
+	}
+});
+
+it("hides pinyin when romanization is turned off", async (t) => {
+	t.mock.property(CONFIG.visual, "romanization", "none");
+	for (const view of romanizedViews) {
+		const container = await render(view());
+		assert.deepEqual(romanizedLines(container), []);
+	}
+});
+
+it("selects Genius versions with a numeric index", async () => {
+	const selections: number[] = [];
+	const versions = [
+		{ title: "Original", url: "first" },
+		{ title: "Alternate", url: "second" },
+	];
+	const container = await render(
+		React.createElement(VersionSelector, {
+			items: versions,
+			index: 0,
+			callback: (items, index) => {
+				assert.equal(items, versions);
+				selections.push(index);
+			},
+		}),
+	);
+	const select = container.querySelector("select");
+	assert.ok(select);
+	await React.act(async () => {
+		select.value = "1";
+		select.dispatchEvent(new Event("change", { bubbles: true }));
+	});
+	assert.deepEqual(selections, [1]);
+});
+
+it("mounts without Spotify scroll containers and removes each keyboard shortcut", async () => {
+	await render(React.createElement(SearchBar));
+	assert.equal(shortcuts.filter(({ operation }) => operation === "bind").length, 5);
+	await React.act(async () => roots.splice(0).forEach((root) => root.unmount()));
+	assert.deepEqual(
+		shortcuts.filter(({ operation }) => operation === "unbind").map(({ arguments: args }) => args),
+		[["mod+shift+f"], ["mod+shift+f"], ["enter"], ["shift+enter"], ["esc"]],
+	);
+});
+
+it("keeps expanded lyrics fixed while paused and advances after playback resumes", async (t) => {
+	t.mock.timers.enable({ apis: ["setInterval"] });
+	const container = await render(
+		React.createElement(SyncedExpandedLyricsPage, {
+			lyrics: [
+				{ text: "First", startTime: 0 },
+				{ text: "Second", startTime: 1000 },
+			],
+		}),
+	);
+	const activeText = () =>
+		container.querySelector(".lyrics-lyricsContainer-LyricsLine-active:not(.lyrics-idling-indicator)")?.textContent;
+	assert.equal(activeText(), "First");
+	playback.position = 1500;
+	playback.playing = false;
+	await React.act(async () => t.mock.timers.tick(50));
+	assert.equal(activeText(), "First");
+	playback.playing = true;
+	await React.act(async () => t.mock.timers.tick(50));
+	assert.equal(activeText(), "Second");
+});

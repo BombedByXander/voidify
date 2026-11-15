@@ -1,0 +1,7 @@
+/*
+ * Copyright (C) 2026 spicetify
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Popup Lyrics has no settings-specific chrome: the shared stdlib primitives
+ * own it so first-party settings cannot drift between modules.
+ */

@@ -1,0 +1,19 @@
+{
+  "name": "spicetify-services",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Cloudflare Workers behind *.spicetify.app (cors-proxy, installs).",
+  "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260801.1",
+    "oxfmt": "^0.60.0",
+    "oxlint": "^1.75.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.118.0"
+  }
+}

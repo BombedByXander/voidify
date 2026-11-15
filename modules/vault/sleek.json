@@ -1,0 +1,52 @@
+{
+	"v": {
+		"0.1.0": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/sleek@0.1.0/sleek@0.1.0.zip"],
+			"providers": [],
+			"checksum": "sha256:3a679941694be6a837b9bc19bdff33ff830e57012733aab69379aa5a1937bb5d",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.1": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/sleek@0.1.1/sleek@0.1.1.zip"],
+			"providers": [],
+			"checksum": "sha256:1884b18531a472f84c819a33f105ca786fb00d6d3fbd2035c42080fef7ebac85",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.2": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/sleek@0.1.2/sleek@0.1.2.zip"],
+			"providers": [],
+			"checksum": "sha256:18bf8b626846fc7f12e277df14fc9b15f55ae97339944aae5d3e33a4f78081e7",
+			"updatedAt": "2026-08-04"
+		},
+		"0.1.3": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/sleek@0.1.3/sleek@0.1.3.zip"],
+			"providers": [],
+			"checksum": "sha256:2780b3f2cad668c60c2974db3ef5d2202227030926d33244cfc4ebad5748f88e",
+			"updatedAt": "2026-08-19"
+		},
+		"0.1.4": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/sleek@0.1.4/sleek@0.1.4.zip"],
+			"providers": [],
+			"checksum": "sha256:cd5ca2a396646c1f390b49fbd0a8b9f34d156262514c7ecfbdba59c82f66534b",
+			"updatedAt": "2026-09-14"
+		},
+		"0.1.5": {
+			"artifacts": ["https://github.com/spicetify/modules/releases/download/sleek@0.1.5/sleek@0.1.5.zip"],
+			"providers": [],
+			"checksum": "sha256:e3629b8eaf540857c46ef86c8d84a23bcc83aa6eb1084d11385a11c84862908a",
+			"updatedAt": "2026-11-04"
+		}
+	},
+	"metadata": {
+		"name": "Sleek",
+		"description": "Sleek theme, migrated from the classic format",
+		"authors": [
+			{
+				"name": "harbassan"
+			}
+		],
+		"kind": "theme",
+		"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/sleek.png",
+		"license": "GPL-3.0-or-later"
+	}
+}

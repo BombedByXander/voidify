@@ -1,0 +1,16 @@
+{
+	"name": "Auto Skip Video",
+	"id": "auto-skip-video",
+	"kind": "extension",
+	"version": "0.1.5",
+	"authors": ["spicetify"],
+	"description": "Auto-skip music videos. Toggle in Settings.",
+	"entries": {
+		"js": "index.js"
+	},
+	"hasMixins": false,
+	"dependencies": {
+		"stdlib": "^1.11.0"
+	},
+	"preview": "https://raw.githubusercontent.com/spicetify/modules/main/previews/auto-skip-video.svg"
+}
