@@ -17,8 +17,11 @@
 .Root__top-container, .Root__top-container :is(button, input, h1, h2, h3, h4, [data-encore-id^="text"]) {
   font-family: var(--voidify-type);
 }
-.Root__top-container {
-  background: #141216;
+/* Keep the native resize handles and control padding, but let the panes meet. */
+.Root__top-container, .spotify__container--is-desktop .Root__top-container {
+  gap: 0;
+  padding: 0;
+  background: var(--voidify-panel-gradient);
 }
 .Root__globalNav {
   background: linear-gradient(110deg, #262027, #19171c 68%);
@@ -28,8 +31,11 @@
   background-color: #312b33;
   border-radius: 10px;
 }
+.Root__top-container :is(.Root__nav-bar, .Root__main-view, .Root__right-sidebar, .main-yourLibraryX-entryPoints) {
+  border-radius: 0;
+}
 .Root__nav-bar {
-  background: var(--voidify-panel-gradient);
+  background: transparent;
 }
 .Root__nav-bar :is(.main-yourLibraryX-entryPoints, .main-yourLibraryX-libraryContainer, .main-yourLibraryX-library) {
   background: transparent;
@@ -41,12 +47,8 @@
   background-color: #3f303b;
   box-shadow: inset 3px 0 var(--voidify-rose);
 }
-.Root__main-view, .Root__right-sidebar {
-  border-radius: 12px;
-  box-shadow: inset 0 0 0 1px var(--voidify-line);
-}
 .Root__main-view:has(.voidify-feature) {
-  background: var(--voidify-panel-gradient);
+  background: transparent;
 }
 /* Keep the gradient on the viewport while Home shelves scroll over it. */
 .Root__main-view:has(.voidify-feature) :is(:has(.voidify-feature), [data-testid="home-page"], .main-home-filterChipsSection, .main-shelf-shelf),
@@ -90,9 +92,9 @@
 .main-trackList-rowImage { border-radius: 5px; }
 .Root__now-playing-bar {
   margin: 0;
-  border-radius: 14px;
+  border-radius: 0;
   background: linear-gradient(110deg, #493447, #302733 37%, #27232b 68%, #372c3c);
-  box-shadow: inset 0 0 0 1px #ffe3f01c, inset 0 1px #ffe3f024, 0 4px 14px #100d1626;
+  box-shadow: inset 0 1px var(--voidify-line);
 }
 .Root__now-playing-bar .main-nowPlayingBar-container { background: transparent; border: 0; }
 .Root__now-playing-bar .main-nowPlayingBar-nowPlayingBar { padding-inline: clamp(0px, 1vw - 8px, 12px); }
@@ -125,7 +127,6 @@
 }
 .Root__top-container :focus-visible { outline-color: var(--voidify-rose); }
 @media (max-width: 800px) {
-  .Root__main-view, .Root__now-playing-bar { border-radius: 8px; }
   .main-shelf-shelf + .main-shelf-shelf { padding-top: 10px; }
 }
 .Root__globalNav { background: #1d1921; }
