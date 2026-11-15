@@ -11,6 +11,48 @@
 
   function installHomeHub(api) {
     const history = api.Platform.History;
+    const release = document.createElement("div");
+    release.className = "voidify-release";
+    release.hidden = true;
+    let albumUri = "";
+    let releaseText = "";
+    let requestId = 0;
+    async function updateRelease() {
+      const uri = api.Player.data?.item?.metadata?.album_uri || "";
+      if (uri === albumUri) return;
+      albumUri = uri;
+      const id = ++requestId;
+      releaseText = "";
+      renderRelease();
+      if (!uri || !api.GraphQL?.Definitions?.getAlbum) return;
+      try {
+        const response = await api.GraphQL.Request(api.GraphQL.Definitions.getAlbum, {
+          uri, locale: "en-US", offset: 0, limit: 1
+        });
+        if (id !== requestId || response.errors) return;
+        const album = response.data?.albumUnion;
+        if (!album) return;
+        const type = String(album.type || album.albumType || "").toLowerCase();
+        const label = {album: "Album", single: "Single", ep: "EP", compilation: "Compilation"}[type] || "";
+        const date = album.date;
+        let formatted = "";
+        if (date?.isoString) {
+          const value = new Date(date.isoString);
+          if (!Number.isNaN(value.getTime())) {
+            const options = {year: "numeric", timeZone: "UTC"};
+            if (date.precision !== "YEAR") options.month = "long";
+            if (!["YEAR", "MONTH"].includes(date.precision)) options.day = "numeric";
+            formatted = new Intl.DateTimeFormat("en-US", options).format(value);
+          }
+        }
+        releaseText = [label, formatted].filter(Boolean).join(" · ");
+        renderRelease();
+      } catch { /* Local tracks and unavailable releases can have no album metadata. */ }
+    }
+    function renderRelease() {
+      if (release.textContent !== releaseText) release.textContent = releaseText;
+      release.hidden = !releaseText;
+    }
     function updateLayout() {
       const root = document.querySelector(".Root__top-container");
       if (!root) return;
@@ -20,6 +62,9 @@
       const grid = widget?.parentElement;
       if (!grid) return;
       grid.classList.add("voidify-hub-grid");
+      const track = grid.querySelector(".main-nowPlayingView-contextItemInfo .main-trackInfo-name");
+      if (track && release.parentElement !== track) track.append(release);
+      updateRelease();
       const tiles = grid.querySelectorAll(".main-nowPlayingView-section, .main-nowPlayingView-contextItemInfo");
       for (const tile of tiles) {
         if (tile.closest(".main-nowPlayingView-nowPlayingWidget")) continue;
@@ -31,6 +76,7 @@
       }
     }
     // The panel stays in its React tree so its live controls retain their handlers.
+    api.Player.addEventListener("songchange", updateLayout);
     history.listen(updateLayout);
     new MutationObserver(updateLayout).observe(document.body, {childList: true, subtree: true});
     updateLayout();
@@ -48,7 +94,7 @@
       content.className = "voidify-about";
       content.innerHTML = mark + "<p>Your desktop player with Voidify Marketplace, themes, and extensions.</p>";
       const version = document.createElement("small");
-      version.textContent = "Voidify Desktop" + (api.Config?.version ? " Ãƒâ€šÃ‚Â· Engine " + api.Config.version : "");
+      version.textContent = "Voidify Desktop" + (api.Config?.version ? " ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Engine " + api.Config.version : "");
       content.append(version);
       api.PopupModal.display({ title: "About Voidify", content });
     };
