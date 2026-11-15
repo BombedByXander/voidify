@@ -9,7 +9,6 @@
 }
 :root {
   --voidify-panel-gradient: linear-gradient(135deg, #533445, #302833 58%, #201c23);
-  --voidify-panel-divider: rgba(230, 194, 230, .34);
   --voidify-line: rgba(255, 234, 247, .09);
   --voidify-rose: #ff92ad;
   --voidify-type: "Archivo", "Segoe UI", sans-serif;
@@ -18,33 +17,22 @@
 .Root__top-container, .Root__top-container :is(button, input, h1, h2, h3, h4, [data-encore-id^="text"]) {
   font-family: var(--voidify-type);
 }
-/* Keep the native resize handles and control padding, but let the panes meet. */
-.Root__top-container, .spotify__container--is-desktop .Root__top-container {
-  gap: 0;
-  padding: 0;
-  background: var(--voidify-panel-gradient);
+.Root__top-container {
+  background: #141216;
 }
 .Root__globalNav {
   background: linear-gradient(110deg, #262027, #19171c 68%);
-  box-shadow: inset 0 -1px var(--voidify-panel-divider);
+  box-shadow: inset 0 -1px var(--voidify-line);
 }
 .main-globalNav-searchInputSection input {
   background-color: #312b33;
   border-radius: 10px;
 }
-.Root__top-container :is(.Root__nav-bar, .Root__main-view, .Root__right-sidebar, .main-yourLibraryX-entryPoints) {
-  border-radius: 0;
-}
 .Root__nav-bar {
-  background: rgba(31, 14, 37, .14);
-  border-inline-end: 1px solid var(--voidify-panel-divider);
-  box-sizing: border-box;
+  background: var(--voidify-panel-gradient);
 }
 .Root__nav-bar :is(.main-yourLibraryX-entryPoints, .main-yourLibraryX-libraryContainer, .main-yourLibraryX-library) {
   background: transparent;
-}
-.Root__right-sidebar:not(.Root__right-sidebar-collapsed) {
-  box-shadow: inset 1px 0 var(--voidify-panel-divider);
 }
 .main-yourLibraryX-header { box-shadow: inset 0 -1px var(--voidify-line); }
 .main-yourLibraryX-listItem { border-radius: 8px; }
@@ -53,8 +41,12 @@
   background-color: #3f303b;
   box-shadow: inset 3px 0 var(--voidify-rose);
 }
+.Root__main-view, .Root__right-sidebar {
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--voidify-line);
+}
 .Root__main-view:has(.voidify-feature) {
-  background: transparent;
+  background: var(--voidify-panel-gradient);
 }
 /* Keep the gradient on the viewport while Home shelves scroll over it. */
 .Root__main-view:has(.voidify-feature) :is(:has(.voidify-feature), [data-testid="home-page"], .main-home-filterChipsSection, .main-shelf-shelf),
@@ -98,9 +90,9 @@
 .main-trackList-rowImage { border-radius: 5px; }
 .Root__now-playing-bar {
   margin: 0;
-  border-radius: 0;
+  border-radius: 14px;
   background: linear-gradient(110deg, #493447, #302733 37%, #27232b 68%, #372c3c);
-  box-shadow: inset 0 1px var(--voidify-panel-divider);
+  box-shadow: inset 0 0 0 1px #ffe3f01c, inset 0 1px #ffe3f024, 0 4px 14px #100d1626;
 }
 .Root__now-playing-bar .main-nowPlayingBar-container { background: transparent; border: 0; }
 .Root__now-playing-bar .main-nowPlayingBar-nowPlayingBar { padding-inline: clamp(0px, 1vw - 8px, 12px); }
@@ -133,9 +125,31 @@
 }
 .Root__top-container :focus-visible { outline-color: var(--voidify-rose); }
 @media (max-width: 800px) {
+  .Root__main-view, .Root__now-playing-bar { border-radius: 8px; }
   .main-shelf-shelf + .main-shelf-shelf { padding-top: 10px; }
 }
-.Root__globalNav { background: #1d1921; }
+.Root__globalNav {
+  box-sizing: border-box;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  background: #1d1921;
+}
+.Root__globalNav :is(.main-globalNav-historyButtonsWrapper, .main-globalNav-historyButtonsContainer, .main-globalNav-contentRight) {
+  display: flex;
+  align-items: center;
+  align-self: center;
+}
+.Root__globalNav .main-globalNav-historyButtonsWrapper { gap: 12px; }
+.Root__globalNav .main-globalNav-searchSection { top: 0; bottom: 0; align-items: center; }
+.Root__globalNav .voidify-nav-brand button {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.Root__globalNav .voidify-nav-brand svg { display: block; }
 .Root__nav-bar .main-yourLibraryX-header { padding-block: 12px; }
 .Root__main-view .main-entityHeader-backgroundColor { opacity: .24; }
 .Root__main-view .main-entityHeader-title h1 {
