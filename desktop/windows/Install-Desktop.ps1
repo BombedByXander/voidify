@@ -68,7 +68,7 @@ try {
         Move-Item -LiteralPath $part -Destination $archive -Force
     }
     $fingerprint = $prefsVersion + $asset.digest
-    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify.ico') {
+    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify.ico','voidify-mark.svg','voidify-login.css','Apply-Brand.ps1') {
         $fingerprint += (Get-FileHash -LiteralPath (Join-Path $Resources $name)).Hash
     }
     $current = Join-Path $Destination 'current.txt'
@@ -126,6 +126,7 @@ extensions = voidify-desktop.js
         } finally {
             foreach ($key in $saved.Keys) { [Environment]::SetEnvironmentVariable($key,$saved[$key]) }
         }
+        & ([scriptblock]::Create([IO.File]::ReadAllText((Join-Path $Resources 'Apply-Brand.ps1')))) -Build $build -Resources $Resources
         [IO.File]::WriteAllText((Join-Path $build 'ready.txt'), $fingerprint)
     }
     $launcher = Join-Path $build 'Voidify.exe'

@@ -64,15 +64,19 @@ def prepare():
 def desktop_setup(shortcut=True):
     with tempfile.TemporaryDirectory() as resources:
         stage = Path(resources)
-        for name in ("Install-Desktop.ps1", "Player.cs", "voidify-desktop.js"):
+        for name in ("Install-Desktop.ps1", "Player.cs", "voidify-desktop.js", "Apply-Brand.ps1", "voidify-login.css"):
             shutil.copy2(ROOT / "desktop/windows" / name, stage)
+        shutil.copy2(ROOT / "marketplace/src/assets/icon-filled.svg", stage / "voidify-mark.svg")
         shutil.copy2(ROOT / "cli-assets.json", stage)
         shutil.copy2(ROOT / "docs/public/images/favicon.ico", stage / "voidify.ico")
         command = ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "RemoteSigned",
                    "-File", str(stage / "Install-Desktop.ps1"), "-Resources", resources]
         if not shortcut:
             command.append("-SkipShortcut")
-        subprocess.run(command, check=True)
+        env = os.environ.copy()
+        # Windows PowerShell must discover its own modules when invoked from PowerShell 7.
+        env.pop("PSMODULEPATH", None)
+        subprocess.run(command, env=env, check=True)
 
 
 def windows_desktop(args):

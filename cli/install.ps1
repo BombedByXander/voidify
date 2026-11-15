@@ -7,7 +7,7 @@
     $raw = "https://raw.githubusercontent.com/$repo/$commit"
     $stage = Join-Path ([IO.Path]::GetTempPath()) ("voidify-setup-" + [guid]::NewGuid())
     New-Item -ItemType Directory -Path $stage | Out-Null
-    $files = @{'Install-Desktop.ps1'='desktop/windows/Install-Desktop.ps1'; 'Player.cs'='desktop/windows/Player.cs'; 'voidify-desktop.js'='desktop/windows/voidify-desktop.js'; 'voidify.ico'='docs/public/images/favicon.ico'; 'cli-assets.json'='cli-assets.json'}
+    $files = @{'Apply-Brand.ps1'='desktop/windows/Apply-Brand.ps1'; 'voidify-login.css'='desktop/windows/voidify-login.css'; 'voidify-mark.svg'='marketplace/src/assets/icon-filled.svg'; 'Install-Desktop.ps1'='desktop/windows/Install-Desktop.ps1'; 'Player.cs'='desktop/windows/Player.cs'; 'voidify-desktop.js'='desktop/windows/voidify-desktop.js'; 'voidify.ico'='docs/public/images/favicon.ico'; 'cli-assets.json'='cli-assets.json'}
     try {
         foreach ($name in $files.Keys) {
             Invoke-WebRequest -UseBasicParsing -Uri "$raw/$($files[$name])" -OutFile (Join-Path $stage $name)
