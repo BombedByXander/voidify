@@ -401,7 +401,7 @@
 
 
 /* Optional native sections, such as lyrics, get their own row. */
-.voidify-home-hub .main-nowPlayingView-section:not(.main-nowPlayingView-aboutArtist):not(:has(.main-nowPlayingView-queue, .cYpycwKcTXHdtu4sNc6i, .JhHjvDJmnpDqsPXWTToW)) {
+.voidify-home-hub .main-nowPlayingView-section:not(.main-nowPlayingView-aboutArtist):not([data-testid="lyrics-npv-section"]):not(:has(.main-nowPlayingView-queue, .cYpycwKcTXHdtu4sNc6i, .JhHjvDJmnpDqsPXWTToW)) {
   grid-column: 2 / -1;
   grid-row: 3;
 }
@@ -411,10 +411,11 @@
 .voidify-home-hub .main-nowPlayingView-section:has([data-testid="lyrics-npv-section"]) {
   display: contents;
 }
-.voidify-home-hub [data-testid="lyrics-npv-section"] {
-  grid-column: 2 / -1;
-  grid-row: 3;
-  width: min(100%, 320px);
+.voidify-home-hub .voidify-hub-grid .main-nowPlayingView-section[data-testid="lyrics-npv-section"] {
+  grid-column: 4;
+  grid-row: 1 / 3;
+  width: 100%;
+  align-self: center;
   max-height: 200px;
   padding: 0;
   background: transparent !important;
@@ -424,13 +425,19 @@
   overflow: hidden;
   justify-self: start;
 }
-.voidify-home-hub [data-testid="lyrics-npv-section"] .ZZZvR59MO7b3EXPV7ZmC {
+.voidify-home-hub .voidify-hub-grid .main-nowPlayingView-section[data-testid="lyrics-npv-section"] .ZZZvR59MO7b3EXPV7ZmC {
   margin: 0;
   padding: 0;
   min-width: 0;
   overflow-x: hidden;
   mask-image: none;
 }
+/* The hub uses the native conditional lyrics section in the former queue slot. */
+.voidify-home-hub .main-nowPlayingView-section:has(.main-nowPlayingView-queue),
+.voidify-home-hub .main-nowPlayingView-queue { display: none; }
+@container voidify-hub (max-width: 950px) {
+  .voidify-home-hub .voidify-hub-grid .main-nowPlayingView-section[data-testid="lyrics-npv-section"] { grid-column: 3; grid-row: 3; }
+}
 @container voidify-hub (max-width: 500px) {
-  .voidify-home-hub [data-testid="lyrics-npv-section"] { grid-column: 1 / -1; grid-row: 4; }
+  .voidify-home-hub .voidify-hub-grid .main-nowPlayingView-section[data-testid="lyrics-npv-section"] { grid-column: 2; grid-row: 3; }
 }
