@@ -68,7 +68,7 @@ try {
         Move-Item -LiteralPath $part -Destination $archive -Force
     }
     $fingerprint = $prefsVersion + $asset.digest
-    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify-taskbar.ico','voidify-mark.svg','voidify-login.css','voidify-ui.css','voidify-color.ini','Apply-Brand.ps1') {
+    foreach ($name in 'Archivo.ttf','Archivo-OFL.txt','Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify-taskbar.ico','voidify-mark.svg','voidify-login.css','voidify-ui.css','voidify-color.ini','Apply-Brand.ps1') {
         $fingerprint += (Get-FileHash -LiteralPath (Join-Path $Resources $name)).Hash
     }
     $current = Join-Path $Destination 'current.txt'
@@ -101,6 +101,10 @@ try {
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-desktop.js') -Destination (Join-Path $engine 'Extensions')
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-taskbar.ico') -Destination $build
         $theme = New-Item -ItemType Directory -Force -Path (Join-Path $engine 'Themes/Voidify')
+        $fonts = New-Item -ItemType Directory -Force -Path (Join-Path $theme.FullName 'assets/fonts')
+        foreach ($file in 'Archivo.ttf','Archivo-OFL.txt') {
+            Copy-Item -LiteralPath (Join-Path $Resources $file) -Destination $fonts.FullName
+        }
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-ui.css') -Destination (Join-Path $theme.FullName 'user.css')
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-color.ini') -Destination (Join-Path $theme.FullName 'color.ini')
         $launcher = Join-Path $build 'Voidify.exe'
@@ -115,6 +119,7 @@ try {
 spotify_path = $client
 prefs_path = $prefs
 current_theme = Voidify
+overwrite_assets = 1
 color_scheme = Midnight
 inject_css = 1
 replace_colors = 1

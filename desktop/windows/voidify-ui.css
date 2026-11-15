@@ -1,15 +1,24 @@
 /* Voidify Midnight. Keep native layout measurements for the resizable panes
    and virtualized track lists. */
+@font-face {
+  font-family: "Archivo";
+  src: url("./fonts/Archivo.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
 :root {
   --voidify-panel-gradient: linear-gradient(135deg, #533445, #302833 58%, #201c23);
   --voidify-line: rgba(255, 234, 247, .09);
   --voidify-rose: #ff92ad;
-  --voidify-type: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  --voidify-type: "Archivo", "Segoe UI", sans-serif;
 }
 
+.Root__top-container, .Root__top-container :is(button, input, h1, h2, h3, h4, [data-encore-id^="text"]) {
+  font-family: var(--voidify-type);
+}
 .Root__top-container {
   background: #141216;
-  font-family: var(--voidify-type);
 }
 .Root__globalNav {
   background: linear-gradient(110deg, #262027, #19171c 68%);
@@ -48,7 +57,7 @@
 /* The client paints an inline artwork color on this decorative layer. */
 .Root__main-view:has(.voidify-feature) .main-home-homeHeader { display: none; }
 .Root__main-view :is(h1, h2, .main-entityHeader-title) {
-  font-family: "Segoe UI Variable Display", var(--voidify-type);
+  font-family: var(--voidify-type);
   letter-spacing: -.035em;
   text-wrap: balance;
 }
@@ -147,15 +156,17 @@
   margin: 16px var(--content-spacing,24px);
   padding: clamp(20px,3vw,46px);
   border-radius: 16px;
-  background: linear-gradient(115deg,#f5e5de,#ecc9d7 72%,#c5aeca);
-  color: #291c29;
+  background: linear-gradient(115deg, #211225, #150f1b 64%, #301932);
+  box-shadow: inset 0 0 0 1px #ad74b45e, 0 5px 18px #110b1670;
+  color: #fff1ff;
   overflow: hidden;
 }
 .voidify-feature > div { min-width: 0; }
-.voidify-feature small { font: 700 11px/1.2 var(--voidify-type); text-transform: uppercase; letter-spacing: .14em; }
+.voidify-feature small { color: #e4a9e9; font: 700 11px/1.2 var(--voidify-type); text-transform: uppercase; letter-spacing: .14em; }
 .Root__main-view .voidify-feature h1 { font-size: clamp(28px,4vw,64px); line-height: 1; margin: 10px 0; overflow-wrap: anywhere; color: inherit; }
-.voidify-feature p { margin: 0; color: #574454; }
-.voidify-feature button { margin-top: 18px; background: #332431; color: white; border: 0; padding: 9px 20px; border-radius: 8px; cursor: pointer; font-weight: 650; }
+.voidify-feature p { margin: 0; color: #d5bdd9; }
+.voidify-feature button { margin-top: 18px; background: #e6b5e3; color: #241329; border: 0; padding: 9px 20px; border-radius: 8px; cursor: pointer; font-weight: 650; }
+.voidify-feature button:hover { background: #f2cbed; }
 .voidify-feature img { width: clamp(75px,23%,174px); aspect-ratio: 1; object-fit: cover; border-radius: 8px; box-shadow: 0 10px 22px #32233738; }
 /* Discovery and browsing use broader artwork tiles than the compact library. */
 .search-searchCategory-categoryGrid, .marketplace-content .marketplace-grid {
