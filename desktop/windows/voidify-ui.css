@@ -40,6 +40,7 @@
 .Root__main-view:has(.voidify-feature) .main-view-container__scroll-node-child {
   background: transparent;
 }
+.Root__main-view:has(.voidify-feature) .main-home-filterChipsSection { backdrop-filter: blur(22px) brightness(.8); }
 /* The client paints an inline artwork color on this decorative layer. */
 .Root__main-view:has(.voidify-feature) .main-home-homeHeader { display: none; }
 .Root__main-view :is(h1, h2, .main-entityHeader-title) {
