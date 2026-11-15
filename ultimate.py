@@ -68,7 +68,7 @@ def desktop_setup(shortcut=True):
             shutil.copy2(ROOT / "desktop/windows" / name, stage)
         shutil.copy2(ROOT / "marketplace/src/assets/icon-filled.svg", stage / "voidify-mark.svg")
         shutil.copy2(ROOT / "cli-assets.json", stage)
-        shutil.copy2(ROOT / "docs/public/images/favicon.ico", stage / "voidify.ico")
+        shutil.copy2(ROOT / "desktop/windows/voidify-taskbar.ico", stage / "voidify-taskbar.ico")
         command = ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "RemoteSigned",
                    "-File", str(stage / "Install-Desktop.ps1"), "-Resources", resources]
         if not shortcut:

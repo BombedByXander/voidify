@@ -40,7 +40,7 @@ internal static class VoidifyPlayer {
             var key = new PropertyKey { format = new Guid("9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3") };
             foreach (var property in new[] {
                 new { id = 2u, value = "\"" + Path.Combine(build, "Voidify.exe") + "\"" },
-                new { id = 3u, value = Path.Combine(build, "voidify.ico") + ",0" },
+                new { id = 3u, value = Path.Combine(build, "voidify-taskbar.ico") + ",0" },
                 new { id = 5u, value = "Voidify.Desktop.Player" }
             }) {
                 key.id = property.id;
@@ -72,7 +72,7 @@ internal static class VoidifyPlayer {
             launch.Arguments = "--mu=voidify --disable-update-restarts --user-data-dir=\"" + profile +
                 "\\Browser\" --cache-path=\"" + profile + "\\Cache\" --app-directory=\"" + client + "\\Apps\"";
             using (var player = Process.Start(launch))
-            using (var icon = new Icon(Path.Combine(build, "voidify.ico"))) {
+            using (var icon = new Icon(Path.Combine(build, "voidify-taskbar.ico"))) {
                 IntPtr brandedWindow = IntPtr.Zero;
                 while (!player.HasExited) {
                     player.Refresh();

@@ -68,7 +68,7 @@ try {
         Move-Item -LiteralPath $part -Destination $archive -Force
     }
     $fingerprint = $prefsVersion + $asset.digest
-    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify.ico','voidify-mark.svg','voidify-login.css','Apply-Brand.ps1') {
+    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify-taskbar.ico','voidify-mark.svg','voidify-login.css','Apply-Brand.ps1') {
         $fingerprint += (Get-FileHash -LiteralPath (Join-Path $Resources $name)).Hash
     }
     $current = Join-Path $Destination 'current.txt'
@@ -99,10 +99,10 @@ try {
         $manifest.'active-icon' = $manifest.icon
         [IO.File]::WriteAllText($manifestFile, ($manifest | ConvertTo-Json -Depth 8))
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-desktop.js') -Destination (Join-Path $engine 'Extensions')
-        Copy-Item -LiteralPath (Join-Path $Resources 'voidify.ico') -Destination $build
+        Copy-Item -LiteralPath (Join-Path $Resources 'voidify-taskbar.ico') -Destination $build
         $launcher = Join-Path $build 'Voidify.exe'
         $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework\v4.0.30319\csc.exe'
-        & $compiler /nologo /target:winexe "/out:$launcher" "/win32icon:$build\voidify.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll (Join-Path $Resources 'Player.cs')
+        & $compiler /nologo /target:winexe "/out:$launcher" "/win32icon:$build\voidify-taskbar.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll (Join-Path $Resources 'Player.cs')
         if ($LASTEXITCODE) { throw 'Failed to compile the Voidify player launcher.' }
         $prefs = Join-Path $build 'prefs'
         [IO.File]::WriteAllText($prefs, ('app.last-launched-version="' + $prefsVersion + '"'))
@@ -141,7 +141,7 @@ extensions = voidify-desktop.js
         $shortcut = (New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path $programs 'Voidify.lnk'))
         $shortcut.TargetPath = $launcher
         $shortcut.WorkingDirectory = $build
-        $shortcut.IconLocation = "$build\voidify.ico,0"
+        $shortcut.IconLocation = "$build\voidify-taskbar.ico,0"
         $shortcut.Description = 'Voidify Desktop'
         $shortcut.Save()
     }
