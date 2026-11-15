@@ -54,6 +54,33 @@ internal static class VoidifyPlayer {
         } finally { Marshal.ReleaseComObject(store); }
     }
 
+    // The private player uses --cache-path, so its native DevTools setting
+    // lives here instead of in the regular Spotify installation's cache.
+    static void EnableInspector(string profile) {
+        string path = Path.Combine(profile, "Cache", "offline.bnk");
+        if (!File.Exists(path)) return; // Created by the player on its first run.
+        try {
+            using (var file = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) {
+                using (var reader = new BinaryReader(file, System.Text.Encoding.ASCII, true)) {
+                    byte[] data = reader.ReadBytes(checked((int)file.Length));
+                    string cache = System.Text.Encoding.ASCII.GetString(data);
+                    const string setting = "app-developer";
+                    int first = cache.IndexOf(setting + ">", StringComparison.Ordinal);
+                    int last = cache.LastIndexOf(setting + "\t\x01", StringComparison.Ordinal);
+                    if (first < 0 || last <= first) return;
+                    int a = first + setting.Length + 1, b = last + setting.Length + 2;
+                    if (b >= data.Length || data[a] < '0' || data[a] > '2' ||
+                        data[b] < '0' || data[b] > '2') return;
+                    if (data[a] == '2' && data[b] == '2') return;
+                    file.Position = a;
+                    file.WriteByte((byte)'2');
+                    file.Position = b;
+                    file.WriteByte((byte)'2');
+                }
+            }
+        } catch (IOException) { /* A running player can already own the cache. */ }
+    }
+
     [STAThread]
     static int Main() {
         try {
@@ -61,6 +88,7 @@ internal static class VoidifyPlayer {
             string client = Path.Combine(build, "Client");
             string profile = Path.Combine(Directory.GetParent(build.TrimEnd(Path.DirectorySeparatorChar)).Parent.FullName, "Profile");
             Directory.CreateDirectory(profile);
+            EnableInspector(profile);
             SetCurrentProcessExplicitAppUserModelID("Voidify.Desktop.Player");
             var launch = new ProcessStartInfo(Path.Combine(client, "Spotify.exe"));
             launch.WorkingDirectory = client;
