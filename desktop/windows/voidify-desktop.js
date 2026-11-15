@@ -1,7 +1,7 @@
 // NAME: Voidify Desktop
 // DESCRIPTION: Voidify navigation and player identity.
 (() => {
-  const mark = '<svg aria-hidden="true" width="24" height="26" viewBox="0 0 32 36"><path fill="#ae90ff" d="M3 7h7l8 15-4 7z"/><path fill="#7047ed" d="M20 7h9L16 31l-4-7z"/></svg>';
+  const mark = '<svg aria-hidden="true" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16 4.5a11.5 11.5 0 1 0 11.5 11.5" fill="none" stroke="#a478ff" stroke-width="2.7" stroke-linecap="round"/><circle cx="16" cy="16" r="4.85" fill="#f1f1f5"/></svg>';
   const title = document.querySelector("title");
   const updateTitle = () => {
     if (document.title !== "Voidify") document.title = "Voidify";

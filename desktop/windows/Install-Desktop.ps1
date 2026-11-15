@@ -92,6 +92,12 @@ try {
         Get-ChildItem -LiteralPath $apps -File -Filter '*.spa' | Copy-Item -Destination $appFiles.FullName
         $engine = Join-Path $build 'Engine'
         Expand-Archive -LiteralPath $archive -DestinationPath $engine
+        # The engine archive predates the desktop branding assets.
+        $manifestFile = Join-Path $engine 'CustomApps/marketplace/manifest.json'
+        $manifest = [IO.File]::ReadAllText($manifestFile) | ConvertFrom-Json
+        $manifest.icon = [IO.File]::ReadAllText((Join-Path $Resources 'voidify-mark.svg')).Trim()
+        $manifest.'active-icon' = $manifest.icon
+        [IO.File]::WriteAllText($manifestFile, ($manifest | ConvertTo-Json -Depth 8))
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-desktop.js') -Destination (Join-Path $engine 'Extensions')
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify.ico') -Destination $build
         $launcher = Join-Path $build 'Voidify.exe'
