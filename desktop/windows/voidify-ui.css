@@ -405,3 +405,32 @@
   grid-column: 2 / -1;
   grid-row: 3;
 }
+
+
+/* Preserve Spotify's per-track lyric colors while removing the preview surface. */
+.voidify-home-hub .main-nowPlayingView-section:has([data-testid="lyrics-npv-section"]) {
+  display: contents;
+}
+.voidify-home-hub [data-testid="lyrics-npv-section"] {
+  grid-column: 2 / -1;
+  grid-row: 3;
+  width: min(100%, 320px);
+  max-height: 200px;
+  padding: 0;
+  background: transparent !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  justify-self: start;
+}
+.voidify-home-hub [data-testid="lyrics-npv-section"] .ZZZvR59MO7b3EXPV7ZmC {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  overflow-x: hidden;
+  mask-image: none;
+}
+@container voidify-hub (max-width: 500px) {
+  .voidify-home-hub [data-testid="lyrics-npv-section"] { grid-column: 1 / -1; grid-row: 4; }
+}

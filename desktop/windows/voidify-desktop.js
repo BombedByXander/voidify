@@ -56,9 +56,10 @@
     function updateLayout() {
       const root = document.querySelector(".Root__top-container");
       if (!root) return;
-      const onHome = history.location.pathname === "/";
-      root.classList.toggle("voidify-home-hub", onHome);
       const widget = root.querySelector(".main-nowPlayingView-nowPlayingWidget");
+      // Expanded native lyrics reuse the panel on Home, without an artwork widget.
+      const onHome = history.location.pathname === "/" && Boolean(widget);
+      root.classList.toggle("voidify-home-hub", onHome);
       const grid = widget?.parentElement;
       if (!grid) return;
       grid.classList.add("voidify-hub-grid");
