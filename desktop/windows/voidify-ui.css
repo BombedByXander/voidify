@@ -1,0 +1,84 @@
+/* Voidify Midnight. Keep native layout measurements for the resizable panes
+   and virtualized track lists. */
+:root {
+  --voidify-line: rgba(255, 234, 247, .09);
+  --voidify-rose: #ff92ad;
+  --voidify-type: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+}
+
+.Root__top-container {
+  background: #141216;
+  font-family: var(--voidify-type);
+}
+.Root__globalNav {
+  background: linear-gradient(110deg, #262027, #19171c 68%);
+  box-shadow: inset 0 -1px var(--voidify-line);
+}
+.main-globalNav-searchInputSection input {
+  background-color: #312b33;
+  border-radius: 10px;
+}
+.Root__nav-bar, .main-yourLibraryX-entryPoints, .main-yourLibraryX-library {
+  background-color: #211e24;
+}
+.main-yourLibraryX-header { box-shadow: inset 0 -1px var(--voidify-line); }
+.main-yourLibraryX-listItem { border-radius: 8px; }
+.main-yourLibraryX-listItem[aria-selected="true"],
+.main-yourLibraryX-listItem:has([aria-current="page"]) {
+  background-color: #3f303b;
+  box-shadow: inset 3px 0 var(--voidify-rose);
+}
+.Root__main-view, .Root__right-sidebar {
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--voidify-line);
+}
+.main-home-homeHeader { background: linear-gradient(135deg, #533445, #302833 58%, #201c23); }
+.Root__main-view :is(h1, h2, .main-entityHeader-title) {
+  font-family: "Segoe UI Variable Display", var(--voidify-type);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.Root__main-view h2 { font-weight: 700; }
+.main-shelf-shelf + .main-shelf-shelf {
+  border-top: 1px solid var(--voidify-line);
+  padding-top: clamp(12px, 1.5vw, 24px);
+}
+.main-card-card, [data-encore-id="card"] {
+  background-color: transparent;
+  border-radius: 12px;
+}
+.main-card-card:hover, [data-encore-id="card"]:hover {
+  background-color: var(--spice-highlight);
+}
+.main-card-imageContainer img:not(.main-cardImage-circular),
+.main-entityHeader-imageContainer img:not(.main-entityHeader-circle) {
+  box-shadow: 0 4px 14px rgba(0,0,0,.22);
+}
+.main-card-imageContainer:not(:has(.main-cardImage-circular)) img:not([style*="50%"]) {
+  border-radius: 4%;
+}
+.main-trackList-trackListRow {
+  border-radius: 6px;
+  box-shadow: inset 0 -1px var(--voidify-line);
+}
+.main-trackList-trackListRow:hover { background-color: var(--spice-highlight); }
+.main-trackList-trackListRow[aria-selected="true"] { background-color: #41313b; }
+.main-trackList-trackListHeader { color: var(--spice-subtext); }
+.main-trackList-rowImage { border-radius: 5px; }
+.Root__now-playing-bar {
+  background: linear-gradient(105deg, #31262e, #242026 46%, #262228);
+  border-radius: 12px;
+  box-shadow: inset 0 1px rgba(255,234,247,.12);
+}
+.main-nowPlayingBar-container { background: transparent; border: 0; }
+[data-testid="control-button-playpause"] {
+  background-color: var(--voidify-rose);
+  color: #29131e;
+}
+.Root__now-playing-bar [data-testid="cover-art-image"] { border-radius: 7px; }
+.Root__now-playing-bar [role="slider"] { --fg-color: var(--voidify-rose); }
+.Root__top-container :focus-visible { outline-color: var(--voidify-rose); }
+@media (max-width: 800px) {
+  .Root__main-view, .Root__now-playing-bar { border-radius: 8px; }
+  .main-shelf-shelf + .main-shelf-shelf { padding-top: 10px; }
+}

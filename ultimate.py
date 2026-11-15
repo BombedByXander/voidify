@@ -64,7 +64,7 @@ def prepare():
 def desktop_setup(shortcut=True):
     with tempfile.TemporaryDirectory() as resources:
         stage = Path(resources)
-        for name in ("Install-Desktop.ps1", "Player.cs", "voidify-desktop.js", "Apply-Brand.ps1", "voidify-login.css"):
+        for name in ("Install-Desktop.ps1", "Player.cs", "voidify-desktop.js", "Apply-Brand.ps1", "voidify-login.css", "voidify-ui.css", "voidify-color.ini"):
             shutil.copy2(ROOT / "desktop/windows" / name, stage)
         shutil.copy2(ROOT / "marketplace/src/assets/icon-filled.svg", stage / "voidify-mark.svg")
         shutil.copy2(ROOT / "cli-assets.json", stage)

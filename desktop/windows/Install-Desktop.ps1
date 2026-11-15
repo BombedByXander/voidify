@@ -68,7 +68,7 @@ try {
         Move-Item -LiteralPath $part -Destination $archive -Force
     }
     $fingerprint = $prefsVersion + $asset.digest
-    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify-taskbar.ico','voidify-mark.svg','voidify-login.css','Apply-Brand.ps1') {
+    foreach ($name in 'Install-Desktop.ps1','Player.cs','voidify-desktop.js','voidify-taskbar.ico','voidify-mark.svg','voidify-login.css','voidify-ui.css','voidify-color.ini','Apply-Brand.ps1') {
         $fingerprint += (Get-FileHash -LiteralPath (Join-Path $Resources $name)).Hash
     }
     $current = Join-Path $Destination 'current.txt'
@@ -100,6 +100,9 @@ try {
         [IO.File]::WriteAllText($manifestFile, ($manifest | ConvertTo-Json -Depth 8))
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-desktop.js') -Destination (Join-Path $engine 'Extensions')
         Copy-Item -LiteralPath (Join-Path $Resources 'voidify-taskbar.ico') -Destination $build
+        $theme = New-Item -ItemType Directory -Force -Path (Join-Path $engine 'Themes/Voidify')
+        Copy-Item -LiteralPath (Join-Path $Resources 'voidify-ui.css') -Destination (Join-Path $theme.FullName 'user.css')
+        Copy-Item -LiteralPath (Join-Path $Resources 'voidify-color.ini') -Destination (Join-Path $theme.FullName 'color.ini')
         $launcher = Join-Path $build 'Voidify.exe'
         $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework\v4.0.30319\csc.exe'
         & $compiler /nologo /target:winexe "/out:$launcher" "/win32icon:$build\voidify-taskbar.ico" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll (Join-Path $Resources 'Player.cs')
@@ -111,7 +114,8 @@ try {
 [Setting]
 spotify_path = $client
 prefs_path = $prefs
-current_theme = marketplace
+current_theme = Voidify
+color_scheme = Midnight
 inject_css = 1
 replace_colors = 1
 check_spicetify_update = 0

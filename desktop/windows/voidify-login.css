@@ -1,10 +1,10 @@
 /* Private desktop welcome screen. Spotify owns the account and browser login flow. */
 body.is-login-page {
-  --background-base: #15111e;
-  --background-highlight: #211a30;
-  --text-base: #faf6ff;
-  --text-subdued: #c4b9d1;
-  --background-bright-accent: #b69afa;
+  --background-base: #19171c;
+  --background-highlight: #302833;
+  --text-base: #f6f3f8;
+  --text-subdued: #b6adb9;
+  --background-bright-accent: #ff92ad;
 }
 
 #voidify-welcome-brand {
@@ -17,8 +17,8 @@ body.is-login-page {
   gap: 7px;
   padding: 5px 12px 6px 8px;
   border-radius: 9px;
-  background: #1c1529;
-  color: #f6f0ff;
+  background: #30262e;
+  color: #f6f3f8;
   font: 700 20px/1.1 "Segoe UI", sans-serif;
   letter-spacing: -.055em;
   pointer-events: none;
@@ -26,9 +26,9 @@ body.is-login-page {
 
 #voidify-welcome-brand svg { width: 24px; height: 26px; }
 .is-login-page [data-testid="login-button"] {
-  --background-base: #b69afa;
-  --background-highlight: #c8afff;
-  --text-base: #1c102d;
+  --background-base: #ff92ad;
+  --background-highlight: #ffb1c3;
+  --text-base: #29131e;
 }
 .is-login-page svg[data-encore-id="logoSpotify"] {
   background: url("voidify-mark.svg") center / contain no-repeat;
